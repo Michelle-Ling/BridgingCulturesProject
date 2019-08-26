@@ -1,0 +1,4 @@
+-> python3 -m venv my_virtual_environment // python -m venv my_virtual_environment
+-> source my_virtual_environment/bin/activate // source my_virtual_environment/Scripts/activate
+-> pip install -r requirements
+-> python app.py --debug
