@@ -1,9 +1,13 @@
 # app.py
 from flask import Flask
 from flask_restplus import Resource, Api, fields
-from database import db_session
-from models import BlogPost, WorldFactbook
+from database import db_session, conn
+from models import BlogPost, WorldFactbook, FestivalsCount, festivals_count
 from flask import request
+import requests
+from datetime import datetime
+from dateutil import relativedelta
+from datetime import date
 
 application = Flask(__name__)
 api = Api(application,
@@ -11,6 +15,81 @@ api = Api(application,
           title='Our sample API',
           description='This is our sample API',
 )
+
+@api.route('/festivals')
+class FestivalsData(Resource):
+    model = api.model('Model', {
+        'id': fields.Integer,
+        'last_mod_date': fields.String,
+        'count': fields.Integer,
+    })
+
+    #@api.marshal_with(model, envelope='resource')
+    def get(self):
+        alpha_2_code = "IN"
+        arg_val = request.args['name']
+        if arg_val.lower() == "China".lower():
+            alpha_2_code = "CN"
+        elif arg_val.lower() == "New Zealand".lower() or arg_val.lower() == "NewZealand".lower():
+            alpha_2_code = "NZ"
+        elif arg_val.lower() == "Sri Lanka".lower() or arg_val.lower() == "SriLanka".lower() :
+            alpha_2_code = "LK"
+        elif arg_val.lower() == "Malaysia".lower()  :
+            alpha_2_code = "MY"
+        elif arg_val.lower() == "Philippines".lower()  :
+            alpha_2_code = "PH"
+        elif arg_val.lower() == "United Kingdom".lower()or arg_val.lower() == "UnitedKingdom".lower() or "Britain".lower() in arg_val.lower():
+            alpha_2_code = "UK"
+        elif arg_val.lower() == "Viet Nam".lower() or arg_val.lower() == "Vietnam".lower() :
+            alpha_2_code = "VN"
+        elif arg_val.lower() == "Italy".lower():
+            alpha_2_code = "IT"
+        elif arg_val.lower() == "South Africa".lower() or arg_val.lower() == "Africa".lower() or arg_val.lower() == "SouthAfrica".lower():
+            alpha_2_code = "ZA"
+        #BlogPost.query.all()
+        today = date.today()
+        str_today = today.strftime("%d/%m/%Y")
+        result = FestivalsCount.query.all()
+        #results = [ob.as_json() for ob in result]
+        #print("-------------------------------------")
+        last_modified_date = result[0].last_mod_date
+        last_count = int(result[0].count)
+        #print(result[0].last_mod_date)
+        #print(result[0].count)
+        #print(result.json()["resource"])
+        #last_modified_date = result["resource"][0]["last_mod_date"]
+        #last_count = result["resource"][0]["count"]
+        mod_val = 1
+        d1 = datetime.strptime(last_modified_date, "%d/%m/%Y")
+        d2 = datetime.strptime(str_today, "%d/%m/%Y")
+        r = relativedelta.relativedelta(d2, d1)
+        if r.months == 0:
+            if last_count < 999:
+                mod_val = mod_val + last_count
+            else:
+                mod_val = -1
+        if mod_val == -1:
+            return {}
+        else:
+            resp = requests.get('https://calendarific.com/api/v2/holidays?&api_key=4cb480e8d054674a4452a25ff3b5631ae445248d&country=' + alpha_2_code + '&year=2019')
+            if resp.status_code != 200:
+                # This means something went wrong.
+                return {}
+            update_statement = festivals_count.update().where(festivals_count.c.id == 1).values(last_mod_date=str_today, count=mod_val)
+            conn.execute(update_statement)
+            #print(resp.json())
+            return resp.json()
+        # [{"Column1": 1},{"Column2": "test"}]
+        #values = (1, str(str_today), 1)
+        #update_statement = film_table.update().where(film_table.c.year == "2016").values(title="Some2016Film")
+        #conn.execute(update_statement)
+        #statement = festivals_count.insert().values(id=1, last_mod_date=str_today, count=1)
+        #conn.execute(statement)
+        #resp = requests.get('https://calendarific.com/api/v2/holidays?&api_key=4cb480e8d054674a4452a25ff3b5631ae445248d&country='+alpha_2_code+'&year=2019')
+        #if resp.status_code != 200:
+            # This means something went wrong.
+        #return FestivalsCount.query.all()
+        #return(resp.json())
 
 @api.route('/hello')
 class HelloWorld(Resource):

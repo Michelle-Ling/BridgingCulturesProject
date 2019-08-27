@@ -7,6 +7,6 @@ metadata = MetaData()
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
-
+conn = engine.connect()
 def init_db():
     metadata.create_all(bind=engine)

@@ -188,3 +188,18 @@ world_factbook = Table('world_factbook_data', metadata,
 )
 
 mapper(WorldFactbook, world_factbook)
+
+class FestivalsCount(object):
+    query = db_session.query_property()
+    def __init__(self, id=None, last_mod_date=None, count=None):
+        self.id = id
+        self.last_mod_date = last_mod_date
+        self.count = count
+
+festivals_count = Table('festivals_count', metadata,
+    Column('id', Integer, primary_key=True),
+    Column('last_mod_date', Text),
+    Column('count', Integer)
+)
+
+mapper(FestivalsCount, festivals_count)
