@@ -1,66 +1,36 @@
-import React, { Component } from "react";
-import {
-  BrowserRouter,
-  Switch,
-  Route,
-  Link,
-  NavLink,
-  HashRouter
-} from "react-router-dom";
-import "./App.css";
-import Header from "./Components/Header";
-import Footer from "./Components/Footer";
-import Events from "./Components/Pages/Events";
-import Cultures from "./Components/Pages/Cultures";
-import Food from "./Components/Pages/Food";
-import logo from "./BridgingCulturesLogo.png";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import banner1 from "./Images/banner1.jpg";
-import banner2 from "./Images/banner2.jpg"; 
-import Tableau from "./Components/Tableau";
+import React, { Component } from 'react';
+import { HashRouter, Route, Switch } from 'react-router-dom';
+// import { renderRoutes } from 'react-router-config';
+import './App.scss';
+
+const loading = () => <div className="animated fadeIn pt-3 text-center">Loading...</div>;
+
+// Containers
+const DefaultLayout = React.lazy(() => import('./containers/DefaultLayout'));
+
+// Pages
+const Login = React.lazy(() => import('./views/Pages/Login'));
+const Register = React.lazy(() => import('./views/Pages/Register'));
+const Page404 = React.lazy(() => import('./views/Pages/Page404'));
+const Page500 = React.lazy(() => import('./views/Pages/Page500'));
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
-    const placeholderStyle = {display: 'block', width: '1000px', height: '827px', margin: '0px', padding: '0px', border: 'none'};
-    
     return (
-      <BrowserRouter>
-        <div>
-          <div name="logo" align="left">
-            <img src={logo} alt="logo" />
-          </div>
-          <Header />
-          <div className="content">
-            <Route path="/cultures" component={Cultures} />
-            <Route path="/events" component={Events} />
-            <Route path="/food" component={Food} />
-          </div>
-        <Tableau/>
-        <Carousel arrows infiniteLoop>
-            <div>
-              <img src={banner1} />
-            </div>
-            <div>
-              <img src={banner2} />
-            </div>
-          </Carousel>
-          <Footer/>
-          </div>
-      </BrowserRouter>
-      
-      // <Tableau/>
-      // <iframe src = "https://public.tableau.com/shared/NN2GWQS5P?:embed=y&:showVizHome=no&:host_url=https%3A%2F%2Fpublic.tableau.com%2F&:embed_code_version=3&:toolbar=yes&:animate_transition=yes&:display_static_image=no&:display_spinner=no&:display_overlay=yes&:display_count=yes&:loadOrderID=0"
-      //       style={placeholderStyle}>
-      //     </iframe>
-      
+      <HashRouter>
+          <React.Suspense fallback={loading()}>
+            <Switch>
+              <Route exact path="/login" name="Login Page" render={props => <Login {...props}/>} />
+              <Route exact path="/register" name="Register Page" render={props => <Register {...props}/>} />
+              <Route exact path="/404" name="Page 404" render={props => <Page404 {...props}/>} />
+              <Route exact path="/500" name="Page 500" render={props => <Page500 {...props}/>} />
+              <Route path="/" name="Home" render={props => <DefaultLayout {...props}/>} />
+            </Switch>
+          </React.Suspense>
+      </HashRouter>
     );
-    const element = <Tableau />;
   }
- }
+}
 
 export default App;
