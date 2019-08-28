@@ -48,6 +48,8 @@ class FestivalsData(Resource):
             alpha_2_code = "IT"
         elif arg_val.lower() == "South Africa".lower() or arg_val.lower() == "Africa".lower() or arg_val.lower() == "SouthAfrica".lower():
             alpha_2_code = "ZA"
+        elif arg_val.lower() == "Australia".lower():
+            alpha_2_code = "AU"
         #BlogPost.query.all()
         today = date.today()
         str_today = today.strftime("%d/%m/%Y")
