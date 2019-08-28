@@ -12,7 +12,7 @@ export default {
     {
       name: 'Suburb Profile',
       url: '/profile',
-      icon: 'icon-calculator',
+      icon: 'icon-map',
       badge: {
         variant: 'info',
         // text: 'NEW',
@@ -21,7 +21,7 @@ export default {
     {
       name: 'Stats',
       url: '/stats',
-      icon: 'icon-calculator',
+      icon: 'icon-pie-chart',
       badge: {
         variant: 'info',
         // text: 'NEW',
@@ -36,6 +36,14 @@ export default {
         // text: 'NEW',
       },
     },
+    {
+      name: 'QuizGame',
+      url: '/QuizGame',
+      icon: 'icon-star',
+      badge: {
+        variant: 'info',
+        text: 'COMING',
+      },
       
     // {
     //   title: true,
@@ -240,14 +248,7 @@ export default {
     //     },
     //   ],
     // },
-    {
-      name: 'Widgets',
-      url: '/widgets',
-      icon: 'icon-calculator',
-      badge: {
-        variant: 'info',
-        text: 'NEW',
-      },
+    
     // },
     // {
     //   divider: true,
