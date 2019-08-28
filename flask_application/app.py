@@ -1,5 +1,5 @@
 # app.py
-from flask import Flask
+from flask import Flask, jsonify, make_response, Response
 from flask_restplus import Resource, Api, fields
 from database import db_session, conn
 from models import BlogPost, WorldFactbook, FestivalsCount, festivals_count
@@ -8,8 +8,10 @@ import requests
 from datetime import datetime
 from dateutil import relativedelta
 from datetime import date
+from flask_cors import CORS
 
 application = Flask(__name__)
+cors = CORS(application, resources={r"/api/*": {"origins": "*"}})
 api = Api(application,
           version='0.1',
           title='Our sample API',
@@ -78,7 +80,13 @@ class FestivalsData(Resource):
             update_statement = festivals_count.update().where(festivals_count.c.id == 1).values(last_mod_date=str_today, count=mod_val)
             conn.execute(update_statement)
             #print(resp.json())
-            return resp.json()
+            #resp.headers.add('Access-Control-Allow-Origin', '*')
+            response = Response(resp)
+            response.headers['Access-Control-Allow-Origin'] = '*'
+            #response = jsonify(resp)
+            #response.status_code = 200
+            #response.headers.add('Access-Control-Allow_Origin', '*')
+            return response
         # [{"Column1": 1},{"Column2": "test"}]
         #values = (1, str(str_today), 1)
         #update_statement = film_table.update().where(film_table.c.year == "2016").values(title="Some2016Film")
