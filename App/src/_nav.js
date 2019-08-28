@@ -10,7 +10,7 @@ export default {
       },
     },
     {
-      name: 'Suburb Profile',
+      name: 'Explore Suburbs',
       url: '/profile',
       icon: 'icon-map',
       badge: {
@@ -19,7 +19,7 @@ export default {
       },
     },
     {
-      name: 'Calendar',
+      name: 'Explore Events',
       url: '/Calendar',
       icon: 'icon-calendar',
       badge: {
