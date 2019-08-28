@@ -20,6 +20,10 @@ class Home extends Component {
       padding: "0px",
       border: "none"
     };
+    const bgCol = {
+      backgroundColor: "#F8F8F8",
+    };
+    
     return (
       <ul>
         {/* <div style={GayathriFont}>
@@ -38,8 +42,8 @@ class Home extends Component {
             </a>
           </p>
         </div>
-        <div>
-          <iframe
+        <div className="d-flex justify-content-center" style={bgCol}>
+          <iframe class="embed-responsive-item"
             src="https://public.tableau.com/shared/NH9RDCJ65?:embed=y&:showVizHome=no&:host_url=https%3A%2F%2Fpublic.tableau.com%2F&:embed_code_version=3&:toolbar=yes&:animate_transition=yes&:display_static_image=no&:display_spinner=no&:display_overlay=yes&:display_count=yes&publish=yes&:loadOrderID=0"
             style={placeholderStyle}
           ></iframe>
