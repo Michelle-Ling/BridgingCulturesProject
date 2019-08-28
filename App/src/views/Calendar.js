@@ -89,6 +89,7 @@ export default class Calendar extends React.Component {
         <p></p>
       <label>Please select a country:  </label>
         <select id="dropdown" onChange={this.handleChange}>
+        <option value="Australia">Australia</option>
           <option value="United Kingdom">United Kingdom</option>
           <option value="New Zealand">New Zealand</option>
           <option value="China">China</option>
