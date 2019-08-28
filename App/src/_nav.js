@@ -12,7 +12,7 @@ export default {
     {
       name: 'Suburb Profile',
       url: '/profile',
-      icon: 'icon-calculator',
+      icon: 'icon-map',
       badge: {
         variant: 'info',
         // text: 'NEW',
@@ -21,7 +21,16 @@ export default {
     {
       name: 'Stats',
       url: '/stats',
-      icon: 'icon-calculator',
+      icon: 'icon-pie-chart',
+      badge: {
+        variant: 'info',
+        // text: 'NEW',
+      },
+    },
+    {
+      name: 'Calendar',
+      url: '/calendar',
+      icon: 'icon-calendar',
       badge: {
         variant: 'info',
         // text: 'NEW',
