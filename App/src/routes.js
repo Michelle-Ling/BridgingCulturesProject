@@ -37,16 +37,17 @@ const Quiz = React.lazy(() => import('./views/QuizGame'));
 const Users = React.lazy(() => import('./views/Users/Users'));
 const User = React.lazy(() => import('./views/Users/User'));
 const Profile = React.lazy(() => import('./views/Profile'));
-const Stats = React.lazy(() => import('./views/Statistics'));
+const Gallery = React.lazy(() => import('./views/Gallery'));
 const Calendar = React.lazy(() => import('./views/Calendar'));
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/welcome', name: 'Welcome', component: Home },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
+  { path: '/QuizGame', name: 'QuizGame', component: Quiz },
   { path: '/calendar', name: 'Calendar', component: Calendar },
   { path: '/profile', name: 'Profile', component: Profile },
-  { path: '/stats', name: 'Statisitcs', component: Stats },
+  { path: '/gallery', name: 'Gallery', component: Gallery },
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },
   { path: '/theme/typography', name: 'Typography', component: Typography },
@@ -82,7 +83,6 @@ const routes = [
   { path: '/notifications/alerts', name: 'Alerts', component: Alerts },
   { path: '/notifications/badges', name: 'Badges', component: Badges },
   { path: '/notifications/modals', name: 'Modals', component: Modals },
-  { path: '/Quiz', name: 'QuizGame', component: Quiz },
   { path: '/charts', name: 'Charts', component: Charts },
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },

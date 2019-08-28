@@ -19,18 +19,18 @@ export default {
       },
     },
     {
-      name: 'Stats',
-      url: '/stats',
-      icon: 'icon-pie-chart',
+      name: 'Calendar',
+      url: '/Calendar',
+      icon: 'icon-calendar',
       badge: {
         variant: 'info',
         // text: 'NEW',
       },
     },
     {
-      name: 'Calendar',
-      url: '/Calendar',
-      icon: 'icon-calendar',
+      name: 'Gallery',
+      url: '/gallery',
+      icon: 'icon-globe',
       badge: {
         variant: 'info',
         // text: 'NEW',

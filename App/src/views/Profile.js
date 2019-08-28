@@ -20,19 +20,23 @@ class Profile extends Component {
       padding: "0px",
       border: "none"
     };
-    const frameAlign = {
-      display: "flex",
-      justifyContent: "center",
-    }
+    const bgCol = {
+      backgroundColor: "#F8F8F8",
+    };
+
     return (
       <ul>
-        <div style={pagetitle} className="rounded">
+        <div style={pagetitle} className="pagetitle">
           <h1>Suburb Profile</h1>
           <p>Explore the interactive map.</p>
         </div>
         <p></p>
-        <div style={frameAlign}>
-          <iframe 
+        <div style={pagetitle} className="rounded">
+          <h1>Feed your curiosity</h1>
+          <p>Zoom out to see the profile of suburbs in other states.</p>
+          </div>
+        <div className="d-flex justify-content-center" style={bgCol}>
+          <iframe class="embed-responsive-item"
             src="https://a.tiles.mapbox.com/v4/sbsonline.ido691he.html?access_token=pk.eyJ1Ijoic2Jzb25saW5lIiwiYSI6IklRMkRCVVEifQ.ldQz-kg5lTylBG6J4HoXbg"
             style={placeholderStyle}
           ></iframe>
