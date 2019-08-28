@@ -1,9 +1,9 @@
 export default {
   items: [
     {
-      name: 'Dashboard',
-      url: '/dashboard',
-      icon: 'icon-speedometer',
+      name: 'Home',
+      url: '/welcome',
+      icon: 'icon-home',
       badge: {
         variant: 'info',
         // text: 'NEW',
@@ -12,7 +12,7 @@ export default {
     {
       name: 'Suburb Profile',
       url: '/profile',
-      icon: 'icon-map',
+      icon: 'icon-calculator',
       badge: {
         variant: 'info',
         // text: 'NEW',
@@ -21,7 +21,7 @@ export default {
     {
       name: 'Stats',
       url: '/stats',
-      icon: 'icon-pie-chart',
+      icon: 'icon-calculator',
       badge: {
         variant: 'info',
         // text: 'NEW',
@@ -29,7 +29,7 @@ export default {
     },
     {
       name: 'Calendar',
-      url: '/calendar',
+      url: '/Calendar',
       icon: 'icon-calendar',
       badge: {
         variant: 'info',

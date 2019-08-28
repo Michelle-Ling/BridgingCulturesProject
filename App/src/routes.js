@@ -23,6 +23,7 @@ const ButtonGroups = React.lazy(() => import('./views/Buttons/ButtonGroups'));
 const Buttons = React.lazy(() => import('./views/Buttons/Buttons'));
 const Charts = React.lazy(() => import('./views/Charts'));
 const Dashboard = React.lazy(() => import('./views/Dashboard'));
+const Home = React.lazy(() => import('./views/Home'));
 const CoreUIIcons = React.lazy(() => import('./views/Icons/CoreUIIcons'));
 const Flags = React.lazy(() => import('./views/Icons/Flags'));
 const FontAwesome = React.lazy(() => import('./views/Icons/FontAwesome'));
@@ -41,6 +42,7 @@ const Calendar = React.lazy(() => import('./views/Calendar'));
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   { path: '/', exact: true, name: 'Home' },
+  { path: '/welcome', name: 'Welcome', component: Home },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/calendar', name: 'Calendar', component: Calendar },
   { path: '/profile', name: 'Profile', component: Profile },
