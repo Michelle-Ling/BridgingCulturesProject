@@ -4,17 +4,38 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import {FestivalData} from '../FestivalData.js'
 import interactionPlugin from "@fullcalendar/interaction";
 import Modal from "../Modal/Modal";
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from "reactstrap";
 
 import '../scss/Calendar.scss' 
 export default class Calendar extends React.Component {
+  constructor(props) {
+    super(props);
 
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      dropdownOpen: false
+    };
+  }
+
+  toggle() {
+    this.setState(prevState => ({
+      dropdownOpen: !prevState.dropdownOpen
+    }));
+  }
     calendarComponentRef = React.createRef()
     
     state = {
       calendarWeekends: true,
       calendarEvents: [],
       showModal: false,
-      dataModal: ""
+      dataModal: "",
+      descModal: "",
+      menu: ""
     }
 
     getModal = data => {
@@ -27,27 +48,30 @@ export default class Calendar extends React.Component {
 
 
     getData(){ 
-      fetch(`http://bridgingcultures-flask-rest-api.c6cjbffjpr.us-east-2.elasticbeanstalk.com/festivals?name=srilanka`,{
-      method: 'GET'
-    }).then(response => response.json()).then(data => {
-      //console.log(data)
-      var holidays_array = data.response.holidays
-      //console.log(holidays_array)
-      var mod_holidays_array = []
-      for (var i = 0; i < holidays_array.length; i++) {
-        var temp = {}
-        if( holidays_array[i].description != null ) {
-          temp.title = holidays_array[i].name + " :- " + holidays_array[i].description
-        } else {
-          temp.title = holidays_array[i].name
-        }
-        temp.start = new Date(holidays_array[i].date.iso)
-        mod_holidays_array.push(temp)
-      }
+      if( this.state.menu !== "" ) {
+        fetch(`http://bridgingcultures-flask-rest-api.c6cjbffjpr.us-east-2.elasticbeanstalk.com/festivals?name=srilanka`,{
+          method: 'GET'
+        }).then(response => response.json()).then(data => {
+          //console.log(data)
+          var holidays_array = data.response.holidays
+          //console.log(holidays_array)
+          var mod_holidays_array = []
+          for (var i = 0; i < holidays_array.length; i++) {
+            var temp = {}
+            if( holidays_array[i].description != null ) {
+              temp.title = holidays_array[i].name + " :- " + holidays_array[i].description
+            } else {
+              temp.title = holidays_array[i].name
+            }
+            temp.start = new Date(holidays_array[i].date.iso)
+            mod_holidays_array.push(temp)
+          }
 
-      this.setState({calendarEvents:mod_holidays_array})
-      //console.log(mod_holidays_array)
-    })}
+          this.setState({calendarEvents:mod_holidays_array})
+          //console.log(mod_holidays_array)
+        })
+      } 
+    }
     
     componentWillMount(){
       console.log("Going in")
@@ -55,28 +79,82 @@ export default class Calendar extends React.Component {
     }
 
     render() {
+          const pagetitle = {
+      fontFamily: "Gayathri",
+      backgroundColor: "#F8F8F8",
+      padding: "50px",
+      textAlign: "center"
+    };
       return (
-        <div className='demo-app'>
-          <div className='demo-app-top'>
+<ul>
+        <div style={pagetitle} className="rounded">
+          <h1>Event Calendar</h1>
+          <p>See what's on the horizon.</p>
+        </div>
+        <p></p>
+
+        {/* ddl */}
+        {/*<Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+        <DropdownToggle caret>
+          Select a Country
+        </DropdownToggle>
+        <DropdownMenu>
+          <DropdownItem>United Kingdom</DropdownItem>
+          <DropdownItem>New Zealand</DropdownItem>
+          <DropdownItem>China</DropdownItem>
+          <DropdownItem>India</DropdownItem>
+          <DropdownItem>Philippines</DropdownItem>
+          <DropdownItem>Vietmam</DropdownItem>
+          <DropdownItem>Italy</DropdownItem>
+          <DropdownItem>South Africa</DropdownItem>
+          <DropdownItem>Malaysia</DropdownItem>
+          <DropdownItem>Sri Lanka</DropdownItem>
+        </DropdownMenu>
+      </Dropdown>*/}
+      <label>Please select a country:  </label>
+        <select id="dropdown" ref={input => (this.menu = input)}>
+          <option value="United Kingdom">United Kingdom</option>
+          <option value="New Zealand">New Zealand</option>
+          <option value="China">China</option>
+          <option value="India">India</option>
+          <option value="Philippines">Philippines</option>
+          <option value="Vietnam">Vietnam</option>
+          <option value="Italy">Italy</option>
+          <option value="South Africa">South Africa</option>
+          <option value="Malaysia">Malaysia</option>
+          <option value="Sri Lanka">Sri Lanka</option>
+        </select>
+        {/* end ddl */}
+        {/* <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Dropdown button
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenu">
+    <a class="dropdown-item" href="UK">Item</a>
+    <a class="dropdown-item" href="NZ">Another item</a>
+    <a class="dropdown-item" href="CN">One more item</a>
+  </div>
+</div> */}
+        <div className="demo-app">
+          <div className="demo-app-top">
             {/* <button onClick={ this.toggleWeekends }>toggle weekends</button>&nbsp; */}
             {/* <button onClick={ this.gotoPast }>go to a date in the past</button>&nbsp; */}
-            
           </div>
-          <div className='demo-app-calendar'>
+          <div className="demo-app-calendar">
             <FullCalendar
               defaultView="dayGridMonth"
               header={{
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                left: "prev,next today",
+                center: "title",
+                right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek"
               }}
-              plugins={[ dayGridPlugin, interactionPlugin ]}
-              ref={ this.calendarComponentRef }
-              weekends={ this.state.calendarWeekends }
-              events={ this.state.calendarEvents }
+              plugins={[dayGridPlugin, interactionPlugin]}
+              ref={this.calendarComponentRef}
+              weekends={this.state.calendarWeekends}
+              events={this.state.calendarEvents}
               dateClick={ this.handleDateClick }
-              />
-              <Modal
+            />
+            <Modal
                 show={this.state.showModal}
                 onHide={this.hideModal}
                 name={this.state.dataModal}
@@ -84,6 +162,7 @@ export default class Calendar extends React.Component {
               />
           </div>
         </div>
+      </ul>
       )
     }
     handleDateClick = (arg) => {
