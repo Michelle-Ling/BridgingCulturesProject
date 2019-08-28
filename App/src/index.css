@@ -14,7 +14,7 @@
 }
 
 .fc-day {
-	cursor: pointer;
+	cursor: pointer !important;
 }
 
 .small {
@@ -35,4 +35,8 @@
 
 .fc-today-button.fc-button.fc-button-primary {
   text-transform: uppercase;
+}
+
+.fc-title {
+  user-select: none;
 }
