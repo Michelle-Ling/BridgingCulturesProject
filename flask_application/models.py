@@ -1,8 +1,10 @@
 # models.py
+# Schema models
 from sqlalchemy import Table, Column, Integer, Text
 from sqlalchemy.orm import mapper
 from database import metadata, db_session
 
+# Sample schema model
 class BlogPost(object):
     query = db_session.query_property()
     def __init__(self, id=None, title=None, post=None):
@@ -10,37 +12,16 @@ class BlogPost(object):
         self.title = title
         self.post = post
 
+# Original sample schema (table)
 blog_posts = Table('blog_posts', metadata,
     Column('id', Integer, primary_key=True),
     Column('title', Text),
     Column('post', Text)
 )
-
+# mapper function of original table schema and sample schema model
 mapper(BlogPost, blog_posts)
 
-#class WorldFactbook(object):
-#	query = db_session.query_property()
-#	def __init__(self, region=None, age=None, time=None, person=None, male=None, female=None, id=None):
-#		self.region = region
-#		self.age = age
-#		self.time = time
-#		self.person = person
-#		self.male = male
-#		self.female = female
-#		self.id = id
-
-#world_factbook = Table('nom_child_data', metadata,
-#	Column('Region', Text),
-#    Column('Age', Text),
-#    Column('Time', Text),
-#    Column('Person', Text),
-#    Column('Male', Text),
-#    Column('Female', Text),
-#    Column('id', Integer, primary_key=True)
-#)
-
-#mapper(WorldFactbook, world_factbook)
-
+# Schema class model for world factbook data
 class WorldFactbook(object):
 	query = db_session.query_property()
 	def __init__(self, administrative_divisions=None, agriculture_products=None, background=None, climate=None, coastline=None, 
@@ -116,14 +97,8 @@ class WorldFactbook(object):
 		self.youth_dependency = youth_dependency
 		self.id = id
 
+# Original worldfactbook schema model
 world_factbook = Table('world_factbook_data', metadata,
-	#Column('Region', Text),
-    #Column('Age', Text),
-    #Column('Time', Text),
-    #Column('Person', Text),
-    #Column('Male', Text),
-    #Column('Female', Text),
-    #Column('id', Integer, primary_key=True)
     Column("Administrative divisions", Text),
     Column("Agriculture - products", Text),
     Column("Background", Text),
@@ -187,8 +162,10 @@ world_factbook = Table('world_factbook_data', metadata,
     Column('id', Integer, primary_key=True)
 )
 
+# mapper function
 mapper(WorldFactbook, world_factbook)
 
+# Schema class model for Festival Count
 class FestivalsCount(object):
     query = db_session.query_property()
     def __init__(self, id=None, last_mod_date=None, count=None):
@@ -196,10 +173,12 @@ class FestivalsCount(object):
         self.last_mod_date = last_mod_date
         self.count = count
 
+# Original festival count table schema
 festivals_count = Table('festivals_count', metadata,
     Column('id', Integer, primary_key=True),
     Column('last_mod_date', Text),
     Column('count', Integer)
 )
 
+# mapper function
 mapper(FestivalsCount, festivals_count)

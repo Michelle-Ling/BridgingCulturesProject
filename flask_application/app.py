@@ -1,4 +1,5 @@
 # app.py
+# Main Application
 from flask import Flask, jsonify, make_response, Response
 from flask_restplus import Resource, Api, fields
 from database import db_session, conn
@@ -11,13 +12,15 @@ from datetime import date
 from flask_cors import CORS
 
 application = Flask(__name__)
+# For cross
 cors = CORS(application, resources={r"/api/*": {"origins": "*"}})
 api = Api(application,
           version='0.1',
-          title='Our sample API',
-          description='This is our sample API',
+          title='BridgingCultures',
+          description='Elites project for Industrial Experience. Powered by Monash Uni.',
 )
 
+# Festivals/Events API
 @api.route('/festivals')
 class FestivalsData(Resource):
     model = api.model('Model', {
@@ -101,11 +104,13 @@ class FestivalsData(Resource):
         #return FestivalsCount.query.all()
         #return(resp.json())
 
+# Testing API
 @api.route('/hello')
 class HelloWorld(Resource):
     def get(self):
         return {'hello': 'world'}
 
+# Another Testing API
 @api.route('/blog_posts')
 class BlogPosts(Resource):
     model = api.model('Model', {
@@ -117,6 +122,7 @@ class BlogPosts(Resource):
     def get(self, **kwargs):
         return BlogPost.query.all()
 
+# World Factbook data API
 @api.route('/world_factbook_data')
 class WorldFactbookData(Resource):
     # def get(self):

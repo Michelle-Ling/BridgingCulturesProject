@@ -1,4 +1,5 @@
 # wsgi.py
+# Entry point of application
 from app import application
 
 if __name__ == "__main__":
