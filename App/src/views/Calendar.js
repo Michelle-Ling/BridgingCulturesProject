@@ -1,18 +1,59 @@
 import React from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
+import {FestivalData} from '../FestivalData.js'
+import interactionPlugin from "@fullcalendar/interaction";
+import Modal from "../Modal/Modal";
 
 import '../scss/Calendar.scss' 
 export default class Calendar extends React.Component {
 
     calendarComponentRef = React.createRef()
+    
     state = {
       calendarWeekends: true,
-      calendarEvents: [ // initial event data
-        { title: 'Event Now', start: new Date() }
-      ]
+      calendarEvents: [],
+      showModal: false,
+      dataModal: ""
     }
-  
+
+    getModal = data => {
+      this.setState({ showModal: true, dataModal: data.title, descModal: data.desc });
+    }
+
+    hideModal = () => {
+        this.setState({ showModal: false });
+    };
+
+
+    getData(){ 
+      fetch(`http://bridgingcultures-flask-rest-api.c6cjbffjpr.us-east-2.elasticbeanstalk.com/festivals?name=srilanka`,{
+      method: 'GET'
+    }).then(response => response.json()).then(data => {
+      //console.log(data)
+      var holidays_array = data.response.holidays
+      //console.log(holidays_array)
+      var mod_holidays_array = []
+      for (var i = 0; i < holidays_array.length; i++) {
+        var temp = {}
+        if( holidays_array[i].description != null ) {
+          temp.title = holidays_array[i].name + " :- " + holidays_array[i].description
+        } else {
+          temp.title = holidays_array[i].name
+        }
+        temp.start = new Date(holidays_array[i].date.iso)
+        mod_holidays_array.push(temp)
+      }
+
+      this.setState({calendarEvents:mod_holidays_array})
+      //console.log(mod_holidays_array)
+    })}
+    
+    componentWillMount(){
+      console.log("Going in")
+      this.getData();
+    }
+
     render() {
       return (
         <div className='demo-app'>
@@ -29,38 +70,50 @@ export default class Calendar extends React.Component {
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
               }}
-              plugins={[ dayGridPlugin ]}
+              plugins={[ dayGridPlugin, interactionPlugin ]}
               ref={ this.calendarComponentRef }
               weekends={ this.state.calendarWeekends }
               events={ this.state.calendarEvents }
-              //dateClick={ this.handleDateClick }
+              dateClick={ this.handleDateClick }
+              />
+              <Modal
+                show={this.state.showModal}
+                onHide={this.hideModal}
+                name={this.state.dataModal}
+                desc={this.state.descModal}
               />
           </div>
         </div>
       )
     }
-  
-    // toggleWeekends = () => {
-    //   this.setState({ // update a property
-    //     calendarWeekends: !this.state.calendarWeekends
-    //   })
-    // }
-  
-    // gotoPast = () => {
-    //   let calendarApi = this.calendarComponentRef.current.getApi()
-    //   calendarApi.gotoDate('2000-01-01') // call a method on the Calendar object
-    // }
-  
-    // handleDateClick = (arg) => {
-    //   if (confirm('Would you like to add an event to ' + arg.dateStr + ' ?')) {
-    //     this.setState({  // add new event data
-    //       calendarEvents: this.state.calendarEvents.concat({ // creates a new array
-    //         title: 'New Event',
-    //         start: arg.date,
-    //         allDay: arg.allDay
-    //       })
-    //     })
-    //   }
-    // }
+    handleDateClick = (arg) => {
+      console.log("Hello World")
+      console.log(arg)
+      console.log(arg.date)
+      console.log("Paithiyam")
+      var curr_date = arg.date.setHours(0,0,0,0)
+      //console.log(this.state.calendarEvents)
+      var calendar_events = this.state.calendarEvents
+      var flag = 0
+      var data_json = {}
+      for (var i = 0; i < calendar_events.length; i++) {
+        //console.log(calendar_events[i].start)
+        if( calendar_events[i].start.setHours(0,0,0,0) === curr_date ) {
+          flag = 1
+          console.log(calendar_events[i].title)
+          var title_now = calendar_events[i].title.split(":-")[0]
+          var desc = ""
+          if(calendar_events[i].title.split(":-").length > 1) {
+            desc = calendar_events[i].title.split(":-")[1]
+          }
+          data_json = { "title": title_now, "desc": desc}
+          this.getModal(data_json)
+        }
+      }
+      if( flag === 0 ) {
+          data_json = { "title": "No important events", "desc": ""}
+          this.getModal(data_json)
+      }
+    }
   
   }
