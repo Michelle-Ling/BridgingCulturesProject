@@ -9,7 +9,8 @@ export default class Calendar extends React.Component {
     state = {
       calendarWeekends: true,
       calendarEvents: [ // initial event data
-        { title: 'Event Now', start: new Date() }
+        { title: 'Event Now', 
+          start: new Date() }
       ]
     }
   
