@@ -87,7 +87,7 @@ export default class Calendar extends React.Component {
           <p>See what's on the horizon.</p>
         </div>
         <p></p>
-      <label>Please select a country:  </label>
+      <label>Please select a country:&ensp;</label>
         <select id="dropdown" onChange={this.handleChange}>
         <option value="Australia">Australia</option>
           <option value="United Kingdom">United Kingdom</option>
@@ -141,6 +141,8 @@ export default class Calendar extends React.Component {
       var calendar_events = this.state.calendarEvents
       var flag = 0
       var data_json = {}
+      var title_array = []
+      var desc_array = []
       for (var i = 0; i < calendar_events.length; i++) {
         //console.log(calendar_events[i].start)
         if( calendar_events[i].start.setHours(0,0,0,0) === curr_date ) {
@@ -151,12 +153,17 @@ export default class Calendar extends React.Component {
           if(calendar_events[i].title.split(":-").length > 1) {
             desc = calendar_events[i].title.split(":-")[1]
           }
-          data_json = { "title": title_now, "desc": desc}
-          this.getModal(data_json)
+          //data_json = { "title": title_now, "desc": desc}
+          //this.getModal(data_json)
+          title_array.push(title_now)
+          desc_array.push(desc)
         }
       }
       if( flag === 0 ) {
           data_json = { "title": "No important events", "desc": ""}
+          this.getModal(data_json)
+      } else {
+          data_json = { "title": title_array, "desc": desc_array}
           this.getModal(data_json)
       }
     }

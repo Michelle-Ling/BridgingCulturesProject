@@ -25,3 +25,14 @@
   padding: 10px;
   box-sizing: border-box;
 }
+
+.fc-right .fc-dayGridMonth-button.fc-button.fc-button-primary.fc-button-active {
+  display: none;
+}
+.fc-right .fc-button-primary:not(:disabled).fc-button-active {
+  display: none;
+}
+
+.fc-today-button.fc-button.fc-button-primary {
+  text-transform: uppercase;
+}
