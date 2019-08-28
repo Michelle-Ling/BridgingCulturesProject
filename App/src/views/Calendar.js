@@ -15,18 +15,13 @@ import '../scss/Calendar.scss'
 export default class Calendar extends React.Component {
   constructor(props) {
     super(props);
-
-    this.toggle = this.toggle.bind(this);
-    this.state = {
-      dropdownOpen: false
-    };
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  toggle() {
-    this.setState(prevState => ({
-      dropdownOpen: !prevState.dropdownOpen
-    }));
+  handleChange(e) {
+    this.getData(e.target.value);
   }
+
     calendarComponentRef = React.createRef()
     
     state = {
@@ -47,12 +42,12 @@ export default class Calendar extends React.Component {
     };
 
 
-    getData(){ 
-      if( this.state.menu !== "" ) {
-        fetch(`http://bridgingcultures-flask-rest-api.c6cjbffjpr.us-east-2.elasticbeanstalk.com/festivals?name=srilanka`,{
+    getData(menu_item){ 
+      if( menu_item !== "" ) {
+        fetch(`http://bridgingcultures-flask-rest-api.c6cjbffjpr.us-east-2.elasticbeanstalk.com/festivals?name=`+menu_item,{
           method: 'GET'
         }).then(response => response.json()).then(data => {
-          //console.log(data)
+          console.log(data)
           var holidays_array = data.response.holidays
           //console.log(holidays_array)
           var mod_holidays_array = []
@@ -75,7 +70,7 @@ export default class Calendar extends React.Component {
     
     componentWillMount(){
       console.log("Going in")
-      this.getData();
+      this.getData("United Kingdom");
     }
 
     render() {
@@ -92,27 +87,8 @@ export default class Calendar extends React.Component {
           <p>See what's on the horizon.</p>
         </div>
         <p></p>
-
-        {/* ddl */}
-        {/*<Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-        <DropdownToggle caret>
-          Select a Country
-        </DropdownToggle>
-        <DropdownMenu>
-          <DropdownItem>United Kingdom</DropdownItem>
-          <DropdownItem>New Zealand</DropdownItem>
-          <DropdownItem>China</DropdownItem>
-          <DropdownItem>India</DropdownItem>
-          <DropdownItem>Philippines</DropdownItem>
-          <DropdownItem>Vietmam</DropdownItem>
-          <DropdownItem>Italy</DropdownItem>
-          <DropdownItem>South Africa</DropdownItem>
-          <DropdownItem>Malaysia</DropdownItem>
-          <DropdownItem>Sri Lanka</DropdownItem>
-        </DropdownMenu>
-      </Dropdown>*/}
       <label>Please select a country:  </label>
-        <select id="dropdown" ref={input => (this.menu = input)}>
+        <select id="dropdown" onChange={this.handleChange}>
           <option value="United Kingdom">United Kingdom</option>
           <option value="New Zealand">New Zealand</option>
           <option value="China">China</option>
@@ -124,17 +100,6 @@ export default class Calendar extends React.Component {
           <option value="Malaysia">Malaysia</option>
           <option value="Sri Lanka">Sri Lanka</option>
         </select>
-        {/* end ddl */}
-        {/* <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Dropdown button
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenu">
-    <a class="dropdown-item" href="UK">Item</a>
-    <a class="dropdown-item" href="NZ">Another item</a>
-    <a class="dropdown-item" href="CN">One more item</a>
-  </div>
-</div> */}
         <div className="demo-app">
           <div className="demo-app-top">
             {/* <button onClick={ this.toggleWeekends }>toggle weekends</button>&nbsp; */}
