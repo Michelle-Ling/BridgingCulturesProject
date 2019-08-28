@@ -1,7 +1,9 @@
+// Packages to be imported
 import React, { Component } from "react";
 
 import "./Modal.css";
 
+// Modal for tool tip information about the festivals anf events
 class Modal extends Component {
   render() {
     console.log(this.props.show);

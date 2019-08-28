@@ -1,3 +1,4 @@
+// Packages to be imported
 import React from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -12,6 +13,7 @@ import {
 } from "reactstrap";
 
 import '../scss/Calendar.scss' 
+// Main Calendar class for Day grid calendar implementation
 export default class Calendar extends React.Component {
   constructor(props) {
     super(props);

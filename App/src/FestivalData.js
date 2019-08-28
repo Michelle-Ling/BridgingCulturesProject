@@ -1,3 +1,5 @@
+// Un used class 
+// Sample class for initial learning
 import React from 'react';
 
 export class FestivalData extends React.Component{

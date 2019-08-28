@@ -1,5 +1,7 @@
+// Packages to be imported 
 import React from 'react';
 
+// Routes for pages navigation
 const Breadcrumbs = React.lazy(() => import('./views/Base/Breadcrumbs'));
 const Cards = React.lazy(() => import('./views/Base/Cards'));
 const Carousels = React.lazy(() => import('./views/Base/Carousels'));
