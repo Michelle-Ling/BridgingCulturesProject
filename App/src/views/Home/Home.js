@@ -18,27 +18,27 @@ class Home extends Component {
   }
 
   render() {
-    const GayathriFont = { fontFamily: "Gayathri", backgroundColor: "#F8F8F8", padding: '50px' };
-    // return (
-    //   <div className="animated fadeIn">
-    //     Dash here....
-    //   </div>
-    // );
+    const pagetitle = {
+      fontFamily: "Gayathri",
+      backgroundColor: "#F8F8F8",
+      padding: "50px",
+      textAlign: "center"
+    }; 
     return (
       <ul>
         {/* <div style={GayathriFont}>
           <h1>Educating the next generation about traditions is our mission.</h1>
         </div> */}
-        <div style={GayathriFont} className="rounded">
+        <div style={pagetitle} className="rounded">
           <h1>Bridging Cultures</h1>
           <p>Educating the next generation about traditions is our mission.</p>
           <p>
             <a href="#/profile">
-            Check out the cultural profile of suburbs in Victoria
+              Check out the cultural profile of suburbs in Victoria
             </a>
           </p>
         </div>
-<p></p>
+        <p></p>
         <div>
           <Carousel autoplay arrows infiniteLoop>
             <div>
