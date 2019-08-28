@@ -14,7 +14,19 @@ export default class Calendar extends React.Component {
     }
   
     render() {
+      const pagetitle = {
+        fontFamily: "Gayathri",
+        backgroundColor: "#F8F8F8",
+        padding: "50px",
+        textAlign: "center"
+      };
       return (
+        <ul>
+        <div style={pagetitle} className="rounded">
+          <h1>Event Calendar</h1>
+          <p>See what's on the horizon.</p>
+        </div>
+        <p></p>
         <div className='demo-app'>
           <div className='demo-app-top'>
             {/* <button onClick={ this.toggleWeekends }>toggle weekends</button>&nbsp; */}
@@ -37,6 +49,7 @@ export default class Calendar extends React.Component {
               />
           </div>
         </div>
+        </ul>
       )
     }
   

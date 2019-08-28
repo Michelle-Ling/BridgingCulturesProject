@@ -26,7 +26,7 @@ class Profile extends Component {
     }
     return (
       <ul>
-        <div style={pagetitle} className="rounded">
+        <div style={pagetitle} className="pagetitle">
           <h1>Suburb Profile</h1>
           <p>Explore the interactive map.</p>
         </div>
