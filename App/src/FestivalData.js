@@ -1,11 +1,20 @@
+// Un used class 
+// Sample class for initial learning
 import React from 'react';
 
-class FestivalData extends React.Component{
+export class FestivalData extends React.Component{
     constructor(props){ 
     super(props);
     this.state = {
-    mytext : '',
+    mytext : [ // initial event data
+        { title: 'Event Now', start: new Date() },
+        { title: 'Help me', start: new Date("2019-08-29") }
+      ],
     }
+    this.mycontent = [ // initial event data
+        { title: 'Event Now', start: new Date() },
+        { title: 'Help me', start: new Date("2019-08-29") }
+      ]
 }
     getData(){ 
         fetch(`http://127.0.0.1:8081/json`,{
@@ -18,7 +27,7 @@ class FestivalData extends React.Component{
         }
         
         componentWillMount(){
-        this.getData();
+            this.getData();
         }
         
         
@@ -31,4 +40,3 @@ class FestivalData extends React.Component{
         );
         }
     }
-    export default FestivalData;

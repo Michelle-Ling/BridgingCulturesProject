@@ -1,0 +1,43 @@
+/* Overriden CSS styles for template accomodation */
+.fc-time {
+	display: none !important;
+}
+
+.fc-day-number {
+	-webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+    cursor: pointer;
+}
+
+.fc-day {
+	cursor: pointer !important;
+}
+
+.small {
+  width: 40%;
+  float: left;
+  background: lightblue;
+  margin: 2%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.fc-right .fc-dayGridMonth-button.fc-button.fc-button-primary.fc-button-active {
+  display: none;
+}
+.fc-right .fc-button-primary:not(:disabled).fc-button-active {
+  display: none;
+}
+
+.fc-today-button.fc-button.fc-button-primary {
+  text-transform: uppercase;
+}
+
+.fc-title {
+  user-select: none;
+}

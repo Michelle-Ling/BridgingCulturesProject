@@ -1,3 +1,4 @@
+// Packages to be imported
 import React, { Component, lazy, Suspense } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -11,7 +12,7 @@ import banner7 from "../assets/BannerImages/banner7.png";
 import banner8 from "../assets/BannerImages/banner8.png";
 import banner9 from "../assets/BannerImages/banner9.png";
 import banner10 from "../assets/BannerImages/banner10.png";
-
+// Gallery class for collective cultural images
 class Gallery extends Component {
   constructor(props) {
     super(props);

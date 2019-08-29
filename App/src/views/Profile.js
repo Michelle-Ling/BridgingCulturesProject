@@ -1,5 +1,7 @@
+// Packages to be imported
 import React, { Component, lazy, Suspense } from "react";
 
+// Profile page implementation for Sub-urb population
 class Profile extends Component {
   constructor(props) {
     super(props);

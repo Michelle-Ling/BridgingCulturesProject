@@ -1,0 +1,28 @@
+/* Modal Tooltip CSS */
+
+.modal_tooltip {
+  z-index: 10;
+  position: fixed;
+  top: 10%;
+  right: 5%;
+  bottom: 10%;
+  left: 20%;
+  padding: 10px;
+  box-shadow: 0 10px 30px 0 rgba(127, 127, 127, 0.3);
+  background: rgba(255, 255, 255, 0.9);
+  text-align: center;
+}
+
+.modal_content_div {
+	top: 35%;
+    position: relative;
+}
+
+.modal_title_content {
+	font-size: 200%;
+	font-weight: 400
+}
+
+.modal_desc_content {
+	font-size: 140%;
+}
