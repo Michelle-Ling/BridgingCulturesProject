@@ -76,7 +76,7 @@ export default class Calendar extends React.Component {
           <option value="PH">Philippines</option>
         </select> */}
         {/* end ddl */}
-       
+          
         <div className="demo-app">
           <div className="demo-app-top">
             {/* <button onClick={ this.toggleWeekends }>toggle weekends</button>&nbsp; */}
