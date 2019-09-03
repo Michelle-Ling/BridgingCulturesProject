@@ -46,7 +46,7 @@ export default class Calendar extends React.Component {
 
     getData(menu_item){ 
       if( menu_item !== "" ) {
-        fetch(`http://bridgingcultures-flask-rest-api.c6cjbffjpr.us-east-2.elasticbeanstalk.com/festivals?name=`+menu_item,{
+        fetch(`https://bridgingcultures.ml/festivals?name=`+menu_item,{
           method: 'GET'
         }).then(response => response.json()).then(data => {
           console.log(data)
@@ -162,7 +162,7 @@ export default class Calendar extends React.Component {
         }
       }
       if( flag === 0 ) {
-          data_json = { "title": "No important events", "desc": ""}
+          data_json = { "title": ["No important events"], "desc": [""]}
           this.getModal(data_json)
       } else {
           data_json = { "title": title_array, "desc": desc_array}
