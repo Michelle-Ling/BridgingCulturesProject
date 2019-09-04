@@ -7,6 +7,11 @@ const propTypes = {
 
 const defaultProps = {};
 
+const spanStyle = {
+  right: '0px',
+  position: 'absolute',
+};
+
 class DefaultFooter extends Component {
   render() {
 
@@ -16,6 +21,7 @@ class DefaultFooter extends Component {
     return (
       <React.Fragment>
         <span>Bridging Cultures &copy; 2019 Elites.</span>
+        <span style={spanStyle}>Powered by 2019 Calendarific.</span>
       </React.Fragment>
     );
   }
