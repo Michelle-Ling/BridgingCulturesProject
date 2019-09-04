@@ -72,7 +72,7 @@ export default class Calendar extends React.Component {
     
     componentWillMount(){
       console.log("Going in")
-      this.getData("United Kingdom");
+      this.getData("Australia");
     }
 
     render() {
@@ -89,37 +89,6 @@ export default class Calendar extends React.Component {
           <p>See what's on the horizon.</p>
         </div>
         <p></p>
-<<<<<<< HEAD
-
-        {/* ddl */}
-        <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-        <DropdownToggle caret>
-          Select a Country
-        </DropdownToggle>
-        <DropdownMenu>
-          <DropdownItem>United Kingdom</DropdownItem>
-          <DropdownItem>New Zealand</DropdownItem>
-          <DropdownItem>China</DropdownItem>
-          <DropdownItem>India</DropdownItem>
-          <DropdownItem>Philippines</DropdownItem>
-          <DropdownItem>Vietmam</DropdownItem>
-          <DropdownItem>Italy</DropdownItem>
-          <DropdownItem>South Africa</DropdownItem>
-          <DropdownItem>Malaysia</DropdownItem>
-          <DropdownItem>Sri Lanka</DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
-      {/* <label>Please select a country:  </label>
-        <select id="dropdown" ref={input => (this.menu = input)}>
-          <option value="UK">United Kingdom</option>
-          <option value="NZ">New Zealand</option>
-          <option value="CN">China</option>
-          <option value="IN">India</option>
-          <option value="PH">Philippines</option>
-        </select> */}
-        {/* end ddl */}
-          
-=======
       <label>Please select a country:&ensp;</label>
         <select id="dropdown" onChange={this.handleChange}>
         <option value="Australia">Australia</option>
@@ -134,7 +103,7 @@ export default class Calendar extends React.Component {
           <option value="Malaysia">Malaysia</option>
           <option value="Sri Lanka">Sri Lanka</option>
         </select>
->>>>>>> 00afbf11adf4a61566be0fe8a4b1e9ba02e02c62
+
         <div className="demo-app">
           <div className="demo-app-top">
             {/* <button onClick={ this.toggleWeekends }>toggle weekends</button>&nbsp; */}
