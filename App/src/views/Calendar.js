@@ -18,7 +18,10 @@ export default class Calendar extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
+    this.highlightedclassname = []
+    this.spansize = 0
   }
+
 
   handleChange(e) {
     this.getData(e.target.value);
@@ -76,12 +79,18 @@ export default class Calendar extends React.Component {
     }
 
     render() {
-          const pagetitle = {
-      fontFamily: "Gayathri",
-      backgroundColor: "#F8F8F8",
-      padding: "50px",
-      textAlign: "center"
-    };
+      // console.log(this.highlightedclassname.length)
+        // for (let i = 0; i < this.highlightedclassname.length; i++) {
+        //   console.log("Hello!!!!!!")
+        //   this.highlightedclassname[i].addEventListener('click', this.myFunction, false);
+        //   console.log("Hello!!!!!!")
+        // }
+        const pagetitle = {
+          fontFamily: "Gayathri",
+          backgroundColor: "#F8F8F8",
+          padding: "50px",
+          textAlign: "center"
+        };
       return (
 <ul>
         <div style={pagetitle} className="rounded">
@@ -122,6 +131,7 @@ export default class Calendar extends React.Component {
               weekends={this.state.calendarWeekends}
               events={this.state.calendarEvents}
               dateClick={ this.handleDateClick }
+              eventClick={this.myFunction}
             />
             <Modal
                 show={this.state.showModal}
@@ -134,11 +144,13 @@ export default class Calendar extends React.Component {
       </ul>
       )
     }
+    myFunction = (event) => {
+        var title_content = event.event.title;
+        var data_json = { "title": [title_content.split(":-")[0]], "desc": [title_content.split(":-")[1]]}
+        this.getModal(data_json)
+    }
+
     handleDateClick = (arg) => {
-      console.log("Hello World")
-      console.log(arg)
-      console.log(arg.date)
-      console.log("Paithiyam")
       var curr_date = arg.date.setHours(0,0,0,0)
       //console.log(this.state.calendarEvents)
       var calendar_events = this.state.calendarEvents
@@ -150,7 +162,7 @@ export default class Calendar extends React.Component {
         //console.log(calendar_events[i].start)
         if( calendar_events[i].start.setHours(0,0,0,0) === curr_date ) {
           flag = 1
-          console.log(calendar_events[i].title)
+          //console.log(calendar_events[i].title)
           var title_now = calendar_events[i].title.split(":-")[0]
           var desc = ""
           if(calendar_events[i].title.split(":-").length > 1) {
