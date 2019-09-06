@@ -224,6 +224,44 @@ class WorldFactbookData(Resource):
             return WorldFactbook.query.filter_by(country_name='Italy').first()
         #return WorldFactbook.query.filter_by(Region='Victoria').all()
 
+# Eventbrite API
+@api.route('/eventbrite')
+class EventbriteData(Resource):
+    def get(self):
+        arg_val_name = request.args['festival_name']
+        arg_val_loc = request.args['location']
+        resp = requests.get('https://www.eventbriteapi.com/v3/events/search/?q=' + arg_val_name + '&sort_by=date&location.address='+ arg_val_loc + '&include_adult_events=on&token=ATLOQ64ONWN4KMFL6C53')
+        if resp.status_code != 200:
+            # This means something went wrong.
+            return {}
+        #print(resp.json())
+        #resp.headers.add('Access-Control-Allow-Origin', '*')
+        response = Response(resp)
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        #response = jsonify(resp)
+        #response.status_code = 200
+        #response.headers.add('Access-Control-Allow_Origin', '*')
+        return response
+
+# Eventbrite Location API
+@api.route('/eventbrite/location')
+class EventbriteData(Resource):
+    def get(self):
+        arg_val = request.args['venue_id']
+        #arg_val_loc = request.args['location']
+        resp = requests.get('https://www.eventbriteapi.com/v3/venues/' + arg_val + '/?token=ATLOQ64ONWN4KMFL6C53')
+        if resp.status_code != 200:
+            # This means something went wrong.
+            return {}
+        #print(resp.json())
+        #resp.headers.add('Access-Control-Allow-Origin', '*')
+        response = Response(resp)
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        #response = jsonify(resp)
+        #response.status_code = 200
+        #response.headers.add('Access-Control-Allow_Origin', '*')
+        return response
+
 @application.teardown_appcontext
 def shutdown_session(exception=None):
     db_session.remove()
