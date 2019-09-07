@@ -230,7 +230,7 @@ class EventbriteData(Resource):
     def get(self):
         arg_val_name = request.args['festival_name']
         arg_val_loc = request.args['location']
-        resp = requests.get('https://www.eventbriteapi.com/v3/events/search/?q=' + arg_val_name + '&sort_by=date&location.address='+ arg_val_loc + '&include_adult_events=on&token=ATLOQ64ONWN4KMFL6C53')
+        resp = requests.get('https://www.eventbriteapi.com/v3/events/search/?q=' + arg_val_name + '&sort_by=date&location.address='+ arg_val_loc + '&include_adult_events=on&token=ATLOQ64ONWN4KMFL6C53&expand=organizer,venue')
         if resp.status_code != 200:
             # This means something went wrong.
             return {}
