@@ -18,7 +18,10 @@ export default class Calendar extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
+    this.highlightedclassname = []
+    this.spansize = 0
   }
+
 
   handleChange(e) {
     this.getData(e.target.value);
@@ -46,7 +49,7 @@ export default class Calendar extends React.Component {
 
     getData(menu_item){ 
       if( menu_item !== "" ) {
-        fetch(`http://bridgingcultures-flask-rest-api.c6cjbffjpr.us-east-2.elasticbeanstalk.com/festivals?name=`+menu_item,{
+        fetch(`http://localhost:5000/festivals?name=`+menu_item,{
           method: 'GET'
         }).then(response => response.json()).then(data => {
           console.log(data)
@@ -72,16 +75,22 @@ export default class Calendar extends React.Component {
     
     componentWillMount(){
       console.log("Going in")
-      this.getData("United Kingdom");
+      this.getData("Australia");
     }
 
     render() {
-          const pagetitle = {
-      fontFamily: "Gayathri",
-      backgroundColor: "#F8F8F8",
-      padding: "50px",
-      textAlign: "center"
-    };
+      // console.log(this.highlightedclassname.length)
+        // for (let i = 0; i < this.highlightedclassname.length; i++) {
+        //   console.log("Hello!!!!!!")
+        //   this.highlightedclassname[i].addEventListener('click', this.myFunction, false);
+        //   console.log("Hello!!!!!!")
+        // }
+        const pagetitle = {
+          fontFamily: "Gayathri",
+          backgroundColor: "#F8F8F8",
+          padding: "50px",
+          textAlign: "center"
+        };
       return (
 <ul>
         <div style={pagetitle} className="rounded">
@@ -89,37 +98,6 @@ export default class Calendar extends React.Component {
           <p>See what's on the horizon.</p>
         </div>
         <p></p>
-<<<<<<< HEAD
-
-        {/* ddl */}
-        <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-        <DropdownToggle caret>
-          Select a Country
-        </DropdownToggle>
-        <DropdownMenu>
-          <DropdownItem>United Kingdom</DropdownItem>
-          <DropdownItem>New Zealand</DropdownItem>
-          <DropdownItem>China</DropdownItem>
-          <DropdownItem>India</DropdownItem>
-          <DropdownItem>Philippines</DropdownItem>
-          <DropdownItem>Vietmam</DropdownItem>
-          <DropdownItem>Italy</DropdownItem>
-          <DropdownItem>South Africa</DropdownItem>
-          <DropdownItem>Malaysia</DropdownItem>
-          <DropdownItem>Sri Lanka</DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
-      {/* <label>Please select a country:  </label>
-        <select id="dropdown" ref={input => (this.menu = input)}>
-          <option value="UK">United Kingdom</option>
-          <option value="NZ">New Zealand</option>
-          <option value="CN">China</option>
-          <option value="IN">India</option>
-          <option value="PH">Philippines</option>
-        </select> */}
-        {/* end ddl */}
-          
-=======
       <label>Please select a country:&ensp;</label>
         <select id="dropdown" onChange={this.handleChange}>
         <option value="Australia">Australia</option>
@@ -134,7 +112,7 @@ export default class Calendar extends React.Component {
           <option value="Malaysia">Malaysia</option>
           <option value="Sri Lanka">Sri Lanka</option>
         </select>
->>>>>>> 00afbf11adf4a61566be0fe8a4b1e9ba02e02c62
+
         <div className="demo-app">
           <div className="demo-app-top">
             {/* <button onClick={ this.toggleWeekends }>toggle weekends</button>&nbsp; */}
@@ -153,6 +131,7 @@ export default class Calendar extends React.Component {
               weekends={this.state.calendarWeekends}
               events={this.state.calendarEvents}
               dateClick={ this.handleDateClick }
+              eventClick={this.myFunction}
             />
             <Modal
                 show={this.state.showModal}
@@ -165,11 +144,14 @@ export default class Calendar extends React.Component {
       </ul>
       )
     }
+    myFunction = (event) => {
+        var title_content = event.event.title;
+        var data_json = { "title": [title_content.split(":-")[0]], "desc": [title_content.split(":-")[1]]}
+        //this.getModal(data_json)
+        this.getEventdata(data_json)
+    }
+
     handleDateClick = (arg) => {
-      console.log("Hello World")
-      console.log(arg)
-      console.log(arg.date)
-      console.log("Paithiyam")
       var curr_date = arg.date.setHours(0,0,0,0)
       //console.log(this.state.calendarEvents)
       var calendar_events = this.state.calendarEvents
@@ -181,7 +163,7 @@ export default class Calendar extends React.Component {
         //console.log(calendar_events[i].start)
         if( calendar_events[i].start.setHours(0,0,0,0) === curr_date ) {
           flag = 1
-          console.log(calendar_events[i].title)
+          //console.log(calendar_events[i].title)
           var title_now = calendar_events[i].title.split(":-")[0]
           var desc = ""
           if(calendar_events[i].title.split(":-").length > 1) {
@@ -194,12 +176,38 @@ export default class Calendar extends React.Component {
         }
       }
       if( flag === 0 ) {
-          data_json = { "title": "No important events", "desc": ""}
+          data_json = { "title": ["No important events"], "desc": [""]}
           this.getModal(data_json)
       } else {
           data_json = { "title": title_array, "desc": desc_array}
           this.getModal(data_json)
       }
     }
-  
+    getEventdata(event){ 
+              var title_content = event.title;
+              if( title_content !== "" ) {
+                fetch(`http://localhost:5000/eventbrite?festival_name=`+title_content+`&location=australia,%20melbourne`,{
+                method: 'GET'
+              }).then(response => response.json()).then(data => {  
+                if(data.events.length > 0)
+                  {
+                    var tempEvent = "";
+                    for(var i = 0;i < data.events.length;i++)
+                    {
+                      console.log(data.events[i])
+                      /*tempEvent += "<div class='container shadow-sm col-lg-3 col-md-4 col-9 m-2'>";
+                      tempEvent += "<b><a style='color:#000000;' href='" +  + "'> " + event.name.text + "</a>";
+                      tempEvent += "<a>Date/Time: " + eventTime + "</a><br>";            
+                      tempEvent += "</div>";
+                    */
+                    }
+                  }
+                  else
+                  {
+                    console.log("0")
+                    console.log(data)
+                  }
+              })
+            } 
+          }
   }
