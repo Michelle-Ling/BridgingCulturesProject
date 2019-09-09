@@ -32,6 +32,7 @@ export default class Calendar extends React.Component {
     state = {
       calendarWeekends: true,
       calendarEvents: [],
+      eventBriteList:[],
       showModal: false,
       dataModal: "",
       descModal: "",
@@ -151,6 +152,12 @@ export default class Calendar extends React.Component {
         this.getEventdata(data_json)
     }
 
+    newFunction(event){
+      var title_content = event.event.title;
+     return
+     (  this.getEventdata(title_content))
+    }
+
     handleDateClick = (arg) => {
       var curr_date = arg.date.setHours(0,0,0,0)
       //console.log(this.state.calendarEvents)
@@ -188,19 +195,26 @@ export default class Calendar extends React.Component {
               if( title_content !== "" ) {
                 fetch(`http://localhost:5000/eventbrite?festival_name=`+title_content+`&location=australia,%20melbourne`,{
                 method: 'GET'
-              }).then(response => response.json()).then(data => {  
+              }).then(response => response.json()).then(data => { 
+                var eventsbrite = data.events 
+                var mod_eventsbrite = []
+                //console.log(eventsbrite)
                 if(data.events.length > 0)
                   {
-                    var tempEvent = "";
                     for(var i = 0;i < data.events.length;i++)
                     {
-                      console.log(data.events[i])
-                      /*tempEvent += "<div class='container shadow-sm col-lg-3 col-md-4 col-9 m-2'>";
-                      tempEvent += "<b><a style='color:#000000;' href='" +  + "'> " + event.name.text + "</a>";
-                      tempEvent += "<a>Date/Time: " + eventTime + "</a><br>";            
-                      tempEvent += "</div>";
-                    */
+                      var tempEvent = {};
+                      tempEvent.name = eventsbrite[i].name
+                      tempEvent.url = eventsbrite[i].url
+                      tempEvent.description = eventsbrite[i].description.text
+                      tempEvent.endTime = eventsbrite[i].end.local
+                      tempEvent.startTime = eventsbrite[i].start.local
+                      mod_eventsbrite.push(tempEvent)
+                      
                     }
+                this.setState({eventBriteList:mod_eventsbrite})
+                console.log(mod_eventsbrite)
+                    return tempEvent
                   }
                   else
                   {
