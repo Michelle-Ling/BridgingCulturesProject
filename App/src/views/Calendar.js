@@ -92,6 +92,7 @@ export default class Calendar extends React.Component {
           padding: "50px",
           textAlign: "center"
         };
+    
       return (
 <ul>
         <div style={pagetitle} className="rounded">
@@ -139,8 +140,23 @@ export default class Calendar extends React.Component {
                 onHide={this.hideModal}
                 name={this.state.dataModal}
                 desc={this.state.descModal}
+               
               />
           </div>
+        </div>
+        <div>
+        {this.state.eventBriteList.map((eventbrite) => {
+          return (
+            <div class="list-group">
+              {/* <div>{eventbrite.name}</div> */}
+              <a href = {eventbrite.url}>{eventbrite.name}</a>
+              {/* <div>{eventbrite.description}</div> */}
+              <div>{eventbrite.startTime}</div>
+              <div>{eventbrite.endTime}</div>
+              <hr />
+            </div>
+          )
+        })}
         </div>
       </ul>
       )
@@ -198,13 +214,13 @@ export default class Calendar extends React.Component {
               }).then(response => response.json()).then(data => { 
                 var eventsbrite = data.events 
                 var mod_eventsbrite = []
-                //console.log(eventsbrite)
+                console.log(eventsbrite)
                 if(data.events.length > 0)
                   {
                     for(var i = 0;i < data.events.length;i++)
                     {
                       var tempEvent = {};
-                      tempEvent.name = eventsbrite[i].name
+                      tempEvent.name = eventsbrite[i].name.text
                       tempEvent.url = eventsbrite[i].url
                       tempEvent.description = eventsbrite[i].description.text
                       tempEvent.endTime = eventsbrite[i].end.local
@@ -213,13 +229,12 @@ export default class Calendar extends React.Component {
                       
                     }
                 this.setState({eventBriteList:mod_eventsbrite})
-                console.log(mod_eventsbrite)
+                //console.log(this.state.eventBriteList[1].name)
                     return tempEvent
                   }
                   else
                   {
-                    console.log("0")
-                    console.log(data)
+                    
                   }
               })
             } 
