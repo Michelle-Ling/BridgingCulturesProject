@@ -4,6 +4,7 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import {FestivalData} from '../FestivalData.js'
 import interactionPlugin from "@fullcalendar/interaction";
+import Mainmap from "../Mainmap";
 import Modal from "../Modal/Modal";
 import {
   Dropdown,
@@ -14,6 +15,7 @@ import {
 
 import '../scss/Calendar.scss' 
 // Main Calendar class for Day grid calendar implementation
+
 export default class Calendar extends React.Component {
   constructor(props) {
     super(props);
@@ -144,20 +146,30 @@ export default class Calendar extends React.Component {
               />
           </div>
         </div>
-        <div>
-        {this.state.eventBriteList.map((eventbrite) => {
-          return (
-            <div class="list-group">
-              {/* <div>{eventbrite.name}</div> */}
-              <a href = {eventbrite.url}>{eventbrite.name}</a>
-              {/* <div>{eventbrite.description}</div> */}
-              <div>{eventbrite.startTime}</div>
-              <div>{eventbrite.endTime}</div>
-              <hr />
+      
+        <div class="row">
+          <div class="col-md-6"> 
+          {this.state.eventBriteList.map((eventbrite) => {
+            console.log(this.state.eventBriteList)
+            return (
+            
+              <div class="list-group">
+                {/* <div>{eventbrite.name}</div> */}
+                <a href = {eventbrite.url}>{eventbrite.name}</a>
+                {/* <div>{eventbrite.description}</div> */}
+                <div>{eventbrite.startTime}</div>
+                <div>{eventbrite.endTime}</div>
+                <hr />
+              </div>
+            )
+          })}
+          </div>
+          <div class="col-md-6">
+            <Mainmap
+            eventBriteLocation = {this.state.eventBriteList}
+            />
             </div>
-          )
-        })}
-        </div>
+         </div>
       </ul>
       )
     }
@@ -225,11 +237,13 @@ export default class Calendar extends React.Component {
                       tempEvent.description = eventsbrite[i].description.text
                       tempEvent.endTime = eventsbrite[i].end.local
                       tempEvent.startTime = eventsbrite[i].start.local
+                      tempEvent.lng = eventsbrite[i].venue.longitude
+                      tempEvent.lat = eventsbrite[i].venue.latitude
                       mod_eventsbrite.push(tempEvent)
                       
                     }
                 this.setState({eventBriteList:mod_eventsbrite})
-                //console.log(this.state.eventBriteList[1].name)
+                //console.log(this.state.eventBriteList[1].l)
                     return tempEvent
                   }
                   else
