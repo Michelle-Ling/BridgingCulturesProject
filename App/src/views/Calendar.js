@@ -49,7 +49,7 @@ export default class Calendar extends React.Component {
 
     getData(menu_item){ 
       if( menu_item !== "" ) {
-        fetch(`https://bridgingcultures.ml/festivals?name=`+menu_item,{
+        fetch(`https://bridgingcultures-api-first.ml/festivals?name=`+menu_item,{
           method: 'GET'
         }).then(response => response.json()).then(data => {
           console.log(data)
