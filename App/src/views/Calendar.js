@@ -88,12 +88,19 @@ export default class Calendar extends React.Component {
         //   this.highlightedclassname[i].addEventListener('click', this.myFunction, false);
         //   console.log("Hello!!!!!!")
         // }
+        var display_map = {display: 'none'}
+        if( this.state.eventBriteList.length > 0 ) {
+          display_map = {
+            display: 'block'
+          }
+        }
         const pagetitle = {
           fontFamily: "Gayathri",
           backgroundColor: "#F8F8F8",
           padding: "50px",
           textAlign: "center"
         };
+
     
       return (
 <ul>
@@ -159,12 +166,13 @@ export default class Calendar extends React.Component {
                 {/* <div>{eventbrite.description}</div> */}
                 <div>{eventbrite.startTime}</div>
                 <div>{eventbrite.endTime}</div>
+                <div>{eventbrite.addressDisplay}</div>
                 <hr />
               </div>
             )
           })}
           </div>
-          <div class="col-md-6">
+          <div style={display_map} class="col-md-6">
             <Mainmap
             eventBriteLocation = {this.state.eventBriteList}
             />
@@ -234,11 +242,13 @@ export default class Calendar extends React.Component {
                       var tempEvent = {};
                       tempEvent.name = eventsbrite[i].name.text
                       tempEvent.url = eventsbrite[i].url
-                      tempEvent.description = eventsbrite[i].description.text
+                      //tempEvent.description = eventsbrite[i].description.text
                       tempEvent.endTime = eventsbrite[i].end.local
                       tempEvent.startTime = eventsbrite[i].start.local
                       tempEvent.lng = eventsbrite[i].venue.longitude
                       tempEvent.lat = eventsbrite[i].venue.latitude
+                      tempEvent.addressDisplay = eventsbrite[i].venue.address.localized_address_display
+                      tempEvent.subsurbDisplay = eventsbrite[i].venue.address.localized_area_display
                       mod_eventsbrite.push(tempEvent)
                       
                     }
