@@ -20,10 +20,26 @@ export default class Calendar extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.highlightedclassname = []
-    this.spansize = 0
   }
 
+  request_ip_address() {
+    //https://api.ipify.org/?format=json
+    fetch(`https://api.ipify.org/?format=json`,{
+      method: 'GET'
+    }).then(response => response.json()).then(data => {
+      //console.log(data.ip)
+      fetch(`http://localhost:5000/eventbrite/location?ip_address=`+data.ip,{
+            method: 'GET'
+      }).then(response => response.json()).then(data => {
+        //console.log(data)
+        this.setState({ client_address: data })
+        //return data
+        //console.log(mod_holidays_array)
+      })
+      //
+      //console.log(mod_holidays_array)
+    })
+  }
 
   handleChange(e) {
     this.getData(e.target.value);
@@ -42,7 +58,7 @@ export default class Calendar extends React.Component {
     }
 
     getModal = data => {
-      this.setState({ showModal: true, dataModal: data.title, descModal: data.desc });
+      this.setState({ showModal: true, dataModal: data.title, descModal: data.desc, eventData: data });
     }
 
     hideModal = () => {
@@ -55,16 +71,16 @@ export default class Calendar extends React.Component {
         fetch(`http://localhost:5000/festivals?name=`+menu_item,{
           method: 'GET'
         }).then(response => response.json()).then(data => {
-          console.log(data)
+          //console.log(data)
           var holidays_array = data.response.holidays
           //console.log(holidays_array)
           var mod_holidays_array = []
           for (var i = 0; i < holidays_array.length; i++) {
             var temp = {}
             if( holidays_array[i].description != null ) {
-              temp.title = holidays_array[i].name + " :- " + holidays_array[i].description
+              temp.title = holidays_array[i].name + " :- " + holidays_array[i].description + " :- " + holidays_array[i].date.iso
             } else {
-              temp.title = holidays_array[i].name
+              temp.title = holidays_array[i].name + " :- " + holidays_array[i].date.iso.split("T")[0]
             }
             temp.start = new Date(holidays_array[i].date.iso)
             mod_holidays_array.push(temp)
@@ -77,17 +93,14 @@ export default class Calendar extends React.Component {
     }
     
     componentWillMount(){
-      console.log("Going in")
+      //console.log("Going in")
       this.getData("Australia");
+    }
+    componentDidMount() {
+      this.request_ip_address();
     }
 
     render() {
-      // console.log(this.highlightedclassname.length)
-        // for (let i = 0; i < this.highlightedclassname.length; i++) {
-        //   console.log("Hello!!!!!!")
-        //   this.highlightedclassname[i].addEventListener('click', this.myFunction, false);
-        //   console.log("Hello!!!!!!")
-        // }
         var display_map = {display: 'none'}
         if( this.state.eventBriteList.length > 0 ) {
           display_map = {
@@ -149,7 +162,7 @@ export default class Calendar extends React.Component {
                 onHide={this.hideModal}
                 name={this.state.dataModal}
                 desc={this.state.descModal}
-               
+                eventData={this.state.eventData}
               />
           </div>
         </div>
@@ -157,7 +170,7 @@ export default class Calendar extends React.Component {
         <div class="row">
           <div class="col-md-6"> 
           {this.state.eventBriteList.map((eventbrite) => {
-            console.log(this.state.eventBriteList)
+            //console.log(this.state.eventBriteList)
             return (
             
               <div class="list-group">
@@ -175,6 +188,7 @@ export default class Calendar extends React.Component {
           <div style={display_map} class="col-md-6">
             <Mainmap
             eventBriteLocation = {this.state.eventBriteList}
+            locationDetails = {this.state.client_address}
             />
             </div>
          </div>
@@ -182,17 +196,27 @@ export default class Calendar extends React.Component {
       )
     }
     myFunction = (event) => {
+      var title_content = event.event.title;
+      //console.log("----------------------------------")
+      //console.log(event)
         var title_content = event.event.title;
-        var data_json = { "title": [title_content.split(":-")[0]], "desc": [title_content.split(":-")[1]]}
+        var data_json = {}
+        if( (title_content.split(" :- ")).length > 2 ) {
+          data_json = { "title": [title_content.split(":-")[0]], "desc": [title_content.split(":-")[1]], "date":title_content.split(":-")[2]}
+        } else {
+          data_json = { "title": [title_content.split(":-")[0]], "desc": [], "date":title_content.split(":-")[1]}
+        }
         //this.getModal(data_json)
         this.getEventdata(data_json)
     }
 
-    newFunction(event){
-      var title_content = event.event.title;
-     return
-     (  this.getEventdata(title_content))
-    }
+    // newFunction(event){
+    //   var title_content = event.event.title;
+    //   console.log("----------------------------------")
+    //   console.log(event)
+    //  return
+    //  (  this.getEventdata(title_content))
+    // }
 
     handleDateClick = (arg) => {
       var curr_date = arg.date.setHours(0,0,0,0)
@@ -209,7 +233,7 @@ export default class Calendar extends React.Component {
           //console.log(calendar_events[i].title)
           var title_now = calendar_events[i].title.split(":-")[0]
           var desc = ""
-          if(calendar_events[i].title.split(":-").length > 1) {
+          if(calendar_events[i].title.split(":-").length > 2) {
             desc = calendar_events[i].title.split(":-")[1]
           }
           //data_json = { "title": title_now, "desc": desc}
@@ -226,41 +250,60 @@ export default class Calendar extends React.Component {
           this.getModal(data_json)
       }
     }
-    getEventdata(event){ 
-              var title_content = event.title;
-              if( title_content !== "" ) {
-                fetch(`http://localhost:5000/eventbrite?festival_name=`+title_content+`&location=australia,%20melbourne`,{
-                method: 'GET'
-              }).then(response => response.json()).then(data => { 
-                var eventsbrite = data.events 
-                var mod_eventsbrite = []
-                console.log(eventsbrite)
-                if(data.events.length > 0)
-                  {
-                    for(var i = 0;i < data.events.length;i++)
-                    {
-                      var tempEvent = {};
-                      tempEvent.name = eventsbrite[i].name.text
-                      tempEvent.url = eventsbrite[i].url
-                      //tempEvent.description = eventsbrite[i].description.text
-                      tempEvent.endTime = eventsbrite[i].end.local
-                      tempEvent.startTime = eventsbrite[i].start.local
-                      tempEvent.lng = eventsbrite[i].venue.longitude
-                      tempEvent.lat = eventsbrite[i].venue.latitude
-                      tempEvent.addressDisplay = eventsbrite[i].venue.address.localized_address_display
-                      tempEvent.subsurbDisplay = eventsbrite[i].venue.address.localized_area_display
-                      mod_eventsbrite.push(tempEvent)
-                      
-                    }
-                this.setState({eventBriteList:mod_eventsbrite})
-                //console.log(this.state.eventBriteList[1].l)
-                    return tempEvent
-                  }
-                  else
-                  {
-                    
-                  }
-              })
-            } 
-          }
+
+    getEventdata = (event) => { 
+        var title_content = event.title
+        title_content = title_content.toString().split("/")[0];
+        var event_end_date = event.date;
+        var event_start_date = event.date;
+        console.log(event_end_date)
+        event_end_date = event_end_date.replace(/\s/g, '')
+        var start_date_conv = new Date(event_start_date);
+        console.log(start_date_conv)
+        event_start_date = start_date_conv.setDate(start_date_conv.getDate() - 1);
+        event_start_date = new Date(event_start_date)
+        event_start_date = event_start_date.getFullYear()+"-"+(event_start_date.getMonth()+1)+"-"+event_start_date.getDate()
+
+        //console.log(event_start_date)
+        var location = "australia,%20melbourne"
+        if( this.state.client_address != null  ) 
+        {
+          //console.log(this.state.client_address)
+          location = this.state.client_address.country + `, `+this.state.client_address.city
+        }
+        if( title_content !== "" ) {
+          fetch(`http://localhost:5000/eventbrite?festival_name=`+title_content+`&location=`+location+`&start_date=`+event_start_date+`&end_date=`+event_end_date,{
+          method: 'GET'
+        }).then(response => response.json()).then(data => { 
+        var eventsbrite = data.events 
+        var mod_eventsbrite = []
+        console.log(eventsbrite)
+          if(data.events.length > 0)
+            {
+              for(var i = 0;i < data.events.length;i++)
+              {
+              var tempEvent = {};
+              tempEvent.name = eventsbrite[i].name.text
+              tempEvent.url = eventsbrite[i].url
+              //tempEvent.description = eventsbrite[i].description.text
+              tempEvent.endTime = eventsbrite[i].end.local
+              tempEvent.startTime = eventsbrite[i].start.local
+              tempEvent.lng = eventsbrite[i].venue.longitude
+              tempEvent.lat = eventsbrite[i].venue.latitude
+              tempEvent.addressDisplay = eventsbrite[i].venue.address.localized_address_display
+              tempEvent.subsurbDisplay = eventsbrite[i].venue.address.localized_area_display
+              mod_eventsbrite.push(tempEvent)
+              
+              }
+        this.setState({eventBriteList:mod_eventsbrite})
+        //console.log(this.state.eventBriteList[1].l)
+            return tempEvent
+            }
+            else
+            {
+            
+            }
+        })
+      } 
+    }
   }

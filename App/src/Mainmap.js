@@ -4,7 +4,7 @@ import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
 class Mainmap extends Component {
     constructor(props) {
         super(props);
-    this.state = {
+      this.state = {
         showingInfoWindow: false,
         activeMarker: {},
         selectedPlace: {}
@@ -32,27 +32,34 @@ class Mainmap extends Component {
       }
     
     render(){
-        console.log(this.state.selectedPlace);
-        return(
-            <Map
-            google={this.props.google}
-            
-            zoom={8}
-            style={{width:'500px',height:'600px'}}
-            initialCenter={{ lat: -37.8136, lng: 144.9631}}
+        console.log(this.props);
+        const isMapshown = this.props.locationDetails
+        let map_object;
+        if( isMapshown != null ) {
+              map_object = <Map
+                google={this.props.google}
+                
+                zoom={10}
+                style={{width:'500px',height:'600px'}}
+                initialCenter={{ lat: isMapshown.loc.split(",")[0], lng: isMapshown.loc.split(",")[1]}}
 
-          >
-        {this.displayMarkers()} 
-        <InfoWindow
-          marker = { this.state.activeMarker }
-          visible = { this.state.showingInfoWindow }
-        >
-           <div><h5>{this.state.selectedPlace.name}</h5>
-           {this.state.selectedPlace.subsurbDisplay}</div>
+              >
+            {this.displayMarkers()} 
+            <InfoWindow
+              marker = { this.state.activeMarker }
+              visible = { this.state.showingInfoWindow }
+            >
+               <div><h5>{this.state.selectedPlace.name}</h5>
+               {this.state.selectedPlace.subsurbDisplay}</div>
+                  
               
-          
-          </InfoWindow>    
-        </Map>
+              </InfoWindow>    
+            </Map>;
+          }
+        return(
+          <div>
+            {map_object}
+          </div>
         )
     }
     
