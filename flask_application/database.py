@@ -2,7 +2,9 @@
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-engine = create_engine('postgres://postgres:AppleOrange!234@postgres-instance.cbhgihzkp3yp.us-east-2.rds.amazonaws.com:5432/bridgingcultures', convert_unicode=True)
+#engine = create_engine('postgres://postgres:AppleOrange!234@postgres-instance.cbhgihzkp3yp.us-east-2.rds.amazonaws.com:5432/bridgingcultures', convert_unicode=True)
+#postgresql://[user[:password]@][netloc][:port][/dbname
+engine = create_engine('postgres://postgres:AppleOrange!234@localhost:5432/postgres', convert_unicode=True)
 metadata = MetaData()
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,

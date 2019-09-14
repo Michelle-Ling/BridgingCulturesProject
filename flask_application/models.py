@@ -182,3 +182,28 @@ festivals_count = Table('festivals_count', metadata,
 
 # mapper function
 mapper(FestivalsCount, festivals_count)
+
+# Complete Festival Details
+class FestivalDetails(object):
+    query = db_session.query_property()
+    def __init__(self, id=None, countries=None, festivals=None, date=None, description=None, food=None, reference=None):
+        self.id = id
+        self.countries = countries
+        self.festivals = festivals
+        self.date = date
+        self.description = description
+        self.food = food
+        self.reference = reference
+
+# Original Festival Details schema (table)
+festival_details = Table('festival_details', metadata,
+    Column('id', Integer, primary_key=True),
+    Column('countries', Text),
+    Column('festivals', Text),
+    Column('date', Text),
+    Column('description', Text),
+    Column('food', Text),
+    Column('reference', Text)
+)
+# mapper function of original table schema and festival details schema model
+mapper(FestivalDetails, festival_details)

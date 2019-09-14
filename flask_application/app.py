@@ -3,13 +3,14 @@
 from flask import Flask, jsonify, make_response, Response
 from flask_restplus import Resource, Api, fields
 from database import db_session, conn
-from models import BlogPost, WorldFactbook, FestivalsCount, festivals_count
+from models import BlogPost, WorldFactbook, FestivalsCount, festivals_count, FestivalDetails
 from flask import request
 import requests
 from datetime import datetime
 from dateutil import relativedelta
 from datetime import date
 from flask_cors import CORS
+import json
 
 application = Flask(__name__)
 # For cross
@@ -230,7 +231,9 @@ class EventbriteData(Resource):
     def get(self):
         arg_val_name = request.args['festival_name']
         arg_val_loc = request.args['location']
-        resp = requests.get('https://www.eventbriteapi.com/v3/events/search/?q=' + arg_val_name + '&sort_by=date&location.address='+ arg_val_loc + '&include_adult_events=on&token=ATLOQ64ONWN4KMFL6C53&expand=organizer,venue')
+        arg_val_start_date = request.args['start_date']
+        arg_val_end_date = request.args['end_date']
+        resp = requests.get('https://www.eventbriteapi.com/v3/events/search/?q=' + arg_val_name + '&sort_by=date&location.address='+ arg_val_loc + '&location.within=50km&start_date.range_start='+ arg_val_start_date + 'T00:00:01Z&start_date.range_end=' + arg_val_end_date + 'T23:59:59Z&include_adult_events=on&token=ATLOQ64ONWN4KMFL6C53&expand=organizer,venue')
         if resp.status_code != 200:
             # This means something went wrong.
             return {}
@@ -247,20 +250,92 @@ class EventbriteData(Resource):
 @api.route('/eventbrite/location')
 class EventbriteData(Resource):
     def get(self):
-        arg_val = request.args['venue_id']
+        arg_val = request.args['ip_address']
         #arg_val_loc = request.args['location']
-        resp = requests.get('https://www.eventbriteapi.com/v3/venues/' + arg_val + '/?token=ATLOQ64ONWN4KMFL6C53')
+        resp = requests.get('https://ipinfo.io/'+arg_val+'?token=0d071e2f5f6c77')
         if resp.status_code != 200:
             # This means something went wrong.
             return {}
-        #print(resp.json())
-        #resp.headers.add('Access-Control-Allow-Origin', '*')
         response = Response(resp)
         response.headers['Access-Control-Allow-Origin'] = '*'
-        #response = jsonify(resp)
-        #response.status_code = 200
-        #response.headers.add('Access-Control-Allow_Origin', '*')
         return response
+
+# Festivals/Events API
+@api.route('/festival_details')
+class FestivalDetailsData(Resource):
+    model = api.model('Model', {
+        'id': fields.Integer,
+        'countries': fields.String,
+        'festivals': fields.String,
+        'date': fields.String,
+        'description': fields.String,
+        'food': fields.String,
+        'reference': fields.String,
+    })
+
+    @api.marshal_with(model, envelope='resource')
+    def get(self):
+        alpha_2_code = "Australia"
+        arg_val = request.args['name']
+        if arg_val.lower() == "China".lower():
+            alpha_2_code = "China"
+        elif arg_val.lower() == "India".lower():
+            alpha_2_code = "India"
+        #response = Response(resp)
+        #response.headers['Access-Control-Allow-Origin'] = '*'
+        return FestivalDetails.query.filter_by(countries=alpha_2_code).all(), 200, {'Access-Control-Allow-Origin': '*'}
+
+# Recipe Google Custom Searc API
+@api.route('/recipe_links')
+class RecipeData(Resource):
+    def get(self):
+        #print(request.args)
+        arg_val = request.args['name']
+        arg_country = request.args['country']
+        #print(request.args['name'])
+        #print(request.args['country'])
+        indian_list_api = '005263693131602275062:3wpoazmejfq'
+        taste_au_api = '005263693131602275062:h5xlwjjhx60'
+        asian_food_api = '005263693131602275062:yntvembfx1u'
+        chinese_list_api = '005263693131602275062:kxtqmiygxv2'
+        jew_food_list_api = '005263693131602275062:qj832ka7vyz'
+        sbs_food_list_api = '005263693131602275062:rgazfsyjaj3'
+        api_list_australia = [taste_au_api,asian_food_api,sbs_food_list_api,chinese_list_api,jew_food_list_api,indian_list_api]
+        api_list_india = [indian_list_api,asian_food_api,sbs_food_list_api,taste_au_api,chinese_list_api,jew_food_list_api]
+        api_list_china = [chinese_list_api,asian_food_api,taste_au_api,jew_food_list_api,indian_list_api,sbs_food_list_api]
+        req_listing = api_list_india
+        if arg_country == "Australia":
+            req_listing = api_list_australia
+        elif arg_country == "China":
+            req_listing = api_list_china
+
+        #arg_val_loc = request.args['location']
+        #########################################
+        #response.queries.request[0].totalResults > 0
+        #########################################
+        food_items = str(arg_val).split(", ")
+        food_items = food_items[0:3]
+        #print(food_items)
+        food_item_list = []
+        resp = {}
+        for each_food_item in food_items:
+            for each_api in req_listing:
+                #print("-----------------------------"+each_api)
+                resp = requests.get('https://www.googleapis.com/customsearch/v1?key=AIzaSyA48886uOlEYUskw5zQrvcbpDHz8nc8XPc&cx='+ each_api +'&q=' + each_food_item)
+                resp_status_code = resp.status_code
+                response = resp.json()
+                #resp = Response(resp)
+
+                if resp_status_code == 200 and int(response["queries"]["request"][0]['totalResults']) > 1 and 'cse_image' in response["items"][0]["pagemap"]:
+                    food_item_list.append(response)
+                    break
+                
+        food_content = {'food_items':food_item_list}
+        #print(food_content)
+        resp = Response(json.dumps(food_content))
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+
+        return resp
 
 @application.teardown_appcontext
 def shutdown_session(exception=None):
