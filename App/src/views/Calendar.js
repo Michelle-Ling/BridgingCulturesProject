@@ -60,7 +60,8 @@ export default class Calendar extends React.Component {
       dataModal: "",
       descModal: "",
       menu: "",
-      data_json: {}
+      data_json: {},
+      show_food: false
     }
 
     getModal = data => {
@@ -74,21 +75,26 @@ export default class Calendar extends React.Component {
 
     getData(menu_item){ 
       if( menu_item !== "" ) {
-        fetch(`http://localhost:5000/festivals?name=`+menu_item,{
+        fetch(`http://localhost:5000/festival_details?name=`+menu_item,{
           method: 'GET'
         }).then(response => response.json()).then(data => {
           //console.log(data)
-          var holidays_array = data.response.holidays
+          var holidays_array = data.resource
           //console.log(holidays_array)
           var mod_holidays_array = []
           for (var i = 0; i < holidays_array.length; i++) {
             var temp = {}
             if( holidays_array[i].description != null ) {
-              temp.title = holidays_array[i].name + " :- " + holidays_array[i].description + " :- " + holidays_array[i].date.iso
+              temp.title = holidays_array[i].festivals + " :- " + holidays_array[i].description + " :- " + holidays_array[i].date
             } else {
-              temp.title = holidays_array[i].name + " :- " + holidays_array[i].date.iso.split("T")[0]
+              temp.title = holidays_array[i].festivals + " :-  :- " + holidays_array[i].date.split("T")[0]
             }
-            temp.start = new Date(holidays_array[i].date.iso)
+            if( holidays_array[i].reference != null ) {
+              temp.title = temp.title + " :- " + holidays_array[i].reference
+            } else {
+              temp.title = temp.title + " :- "
+            }
+            temp.start = new Date(holidays_array[i].date)
             mod_holidays_array.push(temp)
           }
 
@@ -208,15 +214,17 @@ export default class Calendar extends React.Component {
     }
     myFunction = (event) => {
       var title_content = event.event.title;
-      //console.log("----------------------------------")
-      //console.log(event)
         var title_content = event.event.title;
         var data_json = {}
-        if( (title_content.split(" :- ")).length > 2 ) {
-          data_json = { "title": [title_content.split(":-")[0]], "desc": [title_content.split(":-")[1]], "date":title_content.split(":-")[2]}
-        } else {
-          data_json = { "title": [title_content.split(":-")[0]], "desc": [], "date":title_content.split(":-")[1]}
-        }
+        // if( (title_content.split(" :- ")).length > 2 ) {
+        //   data_json = { "title": [title_content.split(" :- ")[0]], "desc": [title_content.split(" :- ")[1]], "date":title_content.split(" :- ")[2]}
+        // } else {
+        //   data_json = { "title": [title_content.split(" :- ")[0]], "desc": [], "date":title_content.split(" :- ")[1]}
+        // }
+        // if( (title_content.split(" :- ")).length > 3 ) {
+        //   data_json['reference'] = [title_content.split(" :- ")[3]];
+        // }
+        data_json = { "title": [title_content.split(" :- ")[0]], "desc": [title_content.split(" :- ")[1]], "date":title_content.split(" :- ")[2], "reference":[title_content.split(" :- ")[3]]}
         this.setState({ data_json: data_json });
         this.getModal(data_json)
         //this.getEventdata(data_json)
@@ -224,7 +232,7 @@ export default class Calendar extends React.Component {
 
     handleDateClick = (arg) => {
       var handleDate = arg.date
-      console.log(handleDate.getFullYear()+"-"+(handleDate.getMonth()+1)+"-"+handleDate.getDate())
+      //console.log(handleDate.getFullYear()+"-"+(handleDate.getMonth()+1)+"-"+handleDate.getDate())
       handleDate = handleDate.getFullYear()+"-"+(handleDate.getMonth()+1)+"-"+handleDate.getDate()
       var curr_date = arg.date.setHours(0,0,0,0)
       //console.log(this.state.calendarEvents)
@@ -233,28 +241,33 @@ export default class Calendar extends React.Component {
       var data_json = {}
       var title_array = []
       var desc_array = []
+      var reference_array = []
       for (var i = 0; i < calendar_events.length; i++) {
         //console.log(calendar_events[i].start)
         if( calendar_events[i].start.setHours(0,0,0,0) === curr_date ) {
           flag = 1
           //console.log(calendar_events[i].title)
-          var title_now = calendar_events[i].title.split(":-")[0]
+          var title_now = calendar_events[i].title.split(" :- ")[0]
           var desc = ""
-          if(calendar_events[i].title.split(":-").length > 2) {
-            desc = calendar_events[i].title.split(":-")[1]
-          }
+          var ref = ""
+          // if(calendar_events[i].title.split(" :- ").length > 1) {
+          //   desc = calendar_events[i].title.split(" :- ")[1]
+          // }
+          desc = calendar_events[i].title.split(" :- ")[1]
+          ref = calendar_events[i].title.split(" :- ")[3]
           //data_json = { "title": title_now, "desc": desc}
           //this.getModal(data_json)
           title_array.push(title_now)
           desc_array.push(desc)
+          reference_array.push(ref)
         }
       }
       if( flag === 0 ) {
-          data_json = { "title": ["No important events"], "desc": [""], "date": handleDate}
+          data_json = { "title": ["No important events"], "desc": [""], "date": handleDate, "reference":[""]}
           this.setState({ data_json: data_json });
           this.getModal(data_json)
       } else {
-          data_json = { "title": title_array, "desc": desc_array, "date": handleDate}
+          data_json = { "title": title_array, "desc": desc_array, "date": handleDate, "reference": reference_array}
           this.setState({ data_json: data_json });
           this.getModal(data_json)
       }
@@ -263,12 +276,17 @@ export default class Calendar extends React.Component {
     getEventdata = (event) => { 
         var title_content = event.title
         title_content = title_content.toString().split("/")[0];
-        var event_end_date = event.date;
+        var event_end_date = new Date(event.date);
         var event_start_date = event.date;
-        console.log(event_end_date)
+        //console.log(event_end_date)
+        //var handleDate = arg.date
+        //console.log("Modified End Date:")
+        //console.log(event_end_date.getFullYear()+"-"+(event_end_date.getMonth()+1)+"-"+event_end_date.getDate())
+        event_end_date = event_end_date.getFullYear()+"-"+(event_end_date.getMonth()+1)+"-"+event_end_date.getDate()
         event_end_date = event_end_date.replace(/\s/g, '')
+        //console.log(event_end_date)
         var start_date_conv = new Date(event_start_date);
-        console.log(start_date_conv)
+        //console.log(start_date_conv)
         event_start_date = start_date_conv.setDate(start_date_conv.getDate() - 1);
         event_start_date = new Date(event_start_date)
         event_start_date = event_start_date.getFullYear()+"-"+(event_start_date.getMonth()+1)+"-"+event_start_date.getDate()

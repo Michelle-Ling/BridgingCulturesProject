@@ -26,3 +26,8 @@
 .modal_desc_content {
 	font-size: 140%;
 }
+
+.source_link {
+  font-size: 50%;
+  user-select: none;
+}
