@@ -21,6 +21,7 @@ export default class Calendar extends React.Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.togglehandler = this.togglehandler.bind(this);
+    this.foodhandler = this.foodhandler.bind(this);
   }
 
   request_ip_address() {
@@ -46,6 +47,10 @@ export default class Calendar extends React.Component {
     this.getEventdata(this.state.data_json)
   }
 
+  foodhandler(e) {
+    this.getFoodData(this.state.data_json)
+  }
+
   handleChange(e) {
     this.getData(e.target.value);
   }
@@ -61,7 +66,8 @@ export default class Calendar extends React.Component {
       descModal: "",
       menu: "",
       data_json: {},
-      show_food: false
+      show_food: false,
+      food_list: []
     }
 
     getModal = data => {
@@ -70,6 +76,14 @@ export default class Calendar extends React.Component {
 
     hideModal = () => {
         this.setState({ showModal: false });
+    };
+
+    showFoodContent = () => {
+      this.setState({ show_food: true });
+    };
+
+    hideFoodContent = () => {
+      this.setState({ show_food: false });
     };
 
 
@@ -94,11 +108,16 @@ export default class Calendar extends React.Component {
             } else {
               temp.title = temp.title + " :- "
             }
+            if( holidays_array[i].food != null ) {
+              temp.title = temp.title + " :- " + holidays_array[i].food
+            } else {
+              temp.title = temp.title + " :- "
+            }
             temp.start = new Date(holidays_array[i].date)
             mod_holidays_array.push(temp)
           }
 
-          this.setState({calendarEvents:mod_holidays_array})
+          this.setState({calendarEvents:mod_holidays_array, country_name:menu_item})
           //console.log(mod_holidays_array)
         })
       } 
@@ -117,6 +136,10 @@ export default class Calendar extends React.Component {
         if( this.state.eventBriteList.length > 0 ) {
           display_map = {
             display: 'block'
+          }
+        } else {
+          display_map = {
+            display: 'none'
           }
         }
         const pagetitle = {
@@ -180,6 +203,7 @@ export default class Calendar extends React.Component {
                 desc={this.state.descModal}
                 eventData={this.state.eventData}
                 toggleHandler={this.togglehandler}
+                foodHandler={this.foodhandler}
               />
           </div>
         </div>
@@ -192,7 +216,7 @@ export default class Calendar extends React.Component {
             
               <div class="list-group">
                 {/* <div>{eventbrite.name}</div> */}
-                <a href = {eventbrite.url}>{eventbrite.name}</a>
+                <a href = {eventbrite.url} target='_blank'>{eventbrite.name}</a>
                 {/* <div>{eventbrite.description}</div> */}
                 <div>{eventbrite.startTime}</div>
                 <div>{eventbrite.endTime}</div>
@@ -209,6 +233,33 @@ export default class Calendar extends React.Component {
             />
             </div>
          </div>
+         <div class="row">
+          <div class="col-md-6"> 
+          {this.state.food_list.map((food_list) => {
+            //console.log(this.state.eventBriteList)
+            return (
+            
+              <div class="list-group">
+                 <div>{food_list.name}</div>
+                <a href = {food_list.url_1} target='_blank'>Link 1</a>
+                <a href = {food_list.url_2} target='_blank'>Link 2</a>
+                <img className="food-items" src={food_list.imageurl} alt={food_list.name} />
+                {/* <div>{eventbrite.description}</div> 
+                <div>{eventbrite.startTime}</div>
+                <div>{eventbrite.endTime}</div>
+                <div>{eventbrite.addressDisplay}</div> */}
+                <hr />
+              </div>
+            )
+          })}
+          </div>
+          {/* <div style={display_map} class="col-md-6">
+            <Mainmap
+            eventBriteLocation = {this.state.eventBriteList}
+            locationDetails = {this.state.client_address}
+            />
+            </div>*/}
+         </div>
       </ul>
       )
     }
@@ -224,7 +275,7 @@ export default class Calendar extends React.Component {
         // if( (title_content.split(" :- ")).length > 3 ) {
         //   data_json['reference'] = [title_content.split(" :- ")[3]];
         // }
-        data_json = { "title": [title_content.split(" :- ")[0]], "desc": [title_content.split(" :- ")[1]], "date":title_content.split(" :- ")[2], "reference":[title_content.split(" :- ")[3]]}
+        data_json = { "title": [title_content.split(" :- ")[0]], "desc": [title_content.split(" :- ")[1]], "date":title_content.split(" :- ")[2], "reference":[title_content.split(" :- ")[3]], "food":[title_content.split(" :- ")[4]]}
         this.setState({ data_json: data_json });
         this.getModal(data_json)
         //this.getEventdata(data_json)
@@ -242,6 +293,7 @@ export default class Calendar extends React.Component {
       var title_array = []
       var desc_array = []
       var reference_array = []
+      var food_array = []
       for (var i = 0; i < calendar_events.length; i++) {
         //console.log(calendar_events[i].start)
         if( calendar_events[i].start.setHours(0,0,0,0) === curr_date ) {
@@ -250,24 +302,27 @@ export default class Calendar extends React.Component {
           var title_now = calendar_events[i].title.split(" :- ")[0]
           var desc = ""
           var ref = ""
+          var food = ""
           // if(calendar_events[i].title.split(" :- ").length > 1) {
           //   desc = calendar_events[i].title.split(" :- ")[1]
           // }
           desc = calendar_events[i].title.split(" :- ")[1]
           ref = calendar_events[i].title.split(" :- ")[3]
+          food = calendar_events[i].title.split(" :- ")[4]
           //data_json = { "title": title_now, "desc": desc}
           //this.getModal(data_json)
           title_array.push(title_now)
           desc_array.push(desc)
           reference_array.push(ref)
+          food_array.push(food)
         }
       }
       if( flag === 0 ) {
-          data_json = { "title": ["No important events"], "desc": [""], "date": handleDate, "reference":[""]}
+          data_json = { "title": ["No important events"], "desc": [""], "date": handleDate, "reference":[""], "food":[""]}
           this.setState({ data_json: data_json });
           this.getModal(data_json)
       } else {
-          data_json = { "title": title_array, "desc": desc_array, "date": handleDate, "reference": reference_array}
+          data_json = { "title": title_array, "desc": desc_array, "date": handleDate, "reference": reference_array, "food": food_array}
           this.setState({ data_json: data_json });
           this.getModal(data_json)
       }
@@ -334,5 +389,77 @@ export default class Calendar extends React.Component {
             }
         })
       } 
+    }
+
+      getFoodData = (event) => {
+      this.setState({ showModal: false})
+      console.log(this.state.data_json.food)
+      var food_items_array = []
+      if( this.state.data_json.food[0] != "" ) {
+        this.setState({ showLoading: true });
+        var food_items = this.state.data_json.food[0].split(", ")
+        food_items = food_items.slice(0, 3);
+        console.log(food_items)
+        fetch(`http://localhost:5000/recipe_links?name=`+this.state.data_json.food+`&country=`+this.state.country_name,{
+          method: 'GET'
+        }).then(response => response.json()).then(data => { 
+            console.log(data)
+            var items_array = data.food_items
+            this.setState({showLoading: false})
+            for(var i = 0;i < data.food_items.length ;i++)
+              {
+              var tempEvent = {};
+              tempEvent.name = food_items[i]
+              tempEvent.url_1 = items_array[i].items[0].link
+              tempEvent.url_2 = items_array[i].items[1].link
+              var imageurl_given = items_array[i].items[0].pagemap.cse_image[0].src.toString()
+              if( imageurl_given.startsWith("http") ) {
+                tempEvent.imageurl = items_array[i].items[0].pagemap.cse_image[0].src
+              } else {
+                tempEvent.imageurl = items_array[i].items[1].pagemap.cse_image[0].src
+              }
+              //tempEvent.description = eventsbrite[i].description.text
+              //tempEvent.endTime = eventsbrite[i].end.local
+              //tempEvent.startTime = eventsbrite[i].start.local
+              //tempEvent.lng = eventsbrite[i].venue.longitude
+              //tempEvent.lat = eventsbrite[i].venue.latitude
+              //tempEvent.addressDisplay = eventsbrite[i].venue.address.localized_address_display
+              //tempEvent.subsurbDisplay = eventsbrite[i].venue.address.localized_area_display
+              food_items_array.push(tempEvent)
+              
+              }
+              this.setState({food_list:food_items_array})
+  //         this.setState({ showLoading: false });
+  //         var eventsbrite = data.events 
+  //         var mod_eventsbrite = []
+  //         console.log(eventsbrite)
+  //           if(data.events.length > 0)
+  //             {
+  //               for(var i = 0;i < data.events.length;i++)
+  //               {
+  //               var tempEvent = {};
+  //               tempEvent.name = eventsbrite[i].name.text
+  //               tempEvent.url = eventsbrite[i].url
+  //               //tempEvent.description = eventsbrite[i].description.text
+  //               tempEvent.endTime = eventsbrite[i].end.local
+  //               tempEvent.startTime = eventsbrite[i].start.local
+  //               tempEvent.lng = eventsbrite[i].venue.longitude
+  //               tempEvent.lat = eventsbrite[i].venue.latitude
+  //               tempEvent.addressDisplay = eventsbrite[i].venue.address.localized_address_display
+  //               tempEvent.subsurbDisplay = eventsbrite[i].venue.address.localized_area_display
+  //               mod_eventsbrite.push(tempEvent)
+                
+  //               }
+  //         this.setState({eventBriteList:mod_eventsbrite, showModal: false})
+  //         //console.log(this.state.eventBriteList[1].l)
+  //             return tempEvent
+  //             }
+  //             else
+  //             {
+  //             this.setState({eventBriteList:mod_eventsbrite, showModal: false})
+  //             }
+          })
+        
+      }
     }
   }

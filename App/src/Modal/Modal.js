@@ -8,11 +8,14 @@ class Modal extends Component {
   render() {
     console.log(this.props);
     var handler = this.props.toggleHandler
+    var foodhandler = this.props.foodHandler
     let eventbtn;
+    let foodbtn;
     if( this.props.name.length > 1 ) {
       handler = this.props.onHide
     } else {
       eventbtn = <button onClick={handler}>Events</button>
+      foodbtn = <button onClick={foodhandler}>Food</button>
     }
     let source_1;
     let source_2;
@@ -35,6 +38,7 @@ class Modal extends Component {
             <div className="modal_desc_content">{this.props.desc[1]}{source_2}</div>
             <button onClick={this.props.onHide}>Close</button>
             {eventbtn}
+            {foodbtn}
           </div>
           </div>
         )}
