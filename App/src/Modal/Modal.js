@@ -7,6 +7,13 @@ import "./Modal.css";
 class Modal extends Component {
   render() {
     console.log(this.props.show);
+    var handler = this.props.toggleHandler
+    let eventbtn;
+    if( this.props.name.length > 1 ) {
+      handler = this.props.onHide
+    } else {
+      eventbtn = <button onClick={handler}>Events</button>
+    }
     return (
       <React.Fragment>
         {this.props.show && (
@@ -19,6 +26,7 @@ class Modal extends Component {
             <div className="modal_title_content">{this.props.name[1]}</div>
             <div className="modal_desc_content">{this.props.desc[1]}</div>
             <button onClick={this.props.onHide}>Close</button>
+            {eventbtn}
           </div>
           </div>
         )}

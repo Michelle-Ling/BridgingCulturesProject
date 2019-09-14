@@ -20,6 +20,7 @@ export default class Calendar extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
+    this.togglehandler = this.togglehandler.bind(this);
   }
 
   request_ip_address() {
@@ -41,6 +42,10 @@ export default class Calendar extends React.Component {
     })
   }
 
+  togglehandler(e) {
+    this.getEventdata(this.state.data_json)
+  }
+
   handleChange(e) {
     this.getData(e.target.value);
   }
@@ -54,7 +59,8 @@ export default class Calendar extends React.Component {
       showModal: false,
       dataModal: "",
       descModal: "",
-      menu: ""
+      menu: "",
+      data_json: {}
     }
 
     getModal = data => {
@@ -113,10 +119,14 @@ export default class Calendar extends React.Component {
           padding: "50px",
           textAlign: "center"
         };
-
+        let loading_component;
+        if( this.state.showLoading ) {
+          loading_component = <div className="cal_overlay"><div className="loader"></div></div>
+        }
     
       return (
-<ul>
+      <ul>
+      {loading_component}
         <div style={pagetitle} className="rounded">
           <h1>Event Calendar</h1>
           <p>See what's on the horizon.</p>
@@ -163,6 +173,7 @@ export default class Calendar extends React.Component {
                 name={this.state.dataModal}
                 desc={this.state.descModal}
                 eventData={this.state.eventData}
+                toggleHandler={this.togglehandler}
               />
           </div>
         </div>
@@ -206,19 +217,15 @@ export default class Calendar extends React.Component {
         } else {
           data_json = { "title": [title_content.split(":-")[0]], "desc": [], "date":title_content.split(":-")[1]}
         }
-        //this.getModal(data_json)
-        this.getEventdata(data_json)
+        this.setState({ data_json: data_json });
+        this.getModal(data_json)
+        //this.getEventdata(data_json)
     }
 
-    // newFunction(event){
-    //   var title_content = event.event.title;
-    //   console.log("----------------------------------")
-    //   console.log(event)
-    //  return
-    //  (  this.getEventdata(title_content))
-    // }
-
     handleDateClick = (arg) => {
+      var handleDate = arg.date
+      console.log(handleDate.getFullYear()+"-"+(handleDate.getMonth()+1)+"-"+handleDate.getDate())
+      handleDate = handleDate.getFullYear()+"-"+(handleDate.getMonth()+1)+"-"+handleDate.getDate()
       var curr_date = arg.date.setHours(0,0,0,0)
       //console.log(this.state.calendarEvents)
       var calendar_events = this.state.calendarEvents
@@ -243,10 +250,12 @@ export default class Calendar extends React.Component {
         }
       }
       if( flag === 0 ) {
-          data_json = { "title": ["No important events"], "desc": [""]}
+          data_json = { "title": ["No important events"], "desc": [""], "date": handleDate}
+          this.setState({ data_json: data_json });
           this.getModal(data_json)
       } else {
-          data_json = { "title": title_array, "desc": desc_array}
+          data_json = { "title": title_array, "desc": desc_array, "date": handleDate}
+          this.setState({ data_json: data_json });
           this.getModal(data_json)
       }
     }
@@ -272,9 +281,11 @@ export default class Calendar extends React.Component {
           location = this.state.client_address.country + `, `+this.state.client_address.city
         }
         if( title_content !== "" ) {
+        this.setState({ showLoading: true, showModal: false });
           fetch(`http://localhost:5000/eventbrite?festival_name=`+title_content+`&location=`+location+`&start_date=`+event_start_date+`&end_date=`+event_end_date,{
           method: 'GET'
         }).then(response => response.json()).then(data => { 
+        this.setState({ showLoading: false });
         var eventsbrite = data.events 
         var mod_eventsbrite = []
         console.log(eventsbrite)
@@ -295,13 +306,13 @@ export default class Calendar extends React.Component {
               mod_eventsbrite.push(tempEvent)
               
               }
-        this.setState({eventBriteList:mod_eventsbrite})
+        this.setState({eventBriteList:mod_eventsbrite, showModal: false})
         //console.log(this.state.eventBriteList[1].l)
             return tempEvent
             }
             else
             {
-            
+            this.setState({eventBriteList:mod_eventsbrite, showModal: false})
             }
         })
       } 
