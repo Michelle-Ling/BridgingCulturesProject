@@ -22,6 +22,7 @@ export default class Calendar extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.togglehandler = this.togglehandler.bind(this);
     this.foodhandler = this.foodhandler.bind(this);
+    this.handleOnClickFood = this.handleOnClickFood.bind(this);
   }
 
   request_ip_address() {
@@ -33,7 +34,8 @@ export default class Calendar extends React.Component {
       fetch(`http://localhost:5000/eventbrite/location?ip_address=`+data.ip,{
             method: 'GET'
       }).then(response => response.json()).then(data => {
-        //console.log(data)
+        console.log("client address:")
+        console.log(data)
         this.setState({ client_address: data })
         //return data
         //console.log(mod_holidays_array)
@@ -67,7 +69,8 @@ export default class Calendar extends React.Component {
       menu: "",
       data_json: {},
       show_food: false,
-      food_list: []
+      food_list: [],
+      restaurants_locations: []
     }
 
     getModal = data => {
@@ -122,6 +125,55 @@ export default class Calendar extends React.Component {
         })
       } 
     }
+
+    handleOnClickFood = (food_item) => {
+      console.log("Food Click");
+      console.log(food_item);
+      var restaurants_name = []
+      var restaurants_locations = []
+      //https://www.googleapis.com/customsearch/v1?key=AIzaSyA48886uOlEYUskw5zQrvcbpDHz8nc8XPc&cx=005263693131602275062:cztfzj4nvim&q=haleem au victoria notting hill
+      fetch(`https://www.googleapis.com/customsearch/v1?key=AIzaSyA48886uOlEYUskw5zQrvcbpDHz8nc8XPc&cx=005263693131602275062:cztfzj4nvim&q=`+food_item+` `+this.state.client_address.country+` `+this.state.client_address.region+` `+this.state.client_address.city,{
+          method: 'GET'
+        }).then(response => response.json()).then(data => {
+          //console.log(data.items.length)
+          for( var i=0; i<data.items.length;i++ ){
+            console.log(data.items[i].title.split(" Delivery")[0])
+            var title = data.items[i].title.split(" Delivery")[0]
+            restaurants_name.push(title)
+          }
+          //console.log(restaurants_name)
+          //const proxyurl = "https://cors-anywhere.herokuapp.com/";
+          var restaurants_name_str = restaurants_name.join();
+          
+          //console.log("Test")
+
+          fetch(`http://localhost:5000/restaurant_location?name=`+restaurants_name_str,{
+            method: 'GET'
+          }).then(response => response.json()).then(data => {
+            //console.log(data)
+            console.log(data.restaurant_items)
+            var items_array = data.restaurant_items
+            //this.setState({showLoading: false})
+            console.log(items_array.length)
+            for(var i = 0;i < items_array.length ;i++) {
+              console.log( items_array[i])
+            if( items_array[i].candidates.length > 0 ) {
+              var restaurant_content = {}
+              restaurant_content["address"] = items_array[i].candidates[0].formatted_address
+              restaurant_content["lat"] = items_array[i].candidates[0].geometry.location.lat
+              restaurant_content["lng"] = items_array[i].candidates[0].geometry.location.lng
+              restaurant_content["name"] = items_array[i].candidates[0].name
+              //console.log(restaurants_name[i])
+              restaurants_locations.push(restaurant_content)
+            }
+          }
+          //console.log(restaurants_locations)
+          this.setState({restaurants_locations:restaurants_locations})
+          })
+        //}
+      })
+      //console.log(restaurants_name)
+    };
     
     componentWillMount(){
       //console.log("Going in")
@@ -133,7 +185,7 @@ export default class Calendar extends React.Component {
 
     render() {
         var display_map = {display: 'none'}
-        if( this.state.eventBriteList.length > 0 ) {
+        if( this.state.eventBriteList.length > 0 || this.state.restaurants_locations.length > 0 ) {
           display_map = {
             display: 'block'
           }
@@ -230,6 +282,7 @@ export default class Calendar extends React.Component {
             <Mainmap
             eventBriteLocation = {this.state.eventBriteList}
             locationDetails = {this.state.client_address}
+            restaurants_locations = {this.state.restaurants_locations}
             />
             </div>
          </div>
@@ -240,7 +293,7 @@ export default class Calendar extends React.Component {
             return (
             
               <div class="list-group">
-                 <div>{food_list.name}</div>
+                 <div className="food_items_class" onClick={() => this.handleOnClickFood(food_list.name)}>{food_list.name}</div>
                 <a href = {food_list.url_1} target='_blank'>Link 1</a>
                 <a href = {food_list.url_2} target='_blank'>Link 2</a>
                 <img className="food-items" src={food_list.imageurl} alt={food_list.name} />
@@ -267,14 +320,6 @@ export default class Calendar extends React.Component {
       var title_content = event.event.title;
         var title_content = event.event.title;
         var data_json = {}
-        // if( (title_content.split(" :- ")).length > 2 ) {
-        //   data_json = { "title": [title_content.split(" :- ")[0]], "desc": [title_content.split(" :- ")[1]], "date":title_content.split(" :- ")[2]}
-        // } else {
-        //   data_json = { "title": [title_content.split(" :- ")[0]], "desc": [], "date":title_content.split(" :- ")[1]}
-        // }
-        // if( (title_content.split(" :- ")).length > 3 ) {
-        //   data_json['reference'] = [title_content.split(" :- ")[3]];
-        // }
         data_json = { "title": [title_content.split(" :- ")[0]], "desc": [title_content.split(" :- ")[1]], "date":title_content.split(" :- ")[2], "reference":[title_content.split(" :- ")[3]], "food":[title_content.split(" :- ")[4]]}
         this.setState({ data_json: data_json });
         this.getModal(data_json)
@@ -379,20 +424,20 @@ export default class Calendar extends React.Component {
               mod_eventsbrite.push(tempEvent)
               
               }
-        this.setState({eventBriteList:mod_eventsbrite, showModal: false})
-        //console.log(this.state.eventBriteList[1].l)
+            this.setState({eventBriteList:mod_eventsbrite, showModal: false, restaurants_locations: []})
+            //console.log(this.state.eventBriteList[1].l)
             return tempEvent
             }
             else
             {
-            this.setState({eventBriteList:mod_eventsbrite, showModal: false})
+            this.setState({eventBriteList:mod_eventsbrite, showModal: false, restaurants_locations: []})
             }
         })
       } 
     }
 
       getFoodData = (event) => {
-      this.setState({ showModal: false})
+      this.setState({ showModal: false, eventBriteList: []})
       console.log(this.state.data_json.food)
       var food_items_array = []
       if( this.state.data_json.food[0] != "" ) {
@@ -418,46 +463,11 @@ export default class Calendar extends React.Component {
               } else {
                 tempEvent.imageurl = items_array[i].items[1].pagemap.cse_image[0].src
               }
-              //tempEvent.description = eventsbrite[i].description.text
-              //tempEvent.endTime = eventsbrite[i].end.local
-              //tempEvent.startTime = eventsbrite[i].start.local
-              //tempEvent.lng = eventsbrite[i].venue.longitude
-              //tempEvent.lat = eventsbrite[i].venue.latitude
-              //tempEvent.addressDisplay = eventsbrite[i].venue.address.localized_address_display
-              //tempEvent.subsurbDisplay = eventsbrite[i].venue.address.localized_area_display
+
               food_items_array.push(tempEvent)
               
               }
               this.setState({food_list:food_items_array})
-  //         this.setState({ showLoading: false });
-  //         var eventsbrite = data.events 
-  //         var mod_eventsbrite = []
-  //         console.log(eventsbrite)
-  //           if(data.events.length > 0)
-  //             {
-  //               for(var i = 0;i < data.events.length;i++)
-  //               {
-  //               var tempEvent = {};
-  //               tempEvent.name = eventsbrite[i].name.text
-  //               tempEvent.url = eventsbrite[i].url
-  //               //tempEvent.description = eventsbrite[i].description.text
-  //               tempEvent.endTime = eventsbrite[i].end.local
-  //               tempEvent.startTime = eventsbrite[i].start.local
-  //               tempEvent.lng = eventsbrite[i].venue.longitude
-  //               tempEvent.lat = eventsbrite[i].venue.latitude
-  //               tempEvent.addressDisplay = eventsbrite[i].venue.address.localized_address_display
-  //               tempEvent.subsurbDisplay = eventsbrite[i].venue.address.localized_area_display
-  //               mod_eventsbrite.push(tempEvent)
-                
-  //               }
-  //         this.setState({eventBriteList:mod_eventsbrite, showModal: false})
-  //         //console.log(this.state.eventBriteList[1].l)
-  //             return tempEvent
-  //             }
-  //             else
-  //             {
-  //             this.setState({eventBriteList:mod_eventsbrite, showModal: false})
-  //             }
           })
         
       }

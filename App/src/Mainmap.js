@@ -19,6 +19,7 @@ class Mainmap extends Component {
         });
       }
     displayMarkers = () => {
+      if( this.props.eventBriteLocation.length > 0 ) {
         return this.props.eventBriteLocation.map((evnetlocation,index) => {
             //console.log(this.props.eventBriteLocation)
           return <Marker key={index} id={index} position={{
@@ -29,6 +30,18 @@ class Mainmap extends Component {
          
          />
         })
+      } else if( this.props.restaurants_locations.length > 0 ) {
+        return this.props.restaurants_locations.map((location, index) => {
+            //console.log(this.props.eventBriteLocation)
+          return <Marker key={index} id={index} position={{
+           lat: location.lat,
+           lng: location.lng
+         }} name = { location.name } subsurbDisplay = {location.address}
+         onClick = { this.onMarkerClick }
+         
+         />
+        })
+      }
       }
     
     render(){
