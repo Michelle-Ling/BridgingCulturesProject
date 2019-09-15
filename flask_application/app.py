@@ -337,6 +337,30 @@ class RecipeData(Resource):
 
         return resp
 
+# Eventbrite Location API
+@api.route('/restaurant_location')
+class RestaurantLocation(Resource):
+    def get(self):
+        arg_val = request.args['name']
+        restaurant_names = str(arg_val).split(",")
+        restaurant_list = []
+        resp = {}
+        for each_restaurant in restaurant_names:
+            resp = requests.get('https://maps.googleapis.com/maps/api/place/findplacefromtext/json?inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry&key=AIzaSyA48886uOlEYUskw5zQrvcbpDHz8nc8XPc&input='+each_restaurant)
+            resp_status_code = resp.status_code
+            response = resp.json()
+            if resp_status_code != 200:
+                # This means something went wrong.
+                return {}
+            else:
+                restaurant_list.append(response)
+        restaurant_content = {'restaurant_items':restaurant_list}
+        #print(food_content)
+        resp = Response(json.dumps(restaurant_content))
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+
+        return resp
+
 @application.teardown_appcontext
 def shutdown_session(exception=None):
     db_session.remove()
