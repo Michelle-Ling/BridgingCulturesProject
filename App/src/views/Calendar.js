@@ -267,12 +267,14 @@ export default class Calendar extends React.Component {
             return (
             
               <div class="list-group">
+                <li class="list-group-item list-group-item-light" style={{width:'70%'}}>
                 {/* <div>{eventbrite.name}</div> */}
-                <a href = {eventbrite.url} target='_blank'>{eventbrite.name}</a>
+                <a class="list-group-item list-group-item-action list-group-item-primary" href = {eventbrite.url} target='_blank'>{eventbrite.name}</a>
                 {/* <div>{eventbrite.description}</div> */}
                 <div>{eventbrite.startTime}</div>
                 <div>{eventbrite.endTime}</div>
                 <div>{eventbrite.addressDisplay}</div>
+                </li>
                 <hr />
               </div>
             )
@@ -291,27 +293,37 @@ export default class Calendar extends React.Component {
           {this.state.food_list.map((food_list) => {
             //console.log(this.state.eventBriteList)
             return (
-            
               <div class="list-group">
-                 <div className="food_items_class" onClick={() => this.handleOnClickFood(food_list.name)}>{food_list.name}</div>
-                <a href = {food_list.url_1} target='_blank'>Link 1</a>
-                <a href = {food_list.url_2} target='_blank'>Link 2</a>
-                <img className="food-items" src={food_list.imageurl} alt={food_list.name} />
+                 <li className="food_items_class" class="list-group-item list-group-item-light"  onClick={() => this.handleOnClickFood(food_list.name)} >
+                 <div class="d-flex w-100 justify-content-between"><h5 class="mb-1">{food_list.name}</h5></div>
+                 <div class="row">
+                
+                 <img className="food-items" src={food_list.imageurl} alt={food_list.name} />
+                   
+                    <div class="col-md-6">
+                    <a href = {food_list.url_1} class="list-group-item list-group-item-action list-group-item-primary" target='_blank'>Recipes details--part one</a>
+                    <br />
+                <a href = {food_list.url_2} class="list-group-item list-group-item-action list-group-item-primary" target='_blank'>Recipes details--part two</a>
+                    </div>
+              
+                 </div>
+                
+                
                 {/* <div>{eventbrite.description}</div> 
                 <div>{eventbrite.startTime}</div>
                 <div>{eventbrite.endTime}</div>
                 <div>{eventbrite.addressDisplay}</div> */}
+                </li>
                 <hr />
               </div>
             )
           })}
           </div>
-          {/* <div style={display_map} class="col-md-6">
+           {/* <div style={display_map} class="col-md-6">
             <Mainmap
-            eventBriteLocation = {this.state.eventBriteList}
-            locationDetails = {this.state.client_address}
+            restaurants_locations = {this.state.restaurants_locations}
             />
-            </div>*/}
+            </div> */}
          </div>
       </ul>
       )
