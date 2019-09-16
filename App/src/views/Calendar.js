@@ -135,41 +135,45 @@ export default class Calendar extends React.Component {
       fetch(`https://www.googleapis.com/customsearch/v1?key=AIzaSyA48886uOlEYUskw5zQrvcbpDHz8nc8XPc&cx=005263693131602275062:cztfzj4nvim&q=`+food_item+` `+this.state.client_address.country+` `+this.state.client_address.region+` `+this.state.client_address.city,{
           method: 'GET'
         }).then(response => response.json()).then(data => {
-          //console.log(data.items.length)
-          for( var i=0; i<data.items.length;i++ ){
-            console.log(data.items[i].title.split(" Delivery")[0])
-            var title = data.items[i].title.split(" Delivery")[0]
-            restaurants_name.push(title)
-          }
-          //console.log(restaurants_name)
-          //const proxyurl = "https://cors-anywhere.herokuapp.com/";
-          var restaurants_name_str = restaurants_name.join();
-          
-          //console.log("Test")
-
-          fetch(`http://localhost:5000/restaurant_location?name=`+restaurants_name_str,{
-            method: 'GET'
-          }).then(response => response.json()).then(data => {
-            //console.log(data)
-            console.log(data.restaurant_items)
-            var items_array = data.restaurant_items
-            //this.setState({showLoading: false})
-            console.log(items_array.length)
-            for(var i = 0;i < items_array.length ;i++) {
-              console.log( items_array[i])
-            if( items_array[i].candidates.length > 0 ) {
-              var restaurant_content = {}
-              restaurant_content["address"] = items_array[i].candidates[0].formatted_address
-              restaurant_content["lat"] = items_array[i].candidates[0].geometry.location.lat
-              restaurant_content["lng"] = items_array[i].candidates[0].geometry.location.lng
-              restaurant_content["name"] = items_array[i].candidates[0].name
-              //console.log(restaurants_name[i])
-              restaurants_locations.push(restaurant_content)
+          console.log(data)
+          if( parseInt(data.queries.request[0].totalResults) > 0 ) {
+            for( var i=0; i<data.items.length;i++ ){
+              console.log(data.items[i].title.split(" Delivery")[0])
+              var title = data.items[i].title.split(" Delivery")[0]
+              restaurants_name.push(title)
             }
+            //console.log(restaurants_name)
+            //const proxyurl = "https://cors-anywhere.herokuapp.com/";
+            var restaurants_name_str = restaurants_name.join();
+            
+            //console.log("Test")
+  
+            fetch(`http://localhost:5000/restaurant_location?name=`+restaurants_name_str,{
+              method: 'GET'
+            }).then(response => response.json()).then(data => {
+              //console.log(data)
+              console.log(data.restaurant_items)
+              var items_array = data.restaurant_items
+              //this.setState({showLoading: false})
+              console.log(items_array.length)
+              for(var i = 0;i < items_array.length ;i++) {
+                console.log( items_array[i])
+              if( items_array[i].candidates.length > 0 ) {
+                var restaurant_content = {}
+                restaurant_content["address"] = items_array[i].candidates[0].formatted_address
+                restaurant_content["lat"] = items_array[i].candidates[0].geometry.location.lat
+                restaurant_content["lng"] = items_array[i].candidates[0].geometry.location.lng
+                restaurant_content["name"] = items_array[i].candidates[0].name
+                //console.log(restaurants_name[i])
+                restaurants_locations.push(restaurant_content)
+              }
+            }
+            //console.log(restaurants_locations)
+            this.setState({restaurants_locations:restaurants_locations})
+            })
+          } else {
+            this.setState({restaurants_locations:[]})
           }
-          //console.log(restaurants_locations)
-          this.setState({restaurants_locations:restaurants_locations})
-          })
         //}
       })
       //console.log(restaurants_name)
@@ -411,7 +415,7 @@ export default class Calendar extends React.Component {
           location = this.state.client_address.country + `, `+this.state.client_address.city
         }
         if( title_content !== "" ) {
-        this.setState({ showLoading: true, showModal: false });
+        this.setState({ showLoading: true, showModal: false,restaurants_locations:[] });
           fetch(`http://localhost:5000/eventbrite?festival_name=`+title_content+`&location=`+location+`&start_date=`+event_start_date+`&end_date=`+event_end_date,{
           method: 'GET'
         }).then(response => response.json()).then(data => { 
@@ -479,7 +483,7 @@ export default class Calendar extends React.Component {
               food_items_array.push(tempEvent)
               
               }
-              this.setState({food_list:food_items_array})
+              this.setState({food_list:food_items_array, restaurants_locations: []})
           })
         
       }
