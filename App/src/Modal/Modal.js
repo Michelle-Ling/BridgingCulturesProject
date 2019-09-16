@@ -14,8 +14,8 @@ class Modal extends Component {
     if( this.props.name.length > 1 ) {
       handler = this.props.onHide
     } else {
-      eventbtn = <button onClick={handler}>Events</button>
-      foodbtn = <button onClick={foodhandler}>Food</button>
+      eventbtn = <button class="btn btn-primary" style={{marginRight:'30px'}} onClick={handler}>Events</button>
+      foodbtn = <button class="btn btn-primary"  onClick={foodhandler}>Food</button>
     }
     let source_1;
     let source_2;
@@ -36,7 +36,7 @@ class Modal extends Component {
             {/* <div className="modal_event_title">{this.props.eventTitle[0].name.text}</div> */}
             <div className="modal_title_content">{this.props.name[1]}</div>
             <div className="modal_desc_content">{this.props.desc[1]}{source_2}</div>
-            <button onClick={this.props.onHide}>Close</button>
+            <button class="btn btn-primary" style={{marginRight:'30px'}} onClick={this.props.onHide}>Close</button>
             {eventbtn}
             {foodbtn}
           </div>
