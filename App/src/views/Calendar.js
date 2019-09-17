@@ -131,6 +131,7 @@ export default class Calendar extends React.Component {
       console.log(food_item);
       var restaurants_name = []
       var restaurants_locations = []
+      this.setState({showLoading: true})
       //https://www.googleapis.com/customsearch/v1?key=AIzaSyA48886uOlEYUskw5zQrvcbpDHz8nc8XPc&cx=005263693131602275062:cztfzj4nvim&q=haleem au victoria notting hill
       fetch(`https://www.googleapis.com/customsearch/v1?key=AIzaSyA48886uOlEYUskw5zQrvcbpDHz8nc8XPc&cx=005263693131602275062:cztfzj4nvim&q=`+food_item+` `+this.state.client_address.country+` `+this.state.client_address.region+` `+this.state.client_address.city,{
           method: 'GET'
@@ -169,10 +170,10 @@ export default class Calendar extends React.Component {
               }
             }
             //console.log(restaurants_locations)
-            this.setState({restaurants_locations:restaurants_locations})
+            this.setState({restaurants_locations:restaurants_locations, showLoading: false})
             })
           } else {
-            this.setState({restaurants_locations:[]})
+            this.setState({restaurants_locations:[], showLoading: false})
           }
         //}
       })
