@@ -1,12 +1,19 @@
 import React from 'react';
+import '../css/style.css';
 
 const Footer = (props) => {
+
     return (
-    <div> 
-        <div className="footer_container">
-        <div>Footer text - Attributions - References</div>
-  </div>
-    </div>
+        <footer className="page-footer teal">
+            
+            <div className="footer-copyright">
+                <div className="container">
+                    2019 Copyright
+            <a className="grey-text text-lighten-4 right" href="#!">developed by Elites - Monash University B1</a>
+                </div>
+            </div>
+        </footer>
+
     );
 }
 

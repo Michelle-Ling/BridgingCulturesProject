@@ -1,14 +1,117 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+main {
+    flex: 1 0 auto;
+}
+/* Overriden CSS styles for template accomodation */
+.fc-time {
+    display: none !important;
+}
 
+.fc-day-number {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+    cursor: pointer;
+}
+
+.fc-day {
+    cursor: pointer !important;
+}
+
+.small {
+  width: 40%;
+  float: left;
+  background: lightblue;
+  margin: 2%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.fc-right .fc-dayGridMonth-button.fc-button.fc-button-primary.fc-button-active {
+  display: none;
+}
+.fc-right .fc-button-primary:not(:disabled).fc-button-active {
+  display: none;
+}
+
+.fc-today-button.fc-button.fc-button-primary {
+  text-transform: uppercase;
+}
+
+.fc-title {
+  user-select: none;
+}
+
+.cal_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 12vw;
+  height: 12vw;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+  position: fixed;
+  top: 40%;
+  left: 50%;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.food-items {
+  width: 40%;
+  height: 40%;
+}
+
+.food_items_class {
+  cursor: pointer;
+}
+
+.food_link {
+  cursor: pointer !important;
+  color: #115770 !important;
+  text-align: center !important;
+}
+
+.food_item_details {
+  text-align: center !important;
+}
+
+#dropdown {
+    display: block;
+}
