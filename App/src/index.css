@@ -84,3 +84,8 @@
 .food_items_class {
   cursor: pointer;
 }
+
+.food_link {
+  cursor: pointer !important;
+  color: #115770 !important;
+}

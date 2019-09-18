@@ -304,16 +304,16 @@ export default class Calendar extends React.Component {
             //console.log(this.state.eventBriteList)
             return (
               <div class="list-group">
-                 <li className="food_items_class" class="list-group-item list-group-item-light"  onClick={() => this.handleOnClickFood(food_list.name)} >
+                 <li className="food_items_class" class="list-group-item list-group-item-light"   >
                  <div class="d-flex w-100 justify-content-between"><h5 class="mb-1">{food_list.name}</h5></div>
                  <div class="row">
                 
                  <img className="food-items" src={food_list.imageurl} alt={food_list.name} />
                    
                     <div class="col-md-6">
-                    <a href = {food_list.url_1} class="list-group-item list-group-item-action list-group-item-primary" target='_blank'>Recipes details--part one</a>
+                    <a href = {food_list.url_1} class="list-group-item list-group-item-action list-group-item-primary" target='_blank'>Click me for details</a>
                     <br />
-                <a href = {food_list.url_2} class="list-group-item list-group-item-action list-group-item-primary" target='_blank'>Recipes details--part two</a>
+                <a onClick={() => this.handleOnClickFood(food_list.name)} class="list-group-item list-group-item-action list-group-item-primary food_link" target='_blank'>Restaurants near me</a>
                     </div>
               
                  </div>
