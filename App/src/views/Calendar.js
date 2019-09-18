@@ -48,12 +48,10 @@ export default class Calendar extends React.Component {
 
   togglehandler(e) {
     this.getEventdata(this.state.data_json)
-    window.scrollTo(0, this.myRef.current.offsetTop-55);
   }
 
   foodhandler(e) {
     this.getFoodData(this.state.data_json)
-    window.scrollTo(0, this.myRef.current.offsetTop-55);
   }
 
   handleChange(e) {
@@ -311,7 +309,7 @@ export default class Calendar extends React.Component {
                  <img className="food-items" src={food_list.imageurl} alt={food_list.name} />
                    
                     <div class="col-md-6">
-                    <a href = {food_list.url_1} class="list-group-item list-group-item-action list-group-item-primary" target='_blank'>Click me for details</a>
+                    <a href = {food_list.url_1} class="list-group-item list-group-item-action list-group-item-primary food_item_details" target='_blank'>Click me for details</a>
                     <br />
                 <a onClick={() => this.handleOnClickFood(food_list.name)} class="list-group-item list-group-item-action list-group-item-primary food_link" target='_blank'>Restaurants near me</a>
                     </div>
@@ -448,12 +446,14 @@ export default class Calendar extends React.Component {
               
               }
             this.setState({eventBriteList:mod_eventsbrite, showModal: false, restaurants_locations: []})
+            window.scrollTo(0, this.myRef.current.offsetTop-55);
             //console.log(this.state.eventBriteList[1].l)
             return tempEvent
             }
             else
             {
             this.setState({eventBriteList:mod_eventsbrite, showModal: false, restaurants_locations: []})
+            window.scrollTo(0, this.myRef.current.offsetTop-55);
             }
         })
       } 
@@ -491,6 +491,7 @@ export default class Calendar extends React.Component {
               
               }
               this.setState({food_list:food_items_array, restaurants_locations: []})
+              window.scrollTo(0, this.myRef.current.offsetTop-55);
           })
         
       }

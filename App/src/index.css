@@ -88,4 +88,9 @@
 .food_link {
   cursor: pointer !important;
   color: #115770 !important;
+  text-align: center !important;
+}
+
+.food_item_details {
+  text-align: center !important;
 }
