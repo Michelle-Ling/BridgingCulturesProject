@@ -11,8 +11,15 @@ class Modal extends Component {
     var foodhandler = this.props.foodHandler
     let eventbtn;
     let foodbtn;
-    if( this.props.name.length > 1 ) {
+    let isAnyEventPresent = this.props.isAnyEventPresent
+    //if( this.props.eventData ) {
+    //  console.log(this.props.eventData.food[0])
+    //}
+    
+    if( this.props.name.length > 1 | isAnyEventPresent === false ) {
       handler = this.props.onHide
+    } else if( this.props.eventData && this.props.eventData.food[0] === "" ) {
+      eventbtn = <button class="btn btn-primary" style={{marginRight:'30px'}} onClick={handler}>Events</button>
     } else {
       eventbtn = <button class="btn btn-primary" style={{marginRight:'30px'}} onClick={handler}>Events</button>
       foodbtn = <button class="btn btn-primary"  onClick={foodhandler}>Food</button>

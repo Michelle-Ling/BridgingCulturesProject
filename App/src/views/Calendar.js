@@ -1,5 +1,5 @@
 // Packages to be imported
-import React from 'react'
+import React, { Component, useRef, useEffect } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import {FestivalData} from '../FestivalData.js'
@@ -23,6 +23,7 @@ export default class Calendar extends React.Component {
     this.togglehandler = this.togglehandler.bind(this);
     this.foodhandler = this.foodhandler.bind(this);
     this.handleOnClickFood = this.handleOnClickFood.bind(this);
+    this.myRef = React.createRef();
   }
 
   request_ip_address() {
@@ -47,10 +48,12 @@ export default class Calendar extends React.Component {
 
   togglehandler(e) {
     this.getEventdata(this.state.data_json)
+    window.scrollTo(0, this.myRef.current.offsetTop-55);
   }
 
   foodhandler(e) {
     this.getFoodData(this.state.data_json)
+    window.scrollTo(0, this.myRef.current.offsetTop-55);
   }
 
   handleChange(e) {
@@ -60,6 +63,7 @@ export default class Calendar extends React.Component {
     calendarComponentRef = React.createRef()
     
     state = {
+      isAnyEventPresent: false,
       calendarWeekends: true,
       calendarEvents: [],
       eventBriteList:[],
@@ -127,8 +131,8 @@ export default class Calendar extends React.Component {
     }
 
     handleOnClickFood = (food_item) => {
-      console.log("Food Click");
-      console.log(food_item);
+      //console.log("Food Click");
+      //console.log(food_item);
       var restaurants_name = []
       var restaurants_locations = []
       this.setState({showLoading: true})
@@ -221,16 +225,16 @@ export default class Calendar extends React.Component {
       <label>Please select a country:&ensp;</label>
         <select id="dropdown" onChange={this.handleChange}>
         <option value="Australia">Australia</option>
-          <option value="United Kingdom">United Kingdom</option>
-          <option value="New Zealand">New Zealand</option>
+          {/*<option value="United Kingdom">United Kingdom</option>
+          <option value="New Zealand">New Zealand</option>*/}
           <option value="China">China</option>
           <option value="India">India</option>
-          <option value="Philippines">Philippines</option>
+          {/*<option value="Philippines">Philippines</option>
           <option value="Vietnam">Vietnam</option>
           <option value="Italy">Italy</option>
           <option value="South Africa">South Africa</option>
           <option value="Malaysia">Malaysia</option>
-          <option value="Sri Lanka">Sri Lanka</option>
+          <option value="Sri Lanka">Sri Lanka</option>*/}
         </select>
 
         <div className="demo-app">
@@ -261,11 +265,12 @@ export default class Calendar extends React.Component {
                 eventData={this.state.eventData}
                 toggleHandler={this.togglehandler}
                 foodHandler={this.foodhandler}
+                isAnyEventPresent={this.state.isAnyEventPresent}
               />
           </div>
         </div>
       
-        <div class="row">
+        <div ref={this.myRef} class="row">
           <div class="col-md-6"> 
           {this.state.eventBriteList.map((eventbrite) => {
             //console.log(this.state.eventBriteList)
@@ -338,7 +343,7 @@ export default class Calendar extends React.Component {
         var title_content = event.event.title;
         var data_json = {}
         data_json = { "title": [title_content.split(" :- ")[0]], "desc": [title_content.split(" :- ")[1]], "date":title_content.split(" :- ")[2], "reference":[title_content.split(" :- ")[3]], "food":[title_content.split(" :- ")[4]]}
-        this.setState({ data_json: data_json });
+        this.setState({ data_json: data_json, isAnyEventPresent: true });
         this.getModal(data_json)
         //this.getEventdata(data_json)
     }
@@ -381,16 +386,17 @@ export default class Calendar extends React.Component {
       }
       if( flag === 0 ) {
           data_json = { "title": ["No important events"], "desc": [""], "date": handleDate, "reference":[""], "food":[""]}
-          this.setState({ data_json: data_json });
+          this.setState({ data_json: data_json, isAnyEventPresent: false });
           this.getModal(data_json)
       } else {
           data_json = { "title": title_array, "desc": desc_array, "date": handleDate, "reference": reference_array, "food": food_array}
-          this.setState({ data_json: data_json });
+          this.setState({ data_json: data_json, isAnyEventPresent: true });
           this.getModal(data_json)
       }
     }
 
     getEventdata = (event) => { 
+        //this.setState({ showModal: false, food_list: []})
         var title_content = event.title
         title_content = title_content.toString().split("/")[0];
         var event_end_date = new Date(event.date);
@@ -416,7 +422,7 @@ export default class Calendar extends React.Component {
           location = this.state.client_address.country + `, `+this.state.client_address.city
         }
         if( title_content !== "" ) {
-        this.setState({ showLoading: true, showModal: false,restaurants_locations:[] });
+        this.setState({ showLoading: true, showModal: false,restaurants_locations:[], food_list:[] });
           fetch(`http://localhost:5000/eventbrite?festival_name=`+title_content+`&location=`+location+`&start_date=`+event_start_date+`&end_date=`+event_end_date,{
           method: 'GET'
         }).then(response => response.json()).then(data => { 
