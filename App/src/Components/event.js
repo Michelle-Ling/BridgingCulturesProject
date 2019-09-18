@@ -44,11 +44,12 @@ constructor(props) {
       country_name_main: "Australia"
     }
 
-  componentWillMount(){
+  //componentWillMount(){
       //console.log("Going in")
       //this.getData("Australia");
-    }
+    //}
     componentDidMount() {
+        //console.log(this.props.location.state)
         if( this.props.location.state ) {
             const { country } = this.props.location.state;
             console.log(country)
@@ -59,13 +60,26 @@ constructor(props) {
       this.request_ip_address();
     }
 
+    componentWillReceiveProps(nextProps){
+      //if (nextProps.location.state === 'desiredState') {
+        // do stuffs
+      //}
+      if( nextProps.location.state ) {
+          console.log(nextProps.location.state)
+          const { country } = nextProps.location.state;
+          console.log(country)
+          this.setState({ country_name_main: country })
+          this.getData(country);
+      }
+    }
+
   request_ip_address() {
     //https://api.ipify.org/?format=json
     fetch(`https://api.ipify.org/?format=json`,{
       method: 'GET'
     }).then(response => response.json()).then(data => {
       //console.log(data.ip)
-      fetch(`http://localhost:5000/eventbrite/location?ip_address=`+data.ip,{
+      fetch(`https://bridgingcultures-api-first.ml/eventbrite/location?ip_address=`+data.ip,{
             method: 'GET'
       }).then(response => response.json()).then(data => {
         console.log("client address:")
@@ -112,7 +126,7 @@ togglehandler(e) {
 
     getData(menu_item){ 
       if( menu_item !== "" ) {
-        fetch(`http://localhost:5000/festival_details?name=`+menu_item,{
+        fetch(`https://bridgingcultures-api-first.ml/festival_details?name=`+menu_item,{
           method: 'GET'
         }).then(response => response.json()).then(data => {
           //console.log(data)
@@ -141,6 +155,8 @@ togglehandler(e) {
           }
 
           this.setState({calendarEvents:mod_holidays_array, country_name:menu_item})
+          //console.log("____________________________________")
+          //console.log(menu_item)
           //console.log(mod_holidays_array)
         })
       } 
@@ -169,7 +185,7 @@ togglehandler(e) {
             
             //console.log("Test")
   
-            fetch(`http://localhost:5000/restaurant_location?name=`+restaurants_name_str,{
+            fetch(`https://bridgingcultures-api-first.ml//restaurant_location?name=`+restaurants_name_str,{
               method: 'GET'
             }).then(response => response.json()).then(data => {
               //console.log(data)
@@ -212,6 +228,25 @@ togglehandler(e) {
             display: 'none'
           }
         }
+        let map_content_event;
+        let map_content_restaurant;
+        if( this.state.eventBriteList.length > 0 ) {
+            map_content_event = ( <div style={display_map} class="col-md-6">
+            <Mainmap
+            eventBriteLocation = {this.state.eventBriteList}
+            locationDetails = {this.state.client_address}
+            restaurants_locations = {this.state.restaurants_locations}
+            />
+            </div>) 
+        } else if( this.state.restaurants_locations.length > 0 ) {
+            map_content_restaurant = ( <div style={display_map} class="col-md-6">
+            <Mainmap
+            eventBriteLocation = {this.state.eventBriteList}
+            locationDetails = {this.state.client_address}
+            restaurants_locations = {this.state.restaurants_locations}
+            />
+            </div>) 
+        }
         const pagetitle = {
           fontFamily: "Gayathri",
           backgroundColor: "#F8F8F8",
@@ -245,8 +280,9 @@ togglehandler(e) {
       <label>Please select a country:&ensp;</label>
         <select value={country_main_name} id="dropdown" onChange={this.handleChange}>
         <option value="Australia">Australia</option>
-          {/*<option value="United Kingdom">United Kingdom</option>
-          <option value="New Zealand">New Zealand</option>*/}
+
+          <option value="Japan">Japan</option>
+          {/*<option value="New Zealand">New Zealand</option>*/}
           <option value="China">China</option>
           <option value="India">India</option>
           {/*<option value="Philippines">Philippines</option>
@@ -310,13 +346,7 @@ togglehandler(e) {
             )
           })}
           </div>
-          <div style={display_map} class="col-md-6">
-            <Mainmap
-            eventBriteLocation = {this.state.eventBriteList}
-            locationDetails = {this.state.client_address}
-            restaurants_locations = {this.state.restaurants_locations}
-            />
-            </div>
+          {map_content_event}
          </div>
          <div class="row">
           <div class="col-md-6"> 
@@ -349,6 +379,7 @@ togglehandler(e) {
             )
           })}
           </div>
+          {map_content_restaurant}
            {/* <div style={display_map} class="col-md-6">
             <Mainmap
             restaurants_locations = {this.state.restaurants_locations}
@@ -452,7 +483,7 @@ togglehandler(e) {
         }
         if( title_content !== "" ) {
         this.setState({ showLoading: true, showModal: false,restaurants_locations:[], food_list:[] });
-          fetch(`http://localhost:5000/eventbrite?festival_name=`+title_content+`&location=`+location+`&start_date=`+event_start_date+`&end_date=`+event_end_date,{
+          fetch(`https://bridgingcultures-api-first.ml/eventbrite?festival_name=`+title_content+`&location=`+location+`&start_date=`+event_start_date+`&end_date=`+event_end_date,{
           method: 'GET'
         }).then(response => response.json()).then(data => { 
         this.setState({ showLoading: false });
@@ -477,14 +508,14 @@ togglehandler(e) {
               
               }
             this.setState({eventBriteList:mod_eventsbrite, showModal: false, restaurants_locations: []})
-            window.scrollTo(0, this.myRef.current.offsetTop-55);
+            window.scrollTo(0, this.myRef.current.offsetTop);
             //console.log(this.state.eventBriteList[1].l)
             return tempEvent
             }
             else
             {
             this.setState({eventBriteList:mod_eventsbrite, showModal: false, restaurants_locations: []})
-            window.scrollTo(0, this.myRef.current.offsetTop-55);
+            window.scrollTo(0, this.myRef.current.offsetTop);
             }
         })
       } 
@@ -499,7 +530,7 @@ togglehandler(e) {
         var food_items = this.state.data_json.food[0].split(", ")
         food_items = food_items.slice(0, 3);
         //console.log(food_items)
-        fetch(`http://localhost:5000/recipe_links?name=`+this.state.data_json.food+`&country=`+this.state.country_name,{
+        fetch(`https://bridgingcultures-api-first.ml/recipe_links?name=`+this.state.data_json.food+`&country=`+this.state.country_name,{
           method: 'GET'
         }).then(response => response.json()).then(data => { 
             //console.log(data)

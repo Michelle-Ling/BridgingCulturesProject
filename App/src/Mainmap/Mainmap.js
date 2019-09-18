@@ -53,7 +53,7 @@ class Mainmap extends Component {
                 google={this.props.google}
                 
                 zoom={10}
-                style={{width:'500px',height:'600px'}}
+                style={{width:'100%',height:'100%'}}
                 initialCenter={{ lat: isMapshown.loc.split(",")[0], lng: isMapshown.loc.split(",")[1]}}
 
               >

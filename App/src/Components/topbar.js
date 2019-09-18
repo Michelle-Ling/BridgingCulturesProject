@@ -27,11 +27,10 @@ const Topbar = props => {
                 <Link to="/event">Events</Link>
 </NavItem>
             <Dropdown trigger={<a >Explore Cultures<i class="material-icons right">arrow_drop_down</i></a>}>
-                <li><a href="#!">Australian</a></li>
-                <li><a href="#!">New Zeland</a></li>
-                <li><a href="#!">British</a></li>
-                <li><a href="#!">Chinese</a></li>
-                <li><a href="#!">Indian</a></li>
+                <li><Link to={{pathname:"/event", state:{country: "Australia"}}}>Australian</Link></li>
+                <li><Link to={{pathname:"/event", state:{country: "China"}}}>Chinese</Link></li>
+                <li><Link to={{pathname:"/event", state:{country: "India"}}}>India</Link></li>
+                <li><Link to={{pathname:"/event", state:{country: "Japan"}}}>Japan</Link></li>
                 
 
             </Dropdown>

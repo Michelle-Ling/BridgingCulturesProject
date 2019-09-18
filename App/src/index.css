@@ -115,3 +115,7 @@ main {
 #dropdown {
     display: block;
 }
+
+.brand-logo {
+    user-select: none;
+}

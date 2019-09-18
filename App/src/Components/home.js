@@ -56,11 +56,11 @@ class Home extends React.Component {
                                 </Card>
                             </Col>
 
-                            {/*<Col m={6} s={12}>
-                                <Card header={<CardTitle />} actions={[<Link to={{pathname:"/event", state:{country: "New Zealand"}}}>look-out an event</Link>]}>
-                                    thumbnail for New Zeland Culture
+                            <Col m={6} s={12}>
+                                <Card header={<CardTitle />} actions={[<Link to={{pathname:"/event", state:{country: "Japan"}}}>look-out an event</Link>]}>
+                                    thumbnail for Japan Culture
                                 </Card>
-                            </Col>*/}
+                            </Col>
 
                             <Col m={6} s={12}>
                                 <Card header={<CardTitle />} actions={[<Link to={{pathname:"/event", state:{country: "China"}}}>look-out an event</Link>]}>
@@ -107,7 +107,7 @@ class Home extends React.Component {
                                                 <div className="col s12 center">
                                                     <h3><i className="mdi-content-send brown-text"></i></h3>
                                                     <h4>Our Mission</h4>
-                                                    <p className="left-align light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque id nunc nec volutpat. Etiam pellentesque tristique arcu, non consequat magna fermentum ac. Cras ut ultricies eros. Maecenas eros justo, ullamcorper a sapien id, viverra ultrices eros. Morbi sem neque, posuere et pretium eget, bibendum sollicitudin lacus. Aliquam eleifend sollicitudin diam, eu mattis nisl maximus sed. Nulla imperdiet semper molestie. Morbi massa odio, condimentum sed ipsum ac, gravida ultrices erat. Nullam eget dignissim mauris, non tristique erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
+                                                    <p className="left-align light">Australia is said to be a cultural melting pot. There were several waves of foreign migrations over the last seven decades that have shaped the diverse culture of Australia today. Our mission is to help all people who have just called Australia home, whether temporary or permanent, to discover the cultural celebratory events that take place in the city they live so that they can get exposure to the dominant cultures present in Australia.</p>
                                                 </div>
                                             </div>
 
