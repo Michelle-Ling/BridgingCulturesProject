@@ -11,6 +11,7 @@ from dateutil import relativedelta
 from datetime import date
 from flask_cors import CORS
 import json
+#from difflib import SequenceMatcher
 
 application = Flask(__name__)
 # For cross
@@ -281,6 +282,9 @@ class FestivalDetailsData(Resource):
             alpha_2_code = "China"
         elif arg_val.lower() == "India".lower():
             alpha_2_code = "India"
+        elif arg_val.lower() == "Japan".lower():
+            alpha_2_code = "Japan"
+
         #response = Response(resp)
         #response.headers['Access-Control-Allow-Origin'] = '*'
         return FestivalDetails.query.filter_by(countries=alpha_2_code).all(), 200, {'Access-Control-Allow-Origin': '*'}
@@ -300,9 +304,11 @@ class RecipeData(Resource):
         chinese_list_api = '005263693131602275062:kxtqmiygxv2'
         jew_food_list_api = '005263693131602275062:qj832ka7vyz'
         sbs_food_list_api = '005263693131602275062:rgazfsyjaj3'
-        api_list_australia = [taste_au_api,asian_food_api,sbs_food_list_api,chinese_list_api,jew_food_list_api,indian_list_api]
-        api_list_india = [indian_list_api,asian_food_api,sbs_food_list_api,taste_au_api,chinese_list_api,jew_food_list_api]
-        api_list_china = [chinese_list_api,asian_food_api,taste_au_api,jew_food_list_api,indian_list_api,sbs_food_list_api]
+        the_woks_of_life = '005263693131602275062:k00be44x2dy'
+        cooking_simple_chinese_food = '005263693131602275062:kpxe75oc9iz'
+        api_list_australia = [taste_au_api,asian_food_api,sbs_food_list_api,chinese_list_api,jew_food_list_api,indian_list_api,the_woks_of_life]
+        api_list_india = [indian_list_api,asian_food_api,sbs_food_list_api,taste_au_api,chinese_list_api,jew_food_list_api,the_woks_of_life]
+        api_list_china = [cooking_simple_chinese_food,the_woks_of_life,chinese_list_api,asian_food_api,taste_au_api,jew_food_list_api,indian_list_api,sbs_food_list_api]
         req_listing = api_list_india
         if arg_country == "Australia":
             req_listing = api_list_australia
@@ -319,14 +325,20 @@ class RecipeData(Resource):
         food_item_list = []
         resp = {}
         for each_food_item in food_items:
+            #print(each_food_item)
             for each_api in req_listing:
                 #print("-----------------------------"+each_api)
                 resp = requests.get('https://www.googleapis.com/customsearch/v1?key=AIzaSyA48886uOlEYUskw5zQrvcbpDHz8nc8XPc&cx='+ each_api +'&q=' + each_food_item)
                 resp_status_code = resp.status_code
                 response = resp.json()
+                rendered_title = ""
+                #print(response)
                 #resp = Response(resp)
-
-                if resp_status_code == 200 and int(response["queries"]["request"][0]['totalResults']) > 1 and 'cse_image' in response["items"][0]["pagemap"]:
+                #if int(response["queries"]["request"][0]['totalResults']) > 1:
+                #    rendered_title = str(response["items"][0]["title"]).split(" |")[0]
+                #print(rendered_title, flush=True)
+                #and SequenceMatcher(None, each_food_item, rendered_title).ratio() > 0.5
+                if resp_status_code == 200 and int(response["queries"]["request"][0]['totalResults']) > 1 and 'cse_image' in response["items"][0]["pagemap"] :
                     food_item_list.append(response)
                     break
                 
@@ -342,20 +354,25 @@ class RecipeData(Resource):
 class RestaurantLocation(Resource):
     def get(self):
         arg_val = request.args['name']
+        arg_loc = request.args['location']
+        #print(arg_val)
         restaurant_names = str(arg_val).split(",")
+        #print(restaurant_names)
         restaurant_list = []
         resp = {}
         for each_restaurant in restaurant_names:
-            resp = requests.get('https://maps.googleapis.com/maps/api/place/findplacefromtext/json?inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry&key=AIzaSyA48886uOlEYUskw5zQrvcbpDHz8nc8XPc&input='+each_restaurant)
+            #print(each_restaurant)
+            resp = requests.get('https://maps.googleapis.com/maps/api/place/findplacefromtext/json?inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry&key=AIzaSyA48886uOlEYUskw5zQrvcbpDHz8nc8XPc&input='+each_restaurant+' '+arg_loc)
             resp_status_code = resp.status_code
             response = resp.json()
             if resp_status_code != 200:
                 # This means something went wrong.
                 return {}
             else:
+                #print(response)
                 restaurant_list.append(response)
         restaurant_content = {'restaurant_items':restaurant_list}
-        #print(food_content)
+        #print(restaurant_content)
         resp = Response(json.dumps(restaurant_content))
         resp.headers['Access-Control-Allow-Origin'] = '*'
 
