@@ -173,19 +173,32 @@ togglehandler(e) {
           method: 'GET'
         }).then(response => response.json()).then(data => {
           console.log(data)
+          var city = this.state.client_address.city
           if( parseInt(data.queries.request[0].totalResults) > 0 ) {
             for( var i=0; i<data.items.length;i++ ){
-              console.log(data.items[i].title.split(" Delivery")[0])
-              var title = data.items[i].title.split(" Delivery")[0]
-              restaurants_name.push(title)
+              console.log(data.items[i].title.split(" |")[1])
+              var title = data.items[i].title.split(" |")[0]
+              city = this.state.client_address.city
+              if( data.items[i].title.split(" |").length > 1 & (data.items[i].title.split(" |")[1] != "Uber Eats")) {
+                city = data.items[i].title.split(" |")[1]
+              }
+              title = title.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+              restaurants_name.push(title+' '+city)
             }
             //console.log(restaurants_name)
             //const proxyurl = "https://cors-anywhere.herokuapp.com/";
             var restaurants_name_str = restaurants_name.join();
             
             //console.log("Test")
-  
-            fetch(`https://bridgingcultures-api-first.ml//restaurant_location?name=`+restaurants_name_str,{
+            var location = "australia,%20melbourne"
+            if( this.state.client_address != null  ) 
+            {
+              //var city = this.state.client_address.city
+              //console.log(this.state.client_address)
+
+              location = this.state.client_address.region + ` ` + this.state.client_address.country
+            }
+            fetch(`https://bridgingcultures-api-first.ml/restaurant_location?name=`+restaurants_name_str+'&location='+location,{
               method: 'GET'
             }).then(response => response.json()).then(data => {
               //console.log(data)
@@ -231,7 +244,7 @@ togglehandler(e) {
         let map_content_event;
         let map_content_restaurant;
         if( this.state.eventBriteList.length > 0 ) {
-            map_content_event = (<div style={display_map} class="col-md-6">
+            map_content_event = (<div style={display_map} className="col-md-6">
 
             <Mainmap
             eventBriteLocation = {this.state.eventBriteList}
@@ -240,7 +253,7 @@ togglehandler(e) {
             />
             </div>) 
         } else if( this.state.restaurants_locations.length > 0 ) {
-            map_content_restaurant = ( <div style={display_map} class="col-md-6">
+            map_content_restaurant = ( <div style={display_map} className="col-md-6">
             <Mainmap
             eventBriteLocation = {this.state.eventBriteList}
             locationDetails = {this.state.client_address}
@@ -379,8 +392,8 @@ togglehandler(e) {
             //console.log(this.state.eventBriteList)
             return (
                 <div className="list-group">
-                 <li className="food_items_class" class="list-group-item list-group-item-light"   >
-                        <div className="d-flex w-100 justify-content-between"><h5 class="mb-1">{food_list.name}</h5></div>
+                 <li className="food_items_class" className="list-group-item list-group-item-light"   >
+                        <div className="d-flex w-100 justify-content-between"><h5 className="mb-1">{food_list.name}</h5></div>
                         <div className="row">
                 
                  <img className="food-items" src={food_list.imageurl} alt={food_list.name} />
@@ -405,7 +418,7 @@ togglehandler(e) {
           })}
           </div>
           {map_content_restaurant}
-           {/* <div style={display_map} class="col-md-6">
+           {/* <div style={display_map} className="col-md-6">
             <Mainmap
             restaurants_locations = {this.state.restaurants_locations}
             />
@@ -540,6 +553,11 @@ togglehandler(e) {
             else
             {
             this.setState({eventBriteList:mod_eventsbrite, showModal: false, restaurants_locations: []})
+            this.myRef.current.insertAdjacentHTML("beforeend", '<p id="event_none_class">No upcoming events found for this specific day.</p>');
+            setTimeout( () => {
+                this.myRef.current.querySelector(':last-child').remove();
+                //console.log("Removed")
+            }, 5000);
             window.scrollTo(0, this.myRef.current.offsetTop);
             }
         })
@@ -558,7 +576,7 @@ togglehandler(e) {
         fetch(`https://bridgingcultures-api-first.ml/recipe_links?name=`+this.state.data_json.food+`&country=`+this.state.country_name,{
           method: 'GET'
         }).then(response => response.json()).then(data => { 
-            //console.log(data)
+            console.log(data)
             var items_array = data.food_items
             this.setState({showLoading: false})
             for(var i = 0;i < data.food_items.length ;i++)

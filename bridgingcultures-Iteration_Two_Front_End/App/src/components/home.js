@@ -30,14 +30,9 @@ class Home extends React.Component {
                            
                             <div className="banner_header">  
                             <Caption>
-                                <h3>
+                                <h1 className="header center white-text-banner">
                                     Discover your Roots - Explore your Culture
-</h3>
-                                <h5 className="light grey-text text-lighten-3">
-                                   Australia is said to be a cultural melting pot. There were several waves of foreign migrations over the last seven decades
-                                     that have shaped the diverse culture of Australia today. Our mission is to help all people who have just called Australia home, whether temporary or permanent, to discover the cultural celebratory events that take place in the
-                                      city they live so that they can get exposure to the dominant cultures present in Australia
-</h5>
+</h1>
                                 </Caption>
                                 </div>
                       
@@ -50,12 +45,34 @@ class Home extends React.Component {
                     </div>
 
                 <br></br>
+                <div className="container">
+                      <div className="section">
+                        <div className="row">
+                          <div className="col s12 center">
+                            <h3>
+                              <i className="mdi-content-send brown-text"></i>
+                            </h3>
+                            <h4>Our Mission</h4>
+                            <p className="left-align light">
+                              Australia is said to be a cultural melting pot. There were
+                              several waves of foreign migrations over the last seven
+                              decades that have shaped the diverse culture of Australia
+                              today. Our mission is to help all people who have just called
+                              Australia home, whether temporary or permanent, to discover
+                              the cultural celebratory events that take place in the city
+                              they live so that they can get exposure to the dominant
+                              cultures present in Australia.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                                 <div className="container">
                     <div className="section">
                         <div className="container">
                             <div className="row center">
                                 <div className="col s12 center">
-                                <h4 className = "align-center">eXplore a Culture</h4>
+                                <h4 className = "align-center">Explore a Culture</h4>
                             </div>
                             </div>
                         </div>

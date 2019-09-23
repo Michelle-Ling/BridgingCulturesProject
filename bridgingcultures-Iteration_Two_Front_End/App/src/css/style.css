@@ -79,7 +79,11 @@ h1.header.center.white-text-banner {
     padding-left:18px;
 }
 
-
+#event_none_class {
+  font-weight: 400 !important;
+  font-size: 18px !important;
+  margin-left: 40% !important;
+}
 
 
 a.list-group-item.list-group-item-action.list-group-item-primary {
@@ -171,4 +175,16 @@ p {
 
 footer.page-footer {
   margin: 0;
+}
+
+.fc-content {
+    cursor: pointer !important;
+}
+
+.fc-widget-content {
+    cursor: default;
+}
+
+#index-banner {
+    height: 400px;
 }
