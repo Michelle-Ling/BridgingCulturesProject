@@ -67,7 +67,7 @@ class Home extends React.Component {
                                     textClassName="black-text"
 
 
-                                    header={<CardTitle image={card_australia} card-image="true" waves="waves" />}
+                                    header={<CardTitle image={card_australia} card-image="true" waves-effect="waves" />}
 
                                    
                                     actions={[<Link to={{ pathname: "/event", state: { country: "Australia" } }}  >view events</Link>]} >

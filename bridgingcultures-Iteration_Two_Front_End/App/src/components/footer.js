@@ -8,8 +8,8 @@ const Footer = (props) => {
             
             <div className="footer-copyright">
                 <div className="container">
-                    <i className="material-icons left">copyright</i>  2019 Copyright
-            <a className="grey-text text-lighten-4 right" >developed by Elites - Monash University B1</a>
+                  2019 Copyright
+            <a className="grey-text text-lighten-4 right" >Developed by Elites - B1</a>
                 </div>
             </div>
         </footer>
