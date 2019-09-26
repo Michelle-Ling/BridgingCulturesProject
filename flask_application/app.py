@@ -272,6 +272,7 @@ class FestivalDetailsData(Resource):
         'description': fields.String,
         'food': fields.String,
         'reference': fields.String,
+        'image': fields.String,
     })
 
     @api.marshal_with(model, envelope='resource')

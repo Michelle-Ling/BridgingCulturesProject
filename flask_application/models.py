@@ -186,7 +186,7 @@ mapper(FestivalsCount, festivals_count)
 # Complete Festival Details
 class FestivalDetails(object):
     query = db_session.query_property()
-    def __init__(self, id=None, countries=None, festivals=None, date=None, description=None, food=None, reference=None):
+    def __init__(self, id=None, countries=None, festivals=None, date=None, description=None, food=None, reference=None, image=None):
         self.id = id
         self.countries = countries
         self.festivals = festivals
@@ -194,6 +194,7 @@ class FestivalDetails(object):
         self.description = description
         self.food = food
         self.reference = reference
+        self.image = image
 
 # Original Festival Details schema (table)
 festival_details = Table('festival_details', metadata,
@@ -203,7 +204,8 @@ festival_details = Table('festival_details', metadata,
     Column('date', Text),
     Column('description', Text),
     Column('food', Text),
-    Column('reference', Text)
+    Column('reference', Text),
+    Column('image', Text)
 )
 # mapper function of original table schema and festival details schema model
 mapper(FestivalDetails, festival_details)
