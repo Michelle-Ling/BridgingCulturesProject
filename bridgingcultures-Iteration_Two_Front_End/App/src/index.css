@@ -151,3 +151,58 @@ a.fc-day-grid-event.fc-end.fc-event.fc-h-event.fc-start {
 /*div.col-md-6 {
   display: none
 }*/
+
+#index-banner.events_banner {
+  min-height: 230px;
+  height: 230px;
+}
+
+#event_header_content.header_content_event {
+  padding-top: 1em;
+}
+
+#event_header_container.header_outer_container {
+  margin-left: 2em;
+}
+
+#event_text {
+  font-family: "Source Sans Pro Regular",Helvetica,sans-serif;
+    color: #fff;
+    font-weight: 550;
+    font-size: 3em;
+}
+
+.festival_image {
+  width: 85% !important;
+  float: right;
+}
+
+div.div_row.event_row {
+  border: 2px solid #ccc;
+  border-radius: 16px;
+  /* padding-top: 1px; */
+  /* padding-bottom: 1px; */
+  /* padding-right: 1px; */
+  /* padding-left: 1px; */
+  margin-left: 1px;
+  /* text-align: center; */
+  max-width: 82%;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0px;
+  margin: auto;
+  margin-bottom: 1%;
+}
+
+.event_image_col {
+  max-width: 20% !important;
+}
+
+.event_desc_col {
+  max-width: 33% !important;
+  margin-right: 0.75em;
+}
+
+.event_stat_col {
+  max-width: 25% !important;
+}

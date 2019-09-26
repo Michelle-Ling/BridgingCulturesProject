@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import '../css/style.css';
-//import { Parallax, Card, CardTitle, Row, Col } from 'react-materialize';
+import { Parallax, Card, CardTitle, Row, Col, Caption } from 'react-materialize';
 import { Component, useRef, useEffect } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -16,7 +16,13 @@ import {
   DropdownItem
 } from "reactstrap";
 
+import landingBannerJapan from './banner_landing_japan.jpg';
+import card_australia from './card_aussie.png';
+import card_japan from './card_japan.jpg';
+import card_china from './card_china.png';
+import card_india from './card_india.png';
 import '../css/Calendar.scss'
+const exact_month_names = ["January","February","March","April","May","June","July","August","September","October","November","December"]
 
 class Event extends React.Component {
 constructor(props) {
@@ -31,7 +37,7 @@ constructor(props) {
     state = {
       isAnyEventPresent: false,
       calendarWeekends: true,
-      calendarEvents: [],
+      calendarEvents: {"January":[],"February":[],"March":[],"April":[],"May":[],"June":[],"July":[],"August":[],"September":[],"October":[],"November":[],"December":[]},
       eventBriteList:[],
       showModal: false,
       dataModal: "",
@@ -41,7 +47,9 @@ constructor(props) {
       show_food: false,
       food_list: [],
       restaurants_locations: [],
-      country_name_main: "Australia"
+      country_name_main: "Australia",
+      month_names : ["January","February","March","April","May","June","July","August","September","October","November","December"],
+      current_month: exact_month_names[new Date().getMonth()]
     }
 
   //componentWillMount(){
@@ -65,13 +73,37 @@ constructor(props) {
         // do stuffs
       //}
       if( nextProps.location.state ) {
-          console.log(nextProps.location.state)
+          //console.log(nextProps.location.state)
           const { country } = nextProps.location.state;
-          console.log(country)
+          //console.log(country)
           this.setState({ country_name_main: country })
           this.getData(country);
       }
     }
+
+  formatDate(date) {
+    var monthNames = [
+      "January", "February", "March",
+      "April", "May", "June", "July",
+      "August", "September", "October",
+      "November", "December"
+    ];
+
+    var day = date.getDate();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+    var weekday = new Array(7);
+      weekday[0] = "Sunday";
+      weekday[1] = "Monday";
+      weekday[2] = "Tuesday";
+      weekday[3] = "Wednesday";
+      weekday[4] = "Thursday";
+      weekday[5] = "Friday";
+      weekday[6] = "Saturday";
+
+    var week_day_name = weekday[date.getDay()];
+    return week_day_name + ', ' + day + ' ' + monthNames[monthIndex] + ' ' + year;
+  }
 
   request_ip_address() {
     //https://api.ipify.org/?format=json
@@ -79,11 +111,11 @@ constructor(props) {
       method: 'GET'
     }).then(response => response.json()).then(data => {
       //console.log(data.ip)
-      fetch(`https://bridgingcultures-api-first.ml/eventbrite/location?ip_address=`+data.ip,{
+      fetch(`http://localhost:5000/eventbrite/location?ip_address=`+data.ip,{
             method: 'GET'
       }).then(response => response.json()).then(data => {
-        console.log("client address:")
-        console.log(data)
+        //console.log("client address:")
+        //console.log(data)
         this.setState({ client_address: data })
         //return data
         //console.log(mod_holidays_array)
@@ -126,40 +158,82 @@ togglehandler(e) {
 
     getData(menu_item){ 
       if( menu_item !== "" ) {
-        fetch(`https://bridgingcultures-api-first.ml/festival_details?name=`+menu_item,{
+        fetch(`http://localhost:5000/festival_details?name=`+menu_item,{
           method: 'GET'
         }).then(response => response.json()).then(data => {
-          //console.log(data)
+          console.log("========================================")
+          console.log(data)
           var holidays_array = data.resource
           //console.log(holidays_array)
+          var month = ["January","February","March","April","May","June","July","August","September","October","November","December"]
           var mod_holidays_array = []
+          var mod_months_array = []
+          var festival_dict = {}
+          var monthly_festivals = []
+          var last_month = ""
           for (var i = 0; i < holidays_array.length; i++) {
             var temp = {}
-            if( holidays_array[i].description != null ) {
-              temp.title = holidays_array[i].festivals + " :- " + holidays_array[i].description + " :- " + holidays_array[i].date
-            } else {
-              temp.title = holidays_array[i].festivals + " :-  :- " + holidays_array[i].date.split("T")[0]
+            console.log(monthly_festivals)
+            temp.description = holidays_array[i].description
+            temp.title = holidays_array[i].festivals
+            temp.date = new Date(holidays_array[i].date)
+            temp.reference = holidays_array[i].reference
+            temp.food = holidays_array[i].food
+            temp.image = holidays_array[i].image
+            var curr_month = month[temp.date.getMonth()]
+            if( !(curr_month in festival_dict) ) {
+              festival_dict[curr_month] = []
             }
-            if( holidays_array[i].reference != null ) {
-              temp.title = temp.title + " :- " + holidays_array[i].reference
-            } else {
-              temp.title = temp.title + " :- "
-            }
-            if( holidays_array[i].food != null ) {
-              temp.title = temp.title + " :- " + holidays_array[i].food
-            } else {
-              temp.title = temp.title + " :- "
-            }
-            temp.start = new Date(holidays_array[i].date)
-            mod_holidays_array.push(temp)
+            festival_dict[curr_month].push(temp)
+            // if(!(curr_month in festival_dict)) {
+            //   if( monthly_festivals.length > 0 ) {
+            //     festival_dict[last_month] = monthly_festivals
+            //   }
+            //   monthly_festivals = []
+            //   monthly_festivals.push(temp)
+            // } else {
+            //   monthly_festivals.push(temp)
+            // }
+            // last_month = curr_month
           }
-
-          this.setState({calendarEvents:mod_holidays_array, country_name:menu_item})
+          
+          let d = new Date();
+          //console.log("+++++++++++========================");
+          let curr_mon_code = d.getMonth();
+          let n = this.state.month_names[curr_mon_code];
+          //console.log(this.state.month_names[d.getMonth()+2])
+          if( Object.entries(festival_dict).length != 0 && festival_dict.constructor === Object ) {
+            //console.log(festival_dict)
+            //console.log(n)
+            if( festival_dict[n].length > 0 ) {
+              festival_dict["start_month"] = n
+            } else if( festival_dict[festival_dict[curr_mon_code+1]].length > 0 ) {
+              festival_dict["start_month"] = festival_dict[curr_mon_code+1]
+            }
+          }
+          //console.log(festival_dict)
+          this.setState({calendarEvents:festival_dict, country_name:menu_item, current_month:festival_dict.start_month})
           //console.log("____________________________________")
           //console.log(menu_item)
           //console.log(mod_holidays_array)
         })
       } 
+    }
+
+    toggleMonthBack = () => {
+      var curr_mon = exact_month_names.indexOf(this.state.current_month)
+      if( curr_mon == 0 ) {
+        curr_mon = 12
+      }
+      this.setState({current_month:exact_month_names[curr_mon-1]})
+    }
+
+    toggleMonthFront = () => {
+      var curr_mon = exact_month_names.indexOf(this.state.current_month)
+      if( curr_mon == 11 ) {
+        curr_mon = -1
+      }
+      this.setState({current_month:exact_month_names[curr_mon+1]})
     }
 
     handleOnClickFood = (food_item) => {
@@ -172,11 +246,11 @@ togglehandler(e) {
       fetch(`https://www.googleapis.com/customsearch/v1?key=AIzaSyA48886uOlEYUskw5zQrvcbpDHz8nc8XPc&cx=005263693131602275062:cztfzj4nvim&q=`+food_item+` `+this.state.client_address.country+` `+this.state.client_address.region+` `+this.state.client_address.city,{
           method: 'GET'
         }).then(response => response.json()).then(data => {
-          console.log(data)
+          //console.log(data)
           var city = this.state.client_address.city
           if( parseInt(data.queries.request[0].totalResults) > 0 ) {
             for( var i=0; i<data.items.length;i++ ){
-              console.log(data.items[i].title.split(" |")[1])
+              //console.log(data.items[i].title.split(" |")[1])
               var title = data.items[i].title.split(" |")[0]
               city = this.state.client_address.city
               if( data.items[i].title.split(" |").length > 1 & (data.items[i].title.split(" |")[1] != "Uber Eats")) {
@@ -198,14 +272,14 @@ togglehandler(e) {
 
               location = this.state.client_address.region + ` ` + this.state.client_address.country
             }
-            fetch(`https://bridgingcultures-api-first.ml/restaurant_location?name=`+restaurants_name_str+'&location='+location,{
+            fetch(`http://localhost:5000/restaurant_location?name=`+restaurants_name_str+'&location='+location,{
               method: 'GET'
             }).then(response => response.json()).then(data => {
               //console.log(data)
-              console.log(data.restaurant_items)
+              //console.log(data.restaurant_items)
               var items_array = data.restaurant_items
               //this.setState({showLoading: false})
-              console.log(items_array.length)
+              //console.log(items_array.length)
               for(var i = 0;i < items_array.length ;i++) {
                 //console.log( items_array[i])
               if( items_array[i].candidates.length > 0 ) {
@@ -231,207 +305,104 @@ togglehandler(e) {
 
 
     render() {
-        var display_map = {display: 'none'}
-        if( this.state.eventBriteList.length > 0 || this.state.restaurants_locations.length > 0 ) {
-          display_map = {
-            display: 'block'
-          }
-        } else {
-          display_map = {
-            display: 'none'
-          }
+      let image_src = card_australia;
+      let title_country_name = "Australian Culture";
+        if( this.state.country_name_main == "Australia" ) {
+          image_src = card_australia;
+          title_country_name = "Australian Culture";
+        } else if( this.state.country_name_main == "India" ) {
+          image_src = card_india;
+          title_country_name = "Indian Culture";
+        } else if( this.state.country_name_main == "China" ) {
+          image_src = card_china;
+          title_country_name = "Chinese Culture";
+        } else if( this.state.country_name_main == "Japan" ) {
+          image_src = landingBannerJapan;
+          title_country_name = "Japanese Culture";
         }
-        let map_content_event;
-        let map_content_restaurant;
-        if( this.state.eventBriteList.length > 0 ) {
-            map_content_event = (<div style={display_map} className="col-md-6">
-
-            <Mainmap
-            eventBriteLocation = {this.state.eventBriteList}
-            locationDetails = {this.state.client_address}
-            restaurants_locations = {this.state.restaurants_locations}
-            />
-            </div>) 
-        } else if( this.state.restaurants_locations.length > 0 ) {
-            map_content_restaurant = ( <div style={display_map} className="col-md-6">
-            <Mainmap
-            eventBriteLocation = {this.state.eventBriteList}
-            locationDetails = {this.state.client_address}
-            restaurants_locations = {this.state.restaurants_locations}
-            />
-            </div>) 
-
-            
-        }
-
-        let event_header;
-        let food_header;
-        if (this.state.eventBriteList.length > 0) {
-            event_header = (<div className="col s12 center">
-                <h4 className="align-center">eXplore an Event</h4>
-                <br></br></div>
-            )
-
-        }
-        if (this.state.food_list.length > 0) {
-            food_header = (<div className="col s12 center">
-                <h4 className="align-center">Tantalize your Taste Buds</h4>
-                <br></br> </div> )
-
-        }
-        const pagetitle = {
-          fontFamily: "Gayathri",
-          backgroundColor: "#F8F8F8",
-          padding: "50px",
-          textAlign: "center"
-        };
-        let loading_component;
-        if( this.state.showLoading ) {
-          loading_component = <div className="cal_overlay"><div className="loader"></div></div>
-        }
-        console.log(this.state.country_name_main)
-        let country_main_name = this.state.country_name_main;
+        //console.log("+++++++++++++++++++++++++++++++++++++++")
+        //console.log(this.state.calendarEvents)
+        // let d = new Date();
+        // console.log("+++++++++++========================");
+        // let curr_mon_code = d.getMonth();
+        // let n = this.state.month_names[curr_mon_code];
+        // //console.log(this.state.month_names[d.getMonth()+2])
+        // if( Object.entries(this.state.calendarEvents).length != 0 && this.state.calendarEvents.constructor === Object ) {
+        //   console.log(this.state.calendarEvents)
+        //   console.log(n)
+        //   if( this.state.calendarEvents[n].length > 0 ) {
+        //     console.log("Present");
+        //   } else if( this.state.calendarEvents[this.state.month_names[curr_mon_code+1]].length > 0 ) {
+        //     console.log("Not present");
+        //   }
+        // }
+        
         return (
-        <div >
-        {loading_component}
-           <div className="container">
-                    <div className="section">
-                        <div className="container">
-                            <div className="row center">
-                                <h3 className="header col s12 dark">Explore Events</h3>
-                            </div>
-                        </div>
-                    </div>
-            <ul>
-      {loading_component}
-        {/*<div style={pagetitle} className="rounded">
-          <h1>Event Calendar</h1>
-          <p>See what's on the horizon.</p>
-        </div>
-        <p></p>*/}
-                        <h6>Please select a country:&ensp;</h6>
-                      
-        <select value={country_main_name} id="dropdown" onChange={this.handleChange}>
-        <option value="Australia">Australia</option>
-
-          <option value="Japan">Japan</option>
-          {/*<option value="New Zealand">New Zealand</option>*/}
-          <option value="China">China</option>
-          <option value="India">India</option>
-          {/*<option value="Philippines">Philippines</option>
-          <option value="Vietnam">Vietnam</option>
-          <option value="Italy">Italy</option>
-          <option value="South Africa">South Africa</option>
-          <option value="Malaysia">Malaysia</option>
-          <option value="Sri Lanka">Sri Lanka</option>*/}
-                            </select>
+          <div>
+                <div id="index-banner" className="parallax-container events_banner">
+                    <div className="section no-pad-bot">
+                        <div id="event_header_container" className="container header_outer_container" >
                            
-
-        <div className="demo-app">
-          <div className="demo-app-top">
-            {/* <button onClick={ this.toggleWeekends }>toggle weekends</button>&nbsp; */}
-            {/* <button onClick={ this.gotoPast }>go to a date in the past</button>&nbsp; */}
-          </div>
-          <div className="demo-app-calendar">
-            <FullCalendar
-              defaultView="dayGridMonth"
-              header={{
-                left: "prev,next today",
-                center: "title",
-                right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek"
-              }}
-              plugins={[dayGridPlugin, interactionPlugin]}
-              ref={this.calendarComponentRef}
-              weekends={this.state.calendarWeekends}
-              events={this.state.calendarEvents}
-              dateClick={ this.handleDateClick }
-              eventClick={this.myFunction}
-            />
-            <Modal
-                show={this.state.showModal}
-                onHide={this.hideModal}
-                name={this.state.dataModal}
-                desc={this.state.descModal}
-                eventData={this.state.eventData}
-                toggleHandler={this.togglehandler}
-                foodHandler={this.foodhandler}
-                isAnyEventPresent={this.state.isAnyEventPresent}
-              />
+                            <div id="event_header_content" className="banner_header header_content_event">  
+                            <Caption>
+                                <h1 id="event_text" className="header left white-text-banner">
+                                    {title_country_name}
+                                </h1>
+                                </Caption>
                             </div>
-                            <br></br>
                         </div>
-                        {event_header}
-      
-                        <div ref={this.myRef} className="row">
-                            
-          <div className="col-md-6"> 
-          {this.state.eventBriteList.map((eventbrite) => {
-            //console.log(this.state.eventBriteList)
-            return (
-            
-                <div className="list-group">
-                    <li className="list-group-item list-group-item-light" style={{width:'70%'}}>
-                {/* <div>{eventbrite.name}</div> */}
-                        <a className="list-group-item list-group-item-action list-group-item-primary" href = {eventbrite.url} target='_blank'>{eventbrite.name}</a>
-                {/* <div>{eventbrite.description}</div> */}
-                <div>{eventbrite.startTime}</div>
-                <div>{eventbrite.endTime}</div>
-                <div>{eventbrite.addressDisplay}</div>
-                </li>
-                <hr />
-              </div>
-            )
-          })}
-          </div>
-          {map_content_event}
-         </div>
-                        {food_header}
-                        <div className="row">
-                            <div className="col-md-6"> 
-          {this.state.food_list.map((food_list) => {
-            //console.log(this.state.eventBriteList)
-            return (
-                <div className="list-group">
-                 <li className="food_items_class" className="list-group-item list-group-item-light"   >
-                        <div className="d-flex w-100 justify-content-between"><h5 className="mb-1">{food_list.name}</h5></div>
-                        <div className="row">
-                
-                 <img className="food-items" src={food_list.imageurl} alt={food_list.name} />
-                   
-                            <div className="col-md-6">
-                                <a href={food_list.url_1} className="list-group-item list-group-item-action list-group-item-primary food_item_details" target='_blank'>Click me for details</a>
-                    <br />
-                <a onClick={() => this.handleOnClickFood(food_list.name)} className="list-group-item list-group-item-action list-group-item-primary food_link" target='_blank'>Restaurants near me</a>
                     </div>
-              
-                 </div>
-                
-                
-                {/* <div>{eventbrite.description}</div> 
-                <div>{eventbrite.startTime}</div>
-                <div>{eventbrite.endTime}</div>
-                <div>{eventbrite.addressDisplay}</div> */}
-                </li>
-                <hr />
+                    <Parallax className="parallax" image={<img src={image_src} className="inner-box inner-box-event-image"/>} alt="Unsplashed background img 1"></Parallax>
+                </div>
+                <Row className="div_row">
+                <Col className="back_home_col">
+                <button type="button" className="back_home_btn">
+                <Link className="back_home_link" to={{ pathname: "/" }}  >Back to home</Link>
+                </button>
+                </Col>
+                <Col>
+                <h2 className="upcoming_header">Upcoming Festivals & Events</h2>
+                </Col>
+                </Row>
+                <Row className="div_row">
+                  <Col>
+                    <div id="left_month" onClick={ this.toggleMonthBack } >&#8249;&#8249;</div>
+                  </Col>
+                  <Col className="month_name_col">
+                    <div className="current_month">{this.state.current_month} 2019</div>
+                  </Col>
+                  <Col>
+                    <div id="right_month" onClick={ this.toggleMonthFront }>&#8250;&#8250;</div>
+                  </Col>
+                </Row>
+                {this.state.calendarEvents[this.state.current_month].map((calendarevent) => {
+                  console.log(this.state.calendarEvents)
+                  return (
+                <Row className="div_row event_row">
+                  <Col className="event_image_col">
+                    <img src={calendarevent.image} className="festival_image"/>
+                  </Col>
+                  <Col className="event_desc_col">
+                    <Row className="inner_row_col"><h4>{calendarevent.title}</h4></Row>
+                    <Row className="inner_row_col">{calendarevent.description}</Row>
+                  </Col>
+                  <Col className="event_stat_col">
+                  <Row className="inner_row_col"><h5>{this.formatDate(calendarevent.date)}</h5></Row>
+                  <Row className="inner_row_col">
+                    <button type="button" className="bg_btn">
+                    <Link className="bg_link" to={{ pathname: "/event_locate",state: { title: calendarevent.title } }}  >Attend Events</Link>
+                    </button>
+                  </Row>
+                  <Row className="inner_row_col">
+                    <button type="button" className="bg_btn">
+                    <Link className="bg_link" to={{ pathname: "/food",state: { food: calendarevent.food } }}  >Explore Foods</Link>
+                    </button>
+                  </Row>
+                  </Col>
+                </Row>
+                  )
+                })}
               </div>
-            )
-          })}
-          </div>
-          {map_content_restaurant}
-           {/* <div style={display_map} className="col-md-6">
-            <Mainmap
-            restaurants_locations = {this.state.restaurants_locations}
-            />
-            </div> */}
-         </div>
-      </ul>
-
-            </div> 
-          
-        </div>
-            
-            
-            
             );
 
 
@@ -521,7 +492,7 @@ togglehandler(e) {
         }
         if( title_content !== "" ) {
         this.setState({ showLoading: true, showModal: false,restaurants_locations:[], food_list:[] });
-          fetch(`https://bridgingcultures-api-first.ml/eventbrite?festival_name=`+title_content+`&location=`+location+`&start_date=`+event_start_date+`&end_date=`+event_end_date,{
+          fetch(`http://localhost:5000/eventbrite?festival_name=`+title_content+`&location=`+location+`&start_date=`+event_start_date+`&end_date=`+event_end_date,{
           method: 'GET'
         }).then(response => response.json()).then(data => { 
         this.setState({ showLoading: false });
@@ -573,7 +544,7 @@ togglehandler(e) {
         var food_items = this.state.data_json.food[0].split(", ")
         food_items = food_items.slice(0, 3);
         //console.log(food_items)
-        fetch(`https://bridgingcultures-api-first.ml/recipe_links?name=`+this.state.data_json.food+`&country=`+this.state.country_name,{
+        fetch(`http://localhost:5000/recipe_links?name=`+this.state.data_json.food+`&country=`+this.state.country_name,{
           method: 'GET'
         }).then(response => response.json()).then(data => { 
             console.log(data)

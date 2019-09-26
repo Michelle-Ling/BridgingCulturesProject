@@ -32,17 +32,15 @@ class Home extends React.Component {
                             <Caption>
                                 <h1 className="header center white-text-banner">
                                     Discover your Roots - Explore your Culture
-</h1>
+                                </h1>
                                 </Caption>
-                                </div>
+                            </div>
                       
 
-      </div>
-    </div>
-                        <Parallax className="parallax" image={<img src={landingBannerJapan} className="div.inner-box"/>} alt="Unsplashed background img 1"></Parallax>
-                        
-                  
+                        </div>
                     </div>
+                    <Parallax className="parallax" image={<img src={landingBannerJapan} className="div.inner-box"/>} alt="Unsplashed background img 1"></Parallax>
+                </div>
 
                 <br></br>
                 <div className="container">
