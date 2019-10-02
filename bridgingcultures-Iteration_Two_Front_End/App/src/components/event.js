@@ -8,6 +8,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from "@fullcalendar/interaction";
 import Mainmap from "../Mainmap/Mainmap";
 import Modal from "../Modal/Modal";
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   Dropdown,
@@ -31,6 +32,7 @@ constructor(props) {
     this.togglehandler = this.togglehandler.bind(this);
     this.foodhandler = this.foodhandler.bind(this);
     this.handleOnClickFood = this.handleOnClickFood.bind(this);
+    this.queryEventData = this.queryEventData.bind(this);
     this.myRef = React.createRef();
   }
 
@@ -49,7 +51,9 @@ constructor(props) {
       restaurants_locations: [],
       country_name_main: "Australia",
       month_names : ["January","February","March","April","May","June","July","August","September","October","November","December"],
-      current_month: exact_month_names[new Date().getMonth()]
+      current_month: exact_month_names[new Date().getMonth()],
+      event_listing: false,
+      modal_content : ""
     }
 
   //componentWillMount(){
@@ -145,7 +149,7 @@ togglehandler(e) {
     }
 
     hideModal = () => {
-        this.setState({ showModal: false });
+        this.setState({ showModal: false, event_listing: false });
     };
 
     showFoodContent = () => {
@@ -306,6 +310,8 @@ togglehandler(e) {
 
     render() {
       let image_src = card_australia;
+      let modal_content;
+      let loading_component;
       let title_country_name = "Australian Culture";
         if( this.state.country_name_main == "Australia" ) {
           image_src = card_australia;
@@ -320,6 +326,25 @@ togglehandler(e) {
           image_src = landingBannerJapan;
           title_country_name = "Japanese Culture";
         }
+      if( this.state.event_listing == true ) {
+        if( this.state.eventBriteList.length > 1 ) {
+          let event_dict = this.state.eventBriteList
+          let location_pre = this.state.client_address
+          this.props.history.push({
+            pathname:"/event_locate",
+            state:{
+                event_dict,
+                location: location_pre
+             }
+           });
+        } else if( this.state.showModal == false ){
+          //console.log("Nulll")
+          this.setState({showModal: true, modal_content : "No events available for the selected date."})
+        }
+      } 
+      if( this.state.showLoading ) {
+        loading_component = <div className="cal_overlay"><div className="loader"></div></div>
+      }
         //console.log("+++++++++++++++++++++++++++++++++++++++")
         //console.log(this.state.calendarEvents)
         // let d = new Date();
@@ -354,6 +379,7 @@ togglehandler(e) {
                     </div>
                     <Parallax className="parallax" image={<img src={image_src} className="inner-box inner-box-event-image"/>} alt="Unsplashed background img 1"></Parallax>
                 </div>
+                {loading_component}
                 <Row className="div_row">
                 <Col className="back_home_col">
                 <button type="button" className="back_home_btn">
@@ -390,7 +416,8 @@ togglehandler(e) {
                   <Row className="inner_row_col"><h5>{this.formatDate(calendarevent.date)}</h5></Row>
                   <Row className="inner_row_col">
                     <button type="button" className="bg_btn">
-                    <Link className="bg_link" to={{ pathname: "/event_locate",state: { title: calendarevent.title } }}  >Attend Events</Link>
+                    {/*<Link className="bg_link" to={{ pathname: "/event_locate",state: { title: calendarevent.title,date:calendarevent.date,location:this.state.client_address} }}  >Attend Events</Link>*/}
+                    <div className="bg_link" onClick={() =>this.getEventdata({ title: calendarevent.title,date:calendarevent.date,location:this.state.client_address})}>Attend Events</div>
                     </button>
                   </Row>
                   <Row className="inner_row_col">
@@ -402,6 +429,11 @@ togglehandler(e) {
                 </Row>
                   )
                 })}
+                <Modal
+          show={this.state.showModal}
+          onHide={this.hideModal}
+          name={this.state.modal_content}
+        />
               </div>
             );
 
@@ -464,8 +496,25 @@ togglehandler(e) {
       }
     }
 
+    queryEventData = (event) => {
+      console.log("$$$$$$$$$")
+      event.location = this.state.client_address
+      console.log(event)
+      let rendered_value = []
+      this.getEventdata(event)
+      // if( rendered_value.length > 0 ) {
+      //   this.context.router.push({
+      //     pathname: '/event_locate',
+      //     state: {event}  
+      //   })
+      // } else {
+      //   console.log("Poda")
+      // }
+    }
+
     getEventdata = (event) => { 
         //this.setState({ showModal: false, food_list: []})
+        console.log("Koo")
         var title_content = event.title
         title_content = title_content.toString().split("/")[0];
         var event_end_date = new Date(event.date);
@@ -498,7 +547,7 @@ togglehandler(e) {
         this.setState({ showLoading: false });
         var eventsbrite = data.events 
         var mod_eventsbrite = []
-        //console.log(eventsbrite)
+        console.log(eventsbrite)
           if(data.events.length > 0)
             {
               for(var i = 0;i < data.events.length;i++)
@@ -516,21 +565,14 @@ togglehandler(e) {
               mod_eventsbrite.push(tempEvent)
               
               }
-            this.setState({eventBriteList:mod_eventsbrite, showModal: false, restaurants_locations: []})
-            window.scrollTo(0, this.myRef.current.offsetTop);
+            //this.setState({eventBriteList:mod_eventsbrite, showModal: false, restaurants_locations: []})
+            //window.scrollTo(0, this.myRef.current.offsetTop);
             //console.log(this.state.eventBriteList[1].l)
-            return tempEvent
+            //return tempEvent
             }
-            else
-            {
-            this.setState({eventBriteList:mod_eventsbrite, showModal: false, restaurants_locations: []})
-            this.myRef.current.insertAdjacentHTML("beforeend", '<p id="event_none_class">No upcoming events found for this specific day.</p>');
-            setTimeout( () => {
-                this.myRef.current.querySelector(':last-child').remove();
-                //console.log("Removed")
-            }, 5000);
-            window.scrollTo(0, this.myRef.current.offsetTop);
-            }
+            console.log(mod_eventsbrite)
+            this.setState({eventBriteList:mod_eventsbrite, event_listing: true, showLoading: false})
+          //return mod_eventsbrite;
         })
       } 
     }
