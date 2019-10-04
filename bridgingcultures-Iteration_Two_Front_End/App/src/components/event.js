@@ -334,7 +334,9 @@ togglehandler(e) {
             pathname:"/event_locate",
             state:{
                 event_dict,
-                location: location_pre
+                location: location_pre,
+                country_name: this.state.country_name_main,
+              
              }
            });
         } else if( this.state.showModal == false ){
@@ -417,7 +419,8 @@ togglehandler(e) {
                   <Row className="inner_row_col">
                     <button type="button" className="bg_btn">
                     {/*<Link className="bg_link" to={{ pathname: "/event_locate",state: { title: calendarevent.title,date:calendarevent.date,location:this.state.client_address} }}  >Attend Events</Link>*/}
-                    <div className="bg_link" onClick={() =>this.getEventdata({ title: calendarevent.title,date:calendarevent.date,location:this.state.client_address})}>Attend Events</div>
+                    <div className="bg_link" onClick={() =>this.getEventdata({ title: calendarevent.title,date:calendarevent.date,location:this.state.client_address,country_name:this.state.country_name_main})}>Attend Events</div>
+
                     </button>
                   </Row>
                   <Row className="inner_row_col">

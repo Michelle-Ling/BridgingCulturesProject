@@ -1,11 +1,15 @@
 import React from 'react';
-
+import { Parallax, Card, CardTitle, Row, Col, Caption } from 'react-materialize';
+import { Link } from "react-router-dom";
 import '../css/style.css';
 import '../css/materialize.css';
 import '../css/materialize.min.css';
 import Mainmap from "../Mainmap/Mainmap";
 import Modal from "../Modal/Modal";
-
+import card_australia from './card_aussie.png';
+import card_japan from './card_japan.jpg';
+import card_china from './card_china.png';
+import card_india from './card_india.png';
 class EventLocate extends React.Component {
 constructor(props){
     super(props);
@@ -14,32 +18,88 @@ constructor(props){
 state = {
 eventBrites:{},
 eventBriteList:[],
-client_address:[]
+client_address:[],
+countryName:""
 }
 componentDidMount() {
         //console.log(this.props.location.state)
              if( this.props.location.state ) {
                  let event_dict = {}
                  event_dict = this.props.location.state.event_dict;
-                 console.log("Hello---------------")
-             console.log(this.props.location.state)
-            console.log(event_dict)
-                 this.setState({eventBriteList: event_dict })
-                //this.getEventdata(event_dict)
+                
+             //console.log(this.props.location.state)
+            //console.log(event_country)
+                 this.setState({eventBriteList: event_dict,countryName:this.props.location.state.country_name })
+                 //this.setState({countryName:this.props.location.state.country_name})
+                // console.log(this.state.countryName)
              }
             
         // this.request_ip_address();
     
  }
     render() {
-      
+     let image_src = card_australia;
+     let title_country_name = "Australian Culture";
+     if( this.state.countryName == "Australia" ) {
+      image_src = card_australia;
+      title_country_name = "Australian Culture";
+    } else if( this.state.countryName == "India" ) {
+      image_src = card_india;
+      title_country_name = "Indian Culture";
+    } else if( this.state.countryName == "China" ) {
+      image_src = card_china;
+      title_country_name = "Chinese Culture";
+    } else if( this.state.countryName == "Japan" ) {
+      image_src = card_japan;
+      title_country_name = "Japanese Culture";
+    }
+    const map_style={
+      padding:"85%",
+      offsetTop:"10%",
+    }
+    console.log(this.state.countryName)
+     //if(this.state.countryName)
         return (
-
           <ul>
-            <div class="row">
-         <div class="col-md-6"> 
-          {this.state.eventBriteList.map((eventbrite) => {
-            
+            <div>
+            <div id="index-banner" className="parallax-container events_banner">
+                    <div className="section no-pad-bot">
+                        <div id="event_header_container" className="container header_outer_container" >                           
+                            <div id="event_header_content" className="banner_header header_content_event">  
+                            <Caption>
+                                <h1 id="event_text" className="header left white-text-banner">
+                                    {title_country_name}
+                                </h1>
+                                </Caption>
+                            </div>
+                        </div>
+                    </div>
+                    <Parallax className="parallax" image={<img src={image_src} className="inner-box inner-box-event-image"/>} alt="Unsplashed background img 1"></Parallax>
+                </div>
+            </div>
+            <Row className="div_row">
+          <Col className="back_home_col">
+            <Link
+              to={{
+                pathname: "/event",
+                state: {
+                  country: this.state.countryName
+              
+                }
+              }}
+            >
+              <button type="button" className="back_home_btn back_home_link">
+                Back to Festival
+              </button>
+            </Link>
+          </Col>
+          <Col>
+            <h2 className="upcoming_header">Where to attend the events</h2>
+          </Col>
+        </Row>  
+         <Row className="event_map_row">
+         <Col> 
+          {this.state.eventBriteList.map((eventbrite) => {           
             console.log(this.state.eventBriteList)
             return (            
               <div class="list-group">
@@ -56,15 +116,15 @@ componentDidMount() {
               </div>
             )
           })}
-          </div>
-          <div  class="col-md-6">
+          </Col>
+          <Col  className="min_map">
             <Mainmap
             eventBriteLocation = {this.state.eventBriteList}
             locationDetails = {this.props.location.state.location}
             restaurants_locations = {[]}
             />
-            </div>
-            </div> 
+            </Col>
+        </Row> 
           </ul>
           
 

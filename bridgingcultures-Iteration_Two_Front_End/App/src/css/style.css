@@ -309,3 +309,16 @@ button.bg_btn {
     font-size: 13px;
     text-decoration: none !important;
 }
+
+.min_map {
+    min-height: 400px !important;
+    max-height: 600px !important;
+    max-width: 1000px !important;
+    min-width: 500px !important;
+    margin-right: 180px !important;
+}
+
+.event_map_row{
+    margin-left: 50px !important;
+    margin-top: 10px !important;
+}
