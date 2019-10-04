@@ -101,13 +101,17 @@ a.fc-day-grid-event.fc-end.fc-event.fc-h-event.fc-start {
   border: 16px solid #f3f3f3;
   border-radius: 50%;
   border-top: 16px solid #3498db;
-  width: 12vw;
-  height: 12vw;
+  width: 9vw;
+  height: 9vw;
   -webkit-animation: spin 2s linear infinite; /* Safari */
   animation: spin 2s linear infinite;
-  position: fixed;
-  top: 40%;
-  left: 50%;
+  margin:auto;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
+  position:absolute;
+  
 }
 
 /* Safari */
