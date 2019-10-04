@@ -11,8 +11,8 @@ import card_australia from './card_aussie.png';
 import card_japan from './card_japan.jpg';
 import card_china from './card_china.png';
 import card_india from './card_india.png';
-
-
+import card_malaysia from './card_malaysia.jpg';
+import card_italy from './card_italy.jpg';
 
 
 class Home extends React.Component {
@@ -123,6 +123,28 @@ class Home extends React.Component {
 
                                     actions={[<Link to={{ pathname: "/event", state: { country: "India" } }} className="center" > view events </Link>]}>
                                     <h5 >INDIA</h5>
+                                </Card>
+                            </Col>
+                            <Col className="fixed-size-card">
+                                <Card
+                                    textClassName="black-text"
+
+
+                                    header={<CardTitle image={card_malaysia} card-image="true" waves-effect="waves" />}
+
+                                    actions={[<Link to={{ pathname: "/event", state: { country: "Malaysia" } }} className="center" > view events </Link>]}>
+                                    <h5 >MALAYSIA</h5>
+                                </Card>
+                            </Col>
+                            <Col className="fixed-size-card">
+                                <Card
+                                    textClassName="black-text"
+
+
+                                    header={<CardTitle image={card_italy} card-image="true" waves-effect="waves" />}
+
+                                    actions={[<Link to={{ pathname: "/event", state: { country: "Italy" } }} className="center" > view events </Link>]}>
+                                    <h5 >ITALY</h5>
                                 </Card>
                             </Col>
                         </Row>

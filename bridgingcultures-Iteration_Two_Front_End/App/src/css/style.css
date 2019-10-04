@@ -86,7 +86,7 @@ h1.header.center.white-text-banner {
 #event_none_class {
   font-weight: 400 !important;
   font-size: 18px !important;
-  margin-left: 40% !important;
+  margin-left: 35% !important;
 }
 
 
@@ -201,6 +201,9 @@ footer.page-footer {
     margin-top: 0.2em;
     margin-left: 2em;
     padding: 0.5em;
+    padding-left: 3em;
+    padding-right: 3em;
+    margin-bottom: 0.5em;
 }
 
 .back_home_link {
@@ -315,10 +318,18 @@ button.bg_btn {
     max-height: 600px !important;
     max-width: 1000px !important;
     min-width: 500px !important;
-    margin-right: 180px !important;
+    margin-right: 15px !important;
 }
 
 .event_map_row{
     margin-left: 50px !important;
     margin-top: 10px !important;
+}
+
+.foodlocator_image {
+    min-height: 400px !important;
+    max-height: 400px !important;
+    max-width: 400px !important;
+    min-width: 400px !important;
+    margin-left: 30px !important;
 }

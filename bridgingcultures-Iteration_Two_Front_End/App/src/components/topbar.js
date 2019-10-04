@@ -31,7 +31,8 @@ const Topbar = props => {
                 <li><Link to={{pathname:"/event", state:{country: "China"}}}>Chinese</Link></li>
                 <li><Link to={{pathname:"/event", state:{country: "India"}}}>India</Link></li>
                 <li><Link to={{pathname:"/event", state:{country: "Japan"}}}>Japan</Link></li>
-                
+                <li><Link to={{pathname:"/event", state:{country: "Malaysia"}}}>Malaysian</Link></li>
+                <li><Link to={{pathname:"/event", state:{country: "Italy"}}}>Italian</Link></li>
 
             </Dropdown>
         </Navbar>

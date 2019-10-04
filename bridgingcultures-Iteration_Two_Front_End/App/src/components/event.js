@@ -8,7 +8,6 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from "@fullcalendar/interaction";
 import Mainmap from "../Mainmap/Mainmap";
 import Modal from "../Modal/Modal";
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   Dropdown,
@@ -22,6 +21,9 @@ import card_australia from './card_aussie.png';
 import card_japan from './card_japan.jpg';
 import card_china from './card_china.png';
 import card_india from './card_india.png';
+import card_malaysia from './card_malaysia.jpg';
+import card_italy from './card_italy.jpg';
+
 import '../css/Calendar.scss'
 const exact_month_names = ["January","February","March","April","May","June","July","August","September","October","November","December"]
 
@@ -52,6 +54,7 @@ constructor(props) {
       country_name_main: "Australia",
       month_names : ["January","February","March","April","May","June","July","August","September","October","November","December"],
       current_month: exact_month_names[new Date().getMonth()],
+      current_year: new Date().getFullYear(),
       event_listing: false,
       modal_content : ""
     }
@@ -66,7 +69,7 @@ constructor(props) {
             const { country } = this.props.location.state;
             console.log(country)
             this.setState({ country_name_main: country })
-            this.getData(country);
+            this.getData(country, false);
         }
         
       this.request_ip_address();
@@ -81,7 +84,7 @@ constructor(props) {
           const { country } = nextProps.location.state;
           //console.log(country)
           this.setState({ country_name_main: country })
-          this.getData(country);
+          this.getData(country, false);
       }
     }
 
@@ -138,7 +141,7 @@ togglehandler(e) {
   }
 
   handleChange(e) {
-    this.getData(e.target.value);
+    this.getData(e.target.value, false);
     this.setState({ country_name_main: e.target.value })
   }
 
@@ -160,9 +163,9 @@ togglehandler(e) {
       this.setState({ show_food: false });
     };
 
-    getData(menu_item){ 
+    getData(menu_item, isToggler){ 
       if( menu_item !== "" ) {
-        fetch(`http://localhost:5000/festival_details?name=`+menu_item,{
+        fetch(`http://localhost:5000/festival_content?name=`+menu_item+`&year=`+this.state.current_year,{
           method: 'GET'
         }).then(response => response.json()).then(data => {
           console.log("========================================")
@@ -189,34 +192,34 @@ togglehandler(e) {
               festival_dict[curr_month] = []
             }
             festival_dict[curr_month].push(temp)
-            // if(!(curr_month in festival_dict)) {
-            //   if( monthly_festivals.length > 0 ) {
-            //     festival_dict[last_month] = monthly_festivals
-            //   }
-            //   monthly_festivals = []
-            //   monthly_festivals.push(temp)
-            // } else {
-            //   monthly_festivals.push(temp)
-            // }
-            // last_month = curr_month
           }
           
-          let d = new Date();
-          //console.log("+++++++++++========================");
-          let curr_mon_code = d.getMonth();
-          let n = this.state.month_names[curr_mon_code];
-          //console.log(this.state.month_names[d.getMonth()+2])
-          if( Object.entries(festival_dict).length != 0 && festival_dict.constructor === Object ) {
-            //console.log(festival_dict)
-            //console.log(n)
-            if( festival_dict[n].length > 0 ) {
-              festival_dict["start_month"] = n
-            } else if( festival_dict[festival_dict[curr_mon_code+1]].length > 0 ) {
-              festival_dict["start_month"] = festival_dict[curr_mon_code+1]
+          if( isToggler ) {
+            this.setState({calendarEvents:festival_dict})
+          } else {
+            let d = new Date();
+            //console.log("+++++++++++========================");
+            let curr_mon_code = d.getMonth();
+            let n = this.state.month_names[curr_mon_code];
+            console.log(n)
+            let curr_yr = this.state.current_year
+            //console.log(this.state.month_names[d.getMonth()+2])
+            if( Object.entries(festival_dict).length != 0 && festival_dict.constructor === Object ) {
+              console.log(festival_dict)
+              console.log(exact_month_names[curr_mon_code+1])
+              //console.log(n)
+              if( festival_dict[n] && festival_dict[n].length > 0 ) {
+                festival_dict["start_month"] = n
+                festival_dict["year"] = curr_yr
+              } else if( festival_dict[exact_month_names[curr_mon_code+1]].length > 0 ) {
+                festival_dict["start_month"] = exact_month_names[curr_mon_code+1]
+                festival_dict["year"] = curr_yr
+              }
             }
+            //console.log(festival_dict)
+            this.setState({calendarEvents:festival_dict, country_name:menu_item, current_month:festival_dict.start_month, current_year:festival_dict.year})
+        
           }
-          //console.log(festival_dict)
-          this.setState({calendarEvents:festival_dict, country_name:menu_item, current_month:festival_dict.start_month})
           //console.log("____________________________________")
           //console.log(menu_item)
           //console.log(mod_holidays_array)
@@ -226,18 +229,75 @@ togglehandler(e) {
 
     toggleMonthBack = () => {
       var curr_mon = exact_month_names.indexOf(this.state.current_month)
-      if( curr_mon == 0 ) {
+      var curr_year = this.state.current_year
+      var is_next_year_needed = false
+      if( curr_mon == 0 && curr_year == 2019 ) {
         curr_mon = 12
+        curr_year = curr_year+1
+        console.log(exact_month_names[curr_mon-1])
+        console.log(curr_year)
+        is_next_year_needed = true
+      } else if ( curr_mon == 0 && curr_year == 2020 ) {
+        curr_mon = 12
+        curr_year = curr_year-1
+        console.log(exact_month_names[curr_mon-1])
+        console.log(curr_year)
+        is_next_year_needed = true
       }
-      this.setState({current_month:exact_month_names[curr_mon-1]})
+      if( !(exact_month_names[curr_mon-1] in this.state.calendarEvents) ) {
+        curr_mon = curr_mon - 1
+        this.myRef.current.insertAdjacentHTML("afterend", '<p id="event_none_class">No specific events available for in between month.</p>');
+        setTimeout( () => {
+            document.querySelector('#event_none_class').remove();
+            //console.log("Removed")
+        }, 5000);
+      }
+      //this.setState({current_month:exact_month_names[curr_mon-1], current_year:curr_year})
+      this.setState(
+          {current_month:exact_month_names[curr_mon-1], current_year:curr_year}, () => {
+          if( is_next_year_needed ) {
+            console.log(this.state.current_month)
+            console.log(this.state.current_year)
+            this.getData(this.state.country_name_main, true)
+          }
+      });
     }
 
     toggleMonthFront = () => {
       var curr_mon = exact_month_names.indexOf(this.state.current_month)
-      if( curr_mon == 11 ) {
+      var curr_year = this.state.current_year
+      var is_next_year_needed = false
+      if( curr_mon == 11 && curr_year == 2019 ) {
         curr_mon = -1
+        curr_year = curr_year+1
+        console.log(exact_month_names[curr_mon+1])
+        console.log(curr_year)
+        is_next_year_needed = true
+      } else if ( curr_mon == 11 && curr_year == 2020 ) {
+        curr_mon = -1
+        curr_year = curr_year-1
+        console.log(exact_month_names[curr_mon+1])
+        console.log(curr_year)
+        is_next_year_needed = true
       }
-      this.setState({current_month:exact_month_names[curr_mon+1]})
+      if( !(exact_month_names[curr_mon+1] in this.state.calendarEvents) ) {
+        curr_mon = curr_mon + 1
+        this.myRef.current.insertAdjacentHTML("afterend", '<p id="event_none_class">No specific events available for in between month.</p>');
+        setTimeout( () => {
+            document.querySelector('#event_none_class').remove();
+            //console.log("Removed")
+        }, 5000);
+      }
+      //this.setState({current_month:exact_month_names[curr_mon+1], current_year:curr_year})
+      this.setState(
+          {current_month:exact_month_names[curr_mon+1], current_year:curr_year}, () => {
+          if( is_next_year_needed ) {
+            console.log(this.state.current_month)
+            console.log(this.state.current_year)
+            this.getData(this.state.country_name_main, true)
+          }
+      });
+      
     }
 
     handleOnClickFood = (food_item) => {
@@ -325,8 +385,15 @@ togglehandler(e) {
         } else if( this.state.country_name_main == "Japan" ) {
           image_src = landingBannerJapan;
           title_country_name = "Japanese Culture";
+        } else if( this.state.country_name_main == "Malaysia" ) {
+          image_src = card_malaysia;
+          title_country_name = "Malaysian Culture";
+        } else if( this.state.country_name_main == "Italy" ) {
+          image_src = card_italy;
+          title_country_name = "Italian Culture";
         }
       if( this.state.event_listing == true ) {
+        //console.log("INNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN")
         if( this.state.eventBriteList.length > 1 ) {
           let event_dict = this.state.eventBriteList
           let location_pre = this.state.client_address
@@ -341,7 +408,7 @@ togglehandler(e) {
            });
         } else if( this.state.showModal == false ){
           //console.log("Nulll")
-          this.setState({showModal: true, modal_content : "No events available for the selected date."})
+          this.setState({showModal: true, modal_content : "No events available for the current selection."})
         }
       } 
       if( this.state.showLoading ) {
@@ -366,7 +433,7 @@ togglehandler(e) {
         
         return (
           <div>
-                <div id="index-banner" className="parallax-container events_banner">
+                <div ref={this.myRef} id="index-banner" className="parallax-container events_banner">
                     <div className="section no-pad-bot">
                         <div id="event_header_container" className="container header_outer_container" >
                            
@@ -397,7 +464,7 @@ togglehandler(e) {
                     <div id="left_month" onClick={ this.toggleMonthBack } >&#8249;&#8249;</div>
                   </Col>
                   <Col className="month_name_col">
-                    <div className="current_month">{this.state.current_month} 2019</div>
+                    <div className="current_month">{this.state.current_month} {this.state.current_year}</div>
                   </Col>
                   <Col>
                     <div id="right_month" onClick={ this.toggleMonthFront }>&#8250;&#8250;</div>
@@ -424,8 +491,28 @@ togglehandler(e) {
                     </button>
                   </Row>
                   <Row className="inner_row_col">
-                    <button type="button" className="bg_btn">
-                    <Link className="bg_link" to={{ pathname: "/food",state: { food: calendarevent.food } }}  >Explore Foods</Link>
+                  {/*<Link
+                      to={{
+                        pathname: "/food",
+                        state: {
+                          food: calendarevent.food,
+                          location: this.state.client_address,
+                          country_name_main: this.state.country_name_main
+                        }
+                      }}
+                    >
+                    <button type="button" className="bg_btn bg_link">
+                      Explore Foods
+                    </button>
+                  </Link>*/}
+                  <button type="button" className="bg_btn">
+                    <div className="bg_link" onClick={() =>this.checkForFood(
+                      {
+                          food: calendarevent.food,
+                          location: this.state.client_address,
+                          country_name_main: this.state.country_name_main
+                        }
+                      )}>Explore Foods</div>
                     </button>
                   </Row>
                   </Col>
@@ -616,6 +703,17 @@ togglehandler(e) {
           })
         
       }
+    }
+    checkForFood = (state_content) => {
+      if( state_content.food ) {
+          this.props.history.push({
+            pathname:"/food",
+            state:state_content
+           });
+        } else if( this.state.showModal == false ){
+          //console.log("Nulll")
+          this.setState({showModal: true, modal_content : "No food available for your current selection."})
+        }
     }
 }
 

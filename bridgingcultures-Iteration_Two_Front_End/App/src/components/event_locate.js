@@ -10,6 +10,8 @@ import card_australia from './card_aussie.png';
 import card_japan from './card_japan.jpg';
 import card_china from './card_china.png';
 import card_india from './card_india.png';
+import card_malaysia from './card_malaysia.jpg';
+import card_italy from './card_italy.jpg';
 class EventLocate extends React.Component {
 constructor(props){
     super(props);
@@ -52,6 +54,12 @@ componentDidMount() {
     } else if( this.state.countryName == "Japan" ) {
       image_src = card_japan;
       title_country_name = "Japanese Culture";
+    } else if( this.state.country_name_main == "Malaysia" ) {
+      image_src = card_malaysia;
+      title_country_name = "Malaysian Culture";
+    } else if( this.state.country_name_main == "Italy" ) {
+      image_src = card_italy;
+      title_country_name = "Italian Culture";
     }
     const map_style={
       padding:"85%",
