@@ -1,6 +1,6 @@
 # models.py
 # Schema models
-from sqlalchemy import Table, Column, Integer, Text
+from sqlalchemy import Table, Column, Integer, Text, ForeignKey
 from sqlalchemy.orm import mapper
 from database import metadata, db_session
 
@@ -209,3 +209,55 @@ festival_details = Table('festival_details', metadata,
 )
 # mapper function of original table schema and festival details schema model
 mapper(FestivalDetails, festival_details)
+
+# Complete Festival Content
+class FestivalContent(object):
+    query = db_session.query_property()
+    def __init__(self, festivals=None, description=None, food=None, reference=None, image=None):
+        #self.id = id
+        #self.countries = countries
+        self.festivals = festivals
+        #self.date = date
+        self.description = description
+        self.food = food
+        self.reference = reference
+        self.image = image
+
+# Original Festival Details schema (table)
+festival_content = Table('festival_content', metadata,
+    #Column('id', Integer, primary_key=True),
+    #Column('countries', Text),
+    Column('festivals', Text, primary_key=True),
+    #Column('date', Text),
+    Column('description', Text),
+    Column('food', Text),
+    Column('reference', Text),
+    Column('image', Text)
+)
+# mapper function of original table schema and festival details schema model
+mapper(FestivalContent, festival_content)
+
+# Complete Festival Details
+class AllFestivalDetails(object):
+    query = db_session.query_property()
+    def __init__(self, id=None, countries=None, festivals=None, date=None, year=None):
+        self.id = id
+        self.countries = countries
+        self.festivals = festivals
+        self.date = date
+        self.year = year
+
+# Original Festival Details schema (table)
+festival_table = Table('festival_table', metadata,
+    Column('id', Integer, primary_key=True),
+    Column('countries', Text),
+    Column('festivals', Text, ForeignKey('festival_content.festivals')),
+    Column('date', Text),
+    Column('year', Text)
+    #Column('description', Text),
+    #Column('food', Text),
+    #Column('reference', Text),
+    #Column('image', Text)
+)
+# mapper function of original table schema and festival details schema model
+mapper(AllFestivalDetails, festival_table)

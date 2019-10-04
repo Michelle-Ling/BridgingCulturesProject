@@ -3,7 +3,7 @@
 from flask import Flask, jsonify, make_response, Response
 from flask_restplus import Resource, Api, fields
 from database import db_session, conn
-from models import BlogPost, WorldFactbook, FestivalsCount, festivals_count, FestivalDetails
+from models import BlogPost, WorldFactbook, FestivalsCount, festivals_count, FestivalDetails, AllFestivalDetails, FestivalContent
 from flask import request
 import requests
 from datetime import datetime
@@ -19,7 +19,7 @@ cors = CORS(application, resources={r"/api/*": {"origins": "*"}})
 api = Api(application,
           version='0.1',
           title='BridgingCultures',
-          description='Elites project for Industrial Experience. Powered by Monash Uni.',
+          description='Elites project for Industrial Experience.',
 )
 
 # Festivals/Events API
@@ -378,6 +378,67 @@ class RestaurantLocation(Resource):
         resp.headers['Access-Control-Allow-Origin'] = '*'
 
         return resp
+
+# All Festivals/Events API
+@api.route('/festival_content')
+class AllFestivalDetailsData(Resource):
+    # model = api.model('Model', {
+    #     'id': fields.Integer,
+    #     'countries': fields.String,
+    #     'festivals': fields.String,
+    #     'date': fields.String,
+    #     'description': fields.String,
+    #     'food': fields.String,
+    #     'reference': fields.String,
+    #     'image': fields.String,
+    # })
+
+    # @api.marshal_with(model, envelope='resource')
+    def get(self):
+        alpha_2_code = "Australia"
+        arg_val = request.args['name']
+        arg_year = request.args['year']
+        if arg_val.lower() == "China".lower():
+            alpha_2_code = "China"
+        elif arg_val.lower() == "India".lower():
+            alpha_2_code = "India"
+        elif arg_val.lower() == "Japan".lower():
+            alpha_2_code = "Japan"
+        elif arg_val.lower() == "Malaysia".lower():
+            alpha_2_code = "Malaysia"
+        elif arg_val.lower() == "Italy".lower():
+            alpha_2_code = "Italy"
+
+        req_format = {
+        "countries": "",
+        "festials": "",
+        "date": "",
+        "description": "",
+        "food": "",
+        "reference": "",
+        "image": "",
+        "year": ""
+        }
+        resource_dict = {"resource": []}
+
+        req_format_arr = ["countries", "festivals", "date", "description", "food", "reference", "image", "year"]
+
+        #response = Response(resp)
+        #response.headers['Access-Control-Allow-Origin'] = '*'
+        result = db_session.query(AllFestivalDetails.countries, AllFestivalDetails.festivals, AllFestivalDetails.date, FestivalContent.description, FestivalContent.food, FestivalContent.reference, FestivalContent.image, AllFestivalDetails.year).filter( AllFestivalDetails.festivals == FestivalContent.festivals).filter(AllFestivalDetails.countries == alpha_2_code).filter(AllFestivalDetails.year == arg_year).all()
+        # print("+++++++++++++++++++")
+        # print(result[0])
+        # print(dict(zip(req_format_arr, result[0])))
+        for each in result:
+            resource_dict["resource"].append(dict(zip(req_format_arr, each)))
+        #print(type(result))
+        #return AllFestivalDetails.query.filter_by(countries=alpha_2_code).all(), 200, {'Access-Control-Allow-Origin': '*'}
+        #return db_session.query(AllFestivalDetails,FestivalContent).filter(AllFestivalDetails.countries == alpha_2_code).all()
+        # AllFestivalDetails.id, AllFestivalDetails.countries, AllFestivalDetails.festivals, AllFestivalDetails.date, FestivalContent.description, FestivalContent.food, FestivalContent.reference, FestivalContent.image
+        return resource_dict, 200, {'Access-Control-Allow-Origin': '*'}
+        #db_session.query(AllFestivalDetails.countries, AllFestivalDetails.festivals, AllFestivalDetails.date, FestivalContent.description, FestivalContent.food, FestivalContent.reference, FestivalContent.image).filter( AllFestivalDetails.festivals == FestivalContent.festivals).filter(AllFestivalDetails.countries == alpha_2_code).filter(AllFestivalDetails.year == "2019").all(), 200, {'Access-Control-Allow-Origin': '*'}
+        #return db_session.query(AllFestivalDetails, FestivalContent).join(FestivalContent, AllFestivalDetails.festivals == FestivalContent.festivals).filter(AllFestivalDetails.countries == alpha_2_code).filter(AllFestivalDetails.year == "2019").all()
+
 
 @application.teardown_appcontext
 def shutdown_session(exception=None):
