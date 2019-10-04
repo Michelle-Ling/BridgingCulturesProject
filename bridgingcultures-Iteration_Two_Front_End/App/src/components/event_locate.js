@@ -98,6 +98,7 @@ componentDidMount() {
           </Col>
         </Row>  
          <Row className="event_map_row">
+         
          <Col> 
           {this.state.eventBriteList.map((eventbrite) => {           
             console.log(this.state.eventBriteList)
