@@ -246,7 +246,7 @@ togglehandler(e) {
       }
       if( !(exact_month_names[curr_mon-1] in this.state.calendarEvents) ) {
         curr_mon = curr_mon - 1
-        this.myRef.current.insertAdjacentHTML("afterend", '<p id="event_none_class">No specific events available for in between month.</p>');
+        this.myRef.current.insertAdjacentHTML("afterend", '<p id="event_none_class">No specific events available for '+ exact_month_names[curr_mon] + ' ' + curr_year + '.</p>');
         setTimeout( () => {
             document.querySelector('#event_none_class').remove();
             //console.log("Removed")
@@ -282,9 +282,11 @@ togglehandler(e) {
       }
       if( !(exact_month_names[curr_mon+1] in this.state.calendarEvents) ) {
         curr_mon = curr_mon + 1
-        this.myRef.current.insertAdjacentHTML("afterend", '<p id="event_none_class">No specific events available for in between month.</p>');
+        this.myRef.current.insertAdjacentHTML("afterend", '<p id="event_none_class">No specific events available for '+ exact_month_names[curr_mon] + ' ' + curr_year + '.</p>');
         setTimeout( () => {
+          if( document.body.contains(document.getElementById("event_none_class")) ) {
             document.querySelector('#event_none_class').remove();
+          }
             //console.log("Removed")
         }, 5000);
       }

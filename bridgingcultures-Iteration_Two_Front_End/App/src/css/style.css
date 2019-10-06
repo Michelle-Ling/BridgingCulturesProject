@@ -84,9 +84,12 @@ h1.header.center.white-text-banner {
 }
 
 #event_none_class {
-  font-weight: 400 !important;
+  font-weight: 500 !important;
   font-size: 18px !important;
-  margin-left: 35% !important;
+  /*margin-left: 36% !important;*/
+  color: #000 !important;
+  background-color: #ffeb3b !important;
+  text-align: center;
 }
 
 
