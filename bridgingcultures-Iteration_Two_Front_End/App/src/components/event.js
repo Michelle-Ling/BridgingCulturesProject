@@ -180,13 +180,16 @@ togglehandler(e) {
           var last_month = ""
           for (var i = 0; i < holidays_array.length; i++) {
             var temp = {}
-            console.log(monthly_festivals)
+            //console.log(monthly_festivals)
             temp.description = holidays_array[i].description
             temp.title = holidays_array[i].festivals
             temp.date = new Date(holidays_array[i].date)
             temp.reference = holidays_array[i].reference
             temp.food = holidays_array[i].food
             temp.image = holidays_array[i].image
+            temp.food_desc = holidays_array[i].food_desc
+            temp.food_default = holidays_array[i].food_default
+            temp.celebration = holidays_array[i].celebration
             var curr_month = month[temp.date.getMonth()]
             if( !(curr_month in festival_dict) ) {
               festival_dict[curr_month] = []
@@ -248,7 +251,9 @@ togglehandler(e) {
         curr_mon = curr_mon - 1
         this.myRef.current.insertAdjacentHTML("afterend", '<p id="event_none_class">No specific events available for '+ exact_month_names[curr_mon] + ' ' + curr_year + '.</p>');
         setTimeout( () => {
+          if( document.body.contains(document.getElementById("event_none_class")) ) {
             document.querySelector('#event_none_class').remove();
+          }
             //console.log("Removed")
         }, 5000);
       }
@@ -512,7 +517,9 @@ togglehandler(e) {
                       {
                           food: calendarevent.food,
                           location: this.state.client_address,
-                          country_name_main: this.state.country_name_main
+                          country_name_main: this.state.country_name_main,
+                          food_default: calendarevent.food_default,
+                          food_desc: calendarevent.food_desc
                         }
                       )}>Explore Foods</div>
                     </button>

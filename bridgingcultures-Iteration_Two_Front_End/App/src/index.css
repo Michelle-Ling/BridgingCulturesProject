@@ -210,3 +210,7 @@ div.div_row.event_row {
 .event_stat_col {
   max-width: 25% !important;
 }
+
+a:hover {
+    text-decoration: none !important;
+}

@@ -12,6 +12,7 @@ const Footer = (props) => {
             <a className="grey-text text-lighten-4 right" >Developed by Elites - B1</a>
                 </div>
             </div>
+            <div id="google_translate_element2"></div>
         </footer>
 
     );

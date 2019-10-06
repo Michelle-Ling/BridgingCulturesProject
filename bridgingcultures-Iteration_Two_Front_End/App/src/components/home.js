@@ -161,7 +161,7 @@ class Home extends React.Component {
           
                             
 
-                                <div classNameName="parallax-container valign-wrapper">
+                                <div className="parallax-container valign-wrapper">
                                     <div className="section no-pad-bot">
                                         
                                     </div>

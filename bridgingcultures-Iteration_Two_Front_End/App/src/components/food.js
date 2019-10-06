@@ -38,6 +38,15 @@ class Food extends React.Component {
         restaurants_locations: [],
         showLoading: true
       };
+    } else if( this.props.location.state.food_default ) {
+		this.state = {
+	        food: this.props.location.state.food_default,
+	        location: this.props.location.state.location,
+	        country_name_main: this.props.location.state.country_name_main,
+	        food_list: [],
+	        restaurants_locations: [],
+	        showLoading: true
+      };
     } else {
       this.state = {
         food: "",
@@ -92,7 +101,7 @@ class Food extends React.Component {
         `http://localhost:5000/recipe_links?name=` +
           this.state.food +
           `&country=` +
-          this.state.location.country,
+          this.state.country_name_main,
         {
           method: "GET"
         }
@@ -132,6 +141,7 @@ class Food extends React.Component {
     let image_src = card_australia;
     let title_country_name = "Australian Culture";
     let loading_component;
+    let food_description;
     if (this.props.location.state.country_name_main === "Australia") {
       image_src = card_australia;
       title_country_name = "Australian Culture";
@@ -154,6 +164,9 @@ class Food extends React.Component {
     if( this.state.showLoading ) {
         loading_component = <div className="cal_overlay"><div className="loader"></div></div>
      }
+    if( this.props.location.state.food_desc ) {
+    	food_description = <Row className="inner_row_col">{this.props.location.state.food_desc}</Row>
+    }
     return (
       <div>
         {/* {this.props.name}'s Food First PAGE */}
@@ -217,6 +230,7 @@ class Food extends React.Component {
                 <Row className="inner_row_col">
                   <h4>{foodlist.name}</h4>
                 </Row>
+                {food_description}
               </Col>
               <Col className="event_stat_col">
                 <Row className="inner_row_col">
