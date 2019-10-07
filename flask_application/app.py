@@ -307,14 +307,28 @@ class RecipeData(Resource):
         sbs_food_list_api = '005263693131602275062:rgazfsyjaj3'
         the_woks_of_life = '005263693131602275062:k00be44x2dy'
         cooking_simple_chinese_food = '005263693131602275062:kpxe75oc9iz'
+        japanese_food_api = '005263693131602275062:mz8k4mqtvob'
+        malaysian_food_api = '005263693131602275062:mua4uwhltkp'
+        italian_food_api = '005263693131602275062:kwgoies5glv'
         api_list_australia = [taste_au_api,asian_food_api,sbs_food_list_api,chinese_list_api,jew_food_list_api,indian_list_api,the_woks_of_life]
         api_list_india = [indian_list_api,asian_food_api,sbs_food_list_api,taste_au_api,chinese_list_api,jew_food_list_api,the_woks_of_life]
         api_list_china = [cooking_simple_chinese_food,the_woks_of_life,chinese_list_api,asian_food_api,taste_au_api,jew_food_list_api,indian_list_api,sbs_food_list_api]
+        api_list_japan = [japanese_food_api,asian_food_api,chinese_list_api,the_woks_of_life,cooking_simple_chinese_food,taste_au_api,indian_list_api,jew_food_list_api]
+        api_list_malaysia = [malaysian_food_api,asian_food_api,indian_list_api,chinese_list_api,cooking_simple_chinese_food,japanese_food_api,taste_au_api,sbs_food_list_api,jew_food_list_api]
+        api_list_italy = [italian_food_api,taste_au_api,jew_food_list_api,the_woks_of_life,sbs_food_list_api,malaysian_food_api,japanese_food_api,chinese_list_api,cooking_simple_chinese_food,indian_list_api]
         req_listing = api_list_india
-        if arg_country == "Australia":
+        if arg_country == "Australia" or arg_country == "Australian":
             req_listing = api_list_australia
-        elif arg_country == "China":
+        elif arg_country == "China" or arg_country == "Chinese":
             req_listing = api_list_china
+        elif arg_country == "India" or arg_country == "Indian":
+            req_listing = api_list_india
+        elif arg_country == "Japan" or arg_country == "Japanese":
+            req_listing = api_list_japan
+        elif arg_country == "Malaysia" or arg_country == "Malaysian":
+            req_listing = api_list_malaysia
+        elif arg_country == "Italy" or arg_country == "Italian":
+            req_listing = api_list_italy
 
         #arg_val_loc = request.args['location']
         #########################################
@@ -417,15 +431,18 @@ class AllFestivalDetailsData(Resource):
         "food": "",
         "reference": "",
         "image": "",
+        "food_desc":"",
+        "food_default":"",
+        "celebration":"",
         "year": ""
         }
         resource_dict = {"resource": []}
 
-        req_format_arr = ["countries", "festivals", "date", "description", "food", "reference", "image", "year"]
+        req_format_arr = ["countries", "festivals", "date", "description", "food", "reference", "image", "food_desc", "food_default", "celebration", "year"]
 
         #response = Response(resp)
         #response.headers['Access-Control-Allow-Origin'] = '*'
-        result = db_session.query(AllFestivalDetails.countries, AllFestivalDetails.festivals, AllFestivalDetails.date, FestivalContent.description, FestivalContent.food, FestivalContent.reference, FestivalContent.image, AllFestivalDetails.year).filter( AllFestivalDetails.festivals == FestivalContent.festivals).filter(AllFestivalDetails.countries == alpha_2_code).filter(AllFestivalDetails.year == arg_year).all()
+        result = db_session.query(AllFestivalDetails.countries, AllFestivalDetails.festivals, AllFestivalDetails.date, FestivalContent.description, FestivalContent.food, FestivalContent.reference, FestivalContent.image, FestivalContent.food_desc, FestivalContent.food_default, FestivalContent.celebration, AllFestivalDetails.year).filter( AllFestivalDetails.festivals == FestivalContent.festivals).filter(AllFestivalDetails.countries == alpha_2_code).filter(AllFestivalDetails.year == arg_year).all()
         # print("+++++++++++++++++++")
         # print(result[0])
         # print(dict(zip(req_format_arr, result[0])))
@@ -439,6 +456,40 @@ class AllFestivalDetailsData(Resource):
         #db_session.query(AllFestivalDetails.countries, AllFestivalDetails.festivals, AllFestivalDetails.date, FestivalContent.description, FestivalContent.food, FestivalContent.reference, FestivalContent.image).filter( AllFestivalDetails.festivals == FestivalContent.festivals).filter(AllFestivalDetails.countries == alpha_2_code).filter(AllFestivalDetails.year == "2019").all(), 200, {'Access-Control-Allow-Origin': '*'}
         #return db_session.query(AllFestivalDetails, FestivalContent).join(FestivalContent, AllFestivalDetails.festivals == FestivalContent.festivals).filter(AllFestivalDetails.countries == alpha_2_code).filter(AllFestivalDetails.year == "2019").all()
 
+# Today's Events/Festivals API
+@api.route('/todays_list')
+class TodaysFestivalList(Resource):
+
+    def get(self):
+        today = date.today()
+        # mm/dd/YY
+        d1 = today.strftime("%m/%d/%Y")
+        print(type(d1))
+        print("d1 = "+ d1)
+        # Overriden for testing purpose
+        d1 = "10/27/2019"
+
+        req_format = {
+        "countries": "",
+        "festials": "",
+        "date": "",
+        "description": "",
+        "food": "",
+        "reference": "",
+        "image": "",
+        "food_desc":"",
+        "food_default":"",
+        "celebration":"",
+        "year": ""
+        }
+        resource_dict = {"resource": []}
+
+        req_format_arr = ["countries", "festivals", "date", "description", "food", "reference", "image", "food_desc", "food_default", "celebration", "year"]
+
+        result = db_session.query(AllFestivalDetails.countries, AllFestivalDetails.festivals, AllFestivalDetails.date, FestivalContent.description, FestivalContent.food, FestivalContent.reference, FestivalContent.image, FestivalContent.food_desc, FestivalContent.food_default, FestivalContent.celebration, AllFestivalDetails.year).filter( AllFestivalDetails.festivals == FestivalContent.festivals).filter(AllFestivalDetails.date == d1).all()
+        for each in result:
+            resource_dict["resource"].append(dict(zip(req_format_arr, each)))
+        return resource_dict, 200, {'Access-Control-Allow-Origin': '*'}
 
 @application.teardown_appcontext
 def shutdown_session(exception=None):
