@@ -467,7 +467,7 @@ class TodaysFestivalList(Resource):
         print(type(d1))
         print("d1 = "+ d1)
         # Overriden for testing purpose
-        d1 = "10/27/2019"
+        #d1 = "10/27/2019"
 
         req_format = {
         "countries": "",
