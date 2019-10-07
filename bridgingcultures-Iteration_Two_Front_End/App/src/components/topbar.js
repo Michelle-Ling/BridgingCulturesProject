@@ -23,7 +23,7 @@ render() {
             <NavItem>
                 <Link to="/">Home</Link>
 </NavItem>
-            <NavItem >
+            <NavItem className="event_link_event_page">
                 <Link to="/event">Events</Link>
 </NavItem>
             <Dropdown trigger={<a >Explore Cultures<i className="material-icons right">arrow_drop_down</i></a>}>

@@ -348,3 +348,9 @@ a:hover {
 body {
     top: 0px !important;
 }
+
+.home_country_div {
+    max-width: 15% !important;
+    font-size: 18px;
+    font-weight: 500;
+}

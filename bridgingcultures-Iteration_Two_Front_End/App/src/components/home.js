@@ -16,8 +16,111 @@ import card_italy from './card_italy.jpg';
 
 
 class Home extends React.Component {
+    state = {
+      today_content: {"resource": []}
+    }
+    componentDidMount() {
+        //console.log(this.props.location.state)
+            fetch(`http://localhost:5000/todays_list`,{
+              method: 'GET'
+            }).then(response => response.json()).then(data => {
+                console.log(data)
+                this.setState({ today_content: data })
+            })
+            let side_nav_icon = document.getElementsByClassName("sidenav-trigger")
+            if( typeof side_nav_icon !== "undefined" ) {
+                //console.log(side_nav_icon)
+                side_nav_icon[0].style.display="none"
+            }
+    }
+
+    formatDate(date) {
+        date = new Date(date)
+        var monthNames = [
+          "January", "February", "March",
+          "April", "May", "June", "July",
+          "August", "September", "October",
+          "November", "December"
+        ];
+
+        var day = date.getDate();
+        var monthIndex = date.getMonth();
+        var year = date.getFullYear();
+        var weekday = new Array(7);
+          weekday[0] = "Sunday";
+          weekday[1] = "Monday";
+          weekday[2] = "Tuesday";
+          weekday[3] = "Wednesday";
+          weekday[4] = "Thursday";
+          weekday[5] = "Friday";
+          weekday[6] = "Saturday";
+
+        var week_day_name = weekday[date.getDay()];
+        return week_day_name + ', ' + day + ' ' + monthNames[monthIndex] + ' ' + year;
+    }
 
     render() {
+        let today_header;
+        let today_content;
+        if( this.state.today_content["resource"].length > 0 ) {
+            today_header = "Today's Event"
+            today_content = this.state.today_content["resource"].map((calendarevent) => {
+                  {/*console.log(this.state.today_content["resource"])*/}
+                  return (
+                <Row className="div_row event_row_home">
+                  <Col className="home_country_div">
+                    {calendarevent.countries}
+                  </Col>
+                  <Col className="event_image_col_home">
+                    <img src={calendarevent.image} className="festival_image"/>
+                  </Col>
+                  <Col className="event_desc_col_home">
+                    <Row className="inner_row_col"><h4>{calendarevent.festivals}</h4></Row>
+                    <Row className="inner_row_col">{calendarevent.description}</Row>
+                  </Col>
+                  {/*<Col className="event_stat_col">
+                  <Row className="inner_row_col"><h5>{this.formatDate(calendarevent.date)}</h5></Row>
+                  <Row className="inner_row_col">
+                    <button type="button" className="bg_btn">
+                    {/*<Link className="bg_link" to={{ pathname: "/event_locate",state: { title: calendarevent.festivals,date:calendarevent.date,location:this.state.client_address} }}  >Attend Events</Link>
+                    <div className="bg_link" onClick={() =>this.getEventdata({ title: calendarevent.festivals,date:calendarevent.date,location:this.state.client_address,country_name:this.state.country_name_main})}>Attend Events</div>
+
+                    </button>
+                  </Row>
+                  <Row className="inner_row_col">
+                  <Link
+                      to={{
+                        pathname: "/food",
+                        state: {
+                          food: calendarevent.food,
+                          location: this.state.client_address,
+                          country_name_main: this.state.country_name_main
+                        }
+                      }}
+                    >
+                    <button type="button" className="bg_btn bg_link">
+                      Explore Foods
+                    </button>
+                  </Link>
+                  <button type="button" className="bg_btn">
+                    <div className="bg_link" onClick={() =>this.checkForFood(
+                      {
+                          food: calendarevent.food,
+                          location: this.state.client_address,
+                          country_name_main: this.state.country_name_main,
+                          food_default: calendarevent.food_default,
+                          food_desc: calendarevent.food_desc
+                        }
+                      )}>Explore Foods</div>
+                    </button>
+                  </Row>
+                  </Col>*/}
+                </Row>
+                  )
+                })
+        } else {
+            today_header = 'No events/festivals available today'
+        }
 
         return (                                
 
@@ -122,7 +225,7 @@ class Home extends React.Component {
                                     header={<CardTitle image={card_india} card-image="true" waves-effect="waves" />}
 
                                     actions={[<Link to={{ pathname: "/event", state: { country: "India" } }} className="center" > view events </Link>]}>
-                                    <h5 >INDIA</h5>
+                                    <h5>INDIA</h5>
                                 </Card>
                             </Col>
                             <Col className="fixed-size-card">
@@ -148,52 +251,42 @@ class Home extends React.Component {
                                 </Card>
                             </Col>
                         </Row>
-
-
-
-                
                         </div>
-                        </div>
-                           
-                               
-                            </div> 
+                    </div>
+                </div> 
                                   
-          
+                <div className="parallax-container valign-wrapper">
+                    <div className="section no-pad-bot"></div>
+                        <Parallax className="parallax" image={<img src={landingBannerMaldives} />} alt="Unsplashed background img 2"></Parallax>
+                    </div>
+                <Row className="div_row event_row_home_header">{today_header}</Row>
+                {today_content}
+                <div className="container">
+                    <div className="section">
+
+                        <div className="row">
+                            <div className="col s12 center">
+                                <h3><i className="mdi-content-send brown-text"></i></h3>
+                      
+                        <br></br>
+
+                        <Caption>
                             
-
-                                <div className="parallax-container valign-wrapper">
-                                    <div className="section no-pad-bot">
-                                        
-                                    </div>
-                    <Parallax className="parallax" image={<img src={landingBannerMaldives} />} alt="Unsplashed background img 2"></Parallax>
-                                    </div>
-
-                                    <div className="container">
-                                        <div className="section">
-
-                                            <div className="row">
-                                                <div className="col s12 center">
-                                                    <h3><i className="mdi-content-send brown-text"></i></h3>
-                              
-                                <br></br>
-
-                                <Caption>
-                                    
-                                    <h5 className=" grey-text ">
-                                        Diversity may be the hardest thing for a society to live with, and perhaps the most dangerours thing for
-                                    a society to be without
-                                    </h5>
-                                    <p className="center grey-text ">by William Sloane Coffin</p>
-                                </Caption>
-                            
-                               
-                                </div>
-                                            </div>
-
-                                        </div>
+                            <h5 className=" grey-text ">
+                                Diversity may be the hardest thing for a society to live with, and perhaps the most dangerours thing for
+                            a society to be without
+                            </h5>
+                            <p className="center grey-text ">by William Sloane Coffin</p>
+                        </Caption>
+                    
+                       
+                    </div>
                 </div>
-                {/*{this.props.name}'s EVENTS MAPS PAGE*/}
-                        </div>
+
+            </div>
+        </div>
+        {/*{this.props.name}'s EVENTS MAPS PAGE*/}
+    </div>
 
 
                                    
