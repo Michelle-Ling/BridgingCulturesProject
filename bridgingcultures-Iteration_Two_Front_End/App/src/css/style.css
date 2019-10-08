@@ -360,3 +360,9 @@ p.left-align.light {
     font-size: 16px;
     text-align: justify;
 }
+
+#cultural_desc {
+    float: left;
+    text-align: justify;
+    color: white;
+}

@@ -379,25 +379,32 @@ togglehandler(e) {
       let image_src = card_australia;
       let modal_content;
       let loading_component;
+      let culture_desc;
       let title_country_name = "Australian Culture";
         if( this.state.country_name_main == "Australia" ) {
           image_src = card_australia;
           title_country_name = "Australian Culture";
+          culture_desc = "The culture of Australia is primarily a Western culture, to some extent derived from Britain but also influenced by the unique geography of Australia, the cultural input of Aboriginal, Torres Strait Islander and other Australian people.";
         } else if( this.state.country_name_main == "India" ) {
           image_src = card_india;
           title_country_name = "Indian Culture";
+          culture_desc = "India has its unique culture and tradition which makes it distinct from whole world, it will be correct to say that India is a land having culture of cultures which no country of the world has. Despite having so many cultures, traditions and religions still the people live in peace, harmony and love showcasing the unique culture of ‘Unity in Diversity’."
         } else if( this.state.country_name_main == "China" ) {
           image_src = card_china;
           title_country_name = "Chinese Culture";
+          culture_desc = "Chinese culture is one of the world's oldest cultures, originating thousands of years ago. The area over which the culture prevails covers a large geographical region in East Asia and is extremely diverse and varying, with customs and traditions varying greatly between provinces, cities, and even towns as well.";
         } else if( this.state.country_name_main == "Japan" ) {
           image_src = landingBannerJapan;
           title_country_name = "Japanese Culture";
+          culture_desc = "The culture of Japan has changed greatly over the millennia, from the country's prehistoric Jōmon period, to its contemporary modern culture, which absorbs influences from Asia, Europe, and North America.";
         } else if( this.state.country_name_main == "Malaysia" ) {
           image_src = card_malaysia;
           title_country_name = "Malaysian Culture";
+          culture_desc = "The culture of Malaysia draws on the varied cultures of the different people of Malaysia. The first people to live in the area were indigenous tribes that still remain; they were followed by the Malays, who moved there from mainland Asia in ancient times. Chinese and Indian cultural influences made their mark when trade began with those countries, and increased with immigration to Malaysia.";
         } else if( this.state.country_name_main == "Italy" ) {
           image_src = card_italy;
           title_country_name = "Italian Culture";
+          culture_desc = "Italy is considered the birthplace of Western civilization and a cultural superpower. Italy has been the starting point of phenomena of international impact such as the Magna Graecia, the Roman Empire, the Roman Catholic Church, the Romanesque, the Renaissance, the Scientific revolution,[3] the Baroque, the Neo-classicism, the Risorgimento and the European integration. During its history, the nation has given birth to an enormous number of notable people.";
         }
       if( this.state.event_listing == true ) {
         //console.log("INNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN")
@@ -449,7 +456,9 @@ togglehandler(e) {
                                 <h1 id="event_text" className="header left white-text-banner">
                                     {title_country_name}
                                 </h1>
-                                </Caption>
+                                <h5 id="cultural_desc">{culture_desc}
+                                </h5>
+                            </Caption>
                             </div>
                         </div>
                     </div>
