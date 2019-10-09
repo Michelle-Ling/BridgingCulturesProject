@@ -284,7 +284,7 @@ class Food extends React.Component {
           </Col>
         </Row>
         {this.state.food_list.map(foodlist => {
-          console.log(foodlist.imageurl)
+          console.log(foodlist.desc)
           return (
             <Row className="div_row event_row">
               <Col className="event_image_col">
@@ -319,7 +319,9 @@ class Food extends React.Component {
                         country_name_main: this.props.location.state
                           .country_name_main,
                         food: this.props.location.state.food,
-                        foodimage: foodlist.imageurl
+                        foodimage: foodlist.imageurl,
+                        food_default: this.props.location.state.food_default,
+                        food_desc: this.props.location.state.food_desc
                       }
                     }}
                   >

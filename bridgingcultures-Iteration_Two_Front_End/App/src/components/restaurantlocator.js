@@ -259,7 +259,9 @@ class RestaurantLocator extends React.Component {
                   country_name_main: this.props.location.state
                     .country_name_main,
                   location: this.props.location.state.location,
-                  food: this.props.location.state.food
+                  food: this.props.location.state.food,
+                  food_default: this.props.location.state.food_default,
+                  food_desc: this.props.location.state.food_desc
                 }
               }}
             >
