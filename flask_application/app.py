@@ -312,8 +312,8 @@ class RecipeData(Resource):
         italian_food_api = '005263693131602275062:kwgoies5glv'
         api_list_australia = [taste_au_api,asian_food_api,sbs_food_list_api,chinese_list_api,jew_food_list_api,indian_list_api,the_woks_of_life]
         api_list_india = [indian_list_api,asian_food_api,sbs_food_list_api,taste_au_api,chinese_list_api,jew_food_list_api,the_woks_of_life]
-        api_list_china = [cooking_simple_chinese_food,the_woks_of_life,chinese_list_api,asian_food_api,taste_au_api,jew_food_list_api,indian_list_api,sbs_food_list_api]
-        api_list_japan = [japanese_food_api,asian_food_api,chinese_list_api,the_woks_of_life,cooking_simple_chinese_food,taste_au_api,indian_list_api,jew_food_list_api]
+        api_list_china = [the_woks_of_life,cooking_simple_chinese_food,chinese_list_api,asian_food_api,taste_au_api,jew_food_list_api,indian_list_api,sbs_food_list_api]
+        api_list_japan = [jew_food_list_api,japanese_food_api,asian_food_api,chinese_list_api,the_woks_of_life,cooking_simple_chinese_food,taste_au_api,indian_list_api]
         api_list_malaysia = [malaysian_food_api,asian_food_api,indian_list_api,chinese_list_api,cooking_simple_chinese_food,japanese_food_api,taste_au_api,sbs_food_list_api,jew_food_list_api]
         api_list_italy = [italian_food_api,taste_au_api,jew_food_list_api,the_woks_of_life,sbs_food_list_api,malaysian_food_api,japanese_food_api,chinese_list_api,cooking_simple_chinese_food,indian_list_api]
         req_listing = api_list_india
