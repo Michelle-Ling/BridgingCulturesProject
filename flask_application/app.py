@@ -310,12 +310,13 @@ class RecipeData(Resource):
         japanese_food_api = '005263693131602275062:mz8k4mqtvob'
         malaysian_food_api = '005263693131602275062:mua4uwhltkp'
         italian_food_api = '005263693131602275062:kwgoies5glv'
-        api_list_australia = [taste_au_api,asian_food_api,sbs_food_list_api,chinese_list_api,jew_food_list_api,indian_list_api,the_woks_of_life]
-        api_list_india = [indian_list_api,asian_food_api,sbs_food_list_api,taste_au_api,chinese_list_api,jew_food_list_api,the_woks_of_life]
-        api_list_china = [the_woks_of_life,cooking_simple_chinese_food,chinese_list_api,asian_food_api,taste_au_api,jew_food_list_api,indian_list_api,sbs_food_list_api]
-        api_list_japan = [jew_food_list_api,japanese_food_api,asian_food_api,chinese_list_api,the_woks_of_life,cooking_simple_chinese_food,taste_au_api,indian_list_api]
-        api_list_malaysia = [malaysian_food_api,asian_food_api,indian_list_api,chinese_list_api,cooking_simple_chinese_food,japanese_food_api,taste_au_api,sbs_food_list_api,jew_food_list_api]
-        api_list_italy = [italian_food_api,taste_au_api,jew_food_list_api,the_woks_of_life,sbs_food_list_api,malaysian_food_api,japanese_food_api,chinese_list_api,cooking_simple_chinese_food,indian_list_api]
+        aus_latest_food_api = '005263693131602275062:f9df0qct5xk'
+        api_list_australia = [taste_au_api,aus_latest_food_api,asian_food_api,sbs_food_list_api,chinese_list_api,jew_food_list_api,indian_list_api,the_woks_of_life]
+        api_list_india = [indian_list_api,asian_food_api,sbs_food_list_api,taste_au_api,chinese_list_api,jew_food_list_api,the_woks_of_life,aus_latest_food_api]
+        api_list_china = [the_woks_of_life,cooking_simple_chinese_food,chinese_list_api,asian_food_api,taste_au_api,jew_food_list_api,indian_list_api,sbs_food_list_api,aus_latest_food_api]
+        api_list_japan = [jew_food_list_api,japanese_food_api,asian_food_api,chinese_list_api,the_woks_of_life,cooking_simple_chinese_food,taste_au_api,indian_list_api,aus_latest_food_api]
+        api_list_malaysia = [malaysian_food_api,asian_food_api,indian_list_api,chinese_list_api,cooking_simple_chinese_food,japanese_food_api,taste_au_api,sbs_food_list_api,jew_food_list_api,aus_latest_food_api]
+        api_list_italy = [italian_food_api,taste_au_api,jew_food_list_api,the_woks_of_life,sbs_food_list_api,malaysian_food_api,japanese_food_api,chinese_list_api,cooking_simple_chinese_food,indian_list_api,aus_latest_food_api]
         req_listing = api_list_india
         if arg_country == "Australia" or arg_country == "Australian":
             req_listing = api_list_australia
