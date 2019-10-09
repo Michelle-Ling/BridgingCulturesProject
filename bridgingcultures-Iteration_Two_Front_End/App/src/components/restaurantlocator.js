@@ -30,7 +30,8 @@ class RestaurantLocator extends React.Component {
   }
   state = {
     foodLocation: {},
-    restaurants_locations: []
+    restaurants_locations: [],
+    showNone: false
   };
 
   componentDidMount() {
@@ -124,7 +125,7 @@ class RestaurantLocator extends React.Component {
               this.props.location.state.country;
           }
           fetch(
-            `http://localhost:5000/restaurant_location?name=` +
+            `https://bridgingcultures-api-first.ml/restaurant_location?name=` +
               restaurants_name_str +
               "&location=" +
               location,
@@ -159,11 +160,12 @@ class RestaurantLocator extends React.Component {
               console.log(restaurants_locations);
               this.setState({
                 restaurants_locations: restaurants_locations,
-                showLoading: false
+                showLoading: false,
+                showNone: false
               });
             });
         } else {
-          this.setState({ restaurants_locations: [], showLoading: false });
+          this.setState({ restaurants_locations: [], showLoading: false, showNone: true });
         }
         //}
         //console.log(this.state.restaurants_locations)
@@ -175,6 +177,8 @@ class RestaurantLocator extends React.Component {
     let image_src = card_australia;
     let title_country_name = "Australian Culture";
     let loading_component;
+    let restaurant_listings;
+    //let shownone_component;
     if (this.props.location.state.country_name_main === "Australia") {
       image_src = card_australia;
       title_country_name = "Australian Culture";
@@ -196,6 +200,22 @@ class RestaurantLocator extends React.Component {
       }
     if( this.state.showLoading ) {
           loading_component = <div className="cal_overlay"><div className="loader"></div></div>
+      }
+
+      if( this.state.showNone ) {
+        restaurant_listings = <Row className="div_row event_row restaurant_locator">
+                  Sorry we couldn't find any restaurants near you serving {this.props.location.state.name}, please refer to our suggested recipes instead.
+                </Row>
+      } else {
+        restaurant_listings = this.state.restaurants_locations.map(foodlist => {
+              return (
+                <Row className="div_row event_row restaurant_locator">
+                  <h4 className="div_row">{foodlist.name}</h4>
+                  {foodlist.address}
+                  <hr></hr>
+                </Row>
+              );
+            })
       }
       //console.log(this.props.location.state.isWishList)
     return (
@@ -257,15 +277,7 @@ class RestaurantLocator extends React.Component {
                 <img src={this.props.location.state.foodimage} className="foodlocator_image" />
               </Col>
           <Col>
-            {this.state.restaurants_locations.map(foodlist => {
-              return (
-                <Row className="div_row event_row">
-                  <h4 className="div_row">{foodlist.name}</h4>
-                  {foodlist.address}
-                  <hr></hr>
-                </Row>
-              );
-            })}
+            {restaurant_listings}
           </Col>
           <Col className="min_map">
             <Mainmap

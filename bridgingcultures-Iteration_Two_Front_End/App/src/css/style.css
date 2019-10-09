@@ -371,6 +371,12 @@ button.fd_btn {
     color: white;
 }
 
+.home_country_div {
+    max-width: 15% !important;
+    font-size: 18px;
+    font-weight: 500;
+}
+
 
 /*Mobile*/
 @media screen and (max-width: 576px){
@@ -436,6 +442,7 @@ button.fd_btn {
     font-size: 0.98rem;
     width: 94%;
 }
+
 button.bg_btn {
     text-transform: uppercase;
     background-color: #36B3A8 !important;
@@ -449,6 +456,11 @@ button.bg_btn {
     margin-bottom: 0.5em;
     position: relative;
     left: -13px;
+}
+.home_country_div {
+    max-width: 15% !important;
+    font-size: 13px;
+    font-weight: 500;
 }
 
 }
@@ -533,6 +545,11 @@ button.bg_btn {
         padding-right: 3em;
         margin-bottom: 0.5em;
         position: relative;
+    }
+    .home_country_div {
+        max-width: 15% !important;
+        font-size: 18px;
+        font-weight: 500;
     }
 }
 @media screen (min-width: 786px){
@@ -619,6 +636,11 @@ button.bg_btn {
         text-align: justify;
         color: white;
     }
+    .home_country_div {
+        max-width: 15% !important;
+        font-size: 18px;
+        font-weight: 500;
+    }
 }
 .event_map{
     z-index: 3;
@@ -661,12 +683,6 @@ body {
     top: 0px !important;
 }
 
-.home_country_div {
-    max-width: 15% !important;
-    font-size: 18px;
-    font-weight: 500;
-}
-
 p.left-align.light {
     font-weight: 400;
     font-size: 16px;
@@ -686,4 +702,8 @@ p.left-align.light {
 .restaurant_food_img_out {
     width: 25%;
     height: 25%;
+}
+
+.restaurant_locator{
+    padding-left: 10px !important;
 }

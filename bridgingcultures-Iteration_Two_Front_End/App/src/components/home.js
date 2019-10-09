@@ -21,7 +21,7 @@ class Home extends React.Component {
     }
     componentDidMount() {
         //console.log(this.props.location.state)
-            fetch(`http://localhost:5000/todays_list`,{
+            fetch(`https://bridgingcultures-api-first.ml/todays_list`,{
               method: 'GET'
             }).then(response => response.json()).then(data => {
                 console.log(data)

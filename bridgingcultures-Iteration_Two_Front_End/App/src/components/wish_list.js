@@ -117,7 +117,7 @@ class WishList extends React.Component {
       }
       if (title_content !== "") {
           this.setState({ showLoading: true, showModal: false, restaurants_locations: [], food_list: [] });
-          fetch(`http://localhost:5000/eventbrite?festival_name=` + title_content + `&location=` + location + `&start_date=` + event_start_date + `&end_date=` + event_end_date, {
+          fetch(`https://bridgingcultures-api-first.ml/eventbrite?festival_name=` + title_content + `&location=` + location + `&start_date=` + event_start_date + `&end_date=` + event_end_date, {
               method: 'GET'
           }).then(response => response.json()).then(data => {
               this.setState({ showLoading: false });
@@ -193,9 +193,9 @@ class WishList extends React.Component {
         // if( this.props.location.state.food_desc ) {
         //   food_description = <Row className="inner_row_col">{ls.get("foods_desc")[]}</Row>
         // }
-        if( ls.get("foods_desc") ) {
-          food_description = ls.get("foods_desc")
-        }
+        // if( ls.get("foods_desc") ) {
+        //   food_description = ls.get("foods_desc")
+        // }
         if( ls.get("festivals") && ls.get("festivals").length > 0 ) {
           festival_header = "Favourite Festivals/Events"
           let festival_list = ls.get("festivals")
@@ -253,7 +253,7 @@ class WishList extends React.Component {
                 <Row className="inner_row_col">
                   <h4>{foodlist.name}</h4>
                 </Row>
-                <Row className="inner_row_col">{food_description[foodlist.name]}</Row>
+                <Row className="inner_row_col">{foodlist.desc}</Row>
               </Col>
               <Col className="event_stat_col">
                 <Row className="inner_row_col">

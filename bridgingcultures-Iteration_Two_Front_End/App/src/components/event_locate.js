@@ -185,7 +185,7 @@ componentDidMount() {
         }
         if( title_content !== "" ) {
         this.setState({ showLoading: true, showModal: false,restaurants_locations:[], food_list:[] });
-          fetch(`http://localhost:5000/eventbrite?festival_name=`+title_content+`&location=`+location+`&start_date=`+event_start_date+`&end_date=`+event_end_date,{
+          fetch(`https://bridgingcultures-api-first.ml/eventbrite?festival_name=`+title_content+`&location=`+location+`&start_date=`+event_start_date+`&end_date=`+event_end_date,{
           method: 'GET'
         }).then(response => response.json()).then(data => { 
         this.setState({ showLoading: false });

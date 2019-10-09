@@ -130,7 +130,7 @@ class Event extends React.Component {
             method: 'GET'
         }).then(response => response.json()).then(data => {
             //console.log(data.ip)
-            fetch(`http://localhost:5000/eventbrite/location?ip_address=` + data.ip, {
+            fetch(`https://bridgingcultures-api-first.ml/eventbrite/location?ip_address=` + data.ip, {
                 method: 'GET'
             }).then(response => response.json()).then(data => {
                 //console.log("client address:")
@@ -178,7 +178,7 @@ class Event extends React.Component {
 
     getData(menu_item, isToggler) {
         if (menu_item !== "") {
-            fetch(`http://localhost:5000/festival_content?name=` + menu_item + `&year=` + this.state.current_year, {
+            fetch(`https://bridgingcultures-api-first.ml/festival_content?name=` + menu_item + `&year=` + this.state.current_year, {
                 method: 'GET'
             }).then(response => response.json()).then(data => {
                 console.log("========================================")
@@ -232,7 +232,7 @@ class Event extends React.Component {
                             festival_dict["year"] = curr_yr
                         }
                     }
-                    //console.log(festival_dict)
+                    console.log(festival_dict)
                     this.setState({ calendarEvents: festival_dict, country_name: menu_item, current_month: festival_dict.start_month, current_year: festival_dict.year })
 
                 }
@@ -355,7 +355,7 @@ class Event extends React.Component {
 
                     location = this.state.client_address.region + ` ` + this.state.client_address.country
                 }
-                fetch(`http://localhost:5000/restaurant_location?name=` + restaurants_name_str + '&location=' + location, {
+                fetch(`https://bridgingcultures-api-first.ml/restaurant_location?name=` + restaurants_name_str + '&location=' + location, {
                     method: 'GET'
                 }).then(response => response.json()).then(data => {
                     //console.log(data)
@@ -696,7 +696,7 @@ class Event extends React.Component {
         }
         if (title_content !== "") {
             this.setState({ showLoading: true, showModal: false, restaurants_locations: [], food_list: [] });
-            fetch(`http://localhost:5000/eventbrite?festival_name=` + title_content + `&location=` + location + `&start_date=` + event_start_date + `&end_date=` + event_end_date, {
+            fetch(`https://bridgingcultures-api-first.ml/eventbrite?festival_name=` + title_content + `&location=` + location + `&start_date=` + event_start_date + `&end_date=` + event_end_date, {
                 method: 'GET'
             }).then(response => response.json()).then(data => {
                 this.setState({ showLoading: false });
@@ -740,7 +740,7 @@ class Event extends React.Component {
             var food_items = this.state.data_json.food[0].split(", ")
             food_items = food_items.slice(0, 3);
             //console.log(food_items)
-            fetch(`http://localhost:5000/recipe_links?name=` + this.state.data_json.food + `&country=` + this.state.country_name, {
+            fetch(`https://bridgingcultures-api-first.ml/recipe_links?name=` + this.state.data_json.food + `&country=` + this.state.country_name, {
                 method: 'GET'
             }).then(response => response.json()).then(data => {
                 console.log(data)

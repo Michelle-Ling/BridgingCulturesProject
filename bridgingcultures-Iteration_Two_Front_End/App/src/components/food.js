@@ -71,7 +71,7 @@ class Food extends React.Component {
     if( !ls.get("foods") ) {
       ls.set("foods",[])
       ls.set("foods_countries",{})
-      ls.set("foods_desc",{})
+      //ls.set("foods_desc",{})
     }
   }
 
@@ -118,7 +118,7 @@ class Food extends React.Component {
       food_items = food_items.slice(0, 3);
       console.log(food_items);
       fetch(
-        `http://localhost:5000/recipe_links?name=` +
+        `https://bridgingcultures-api-first.ml/recipe_links?name=` +
           this.state.food +
           `&country=` +
           this.state.country_name_main,
@@ -131,11 +131,21 @@ class Food extends React.Component {
           console.log(data);
           var items_array = data.food_items;
           //this.setState({ showLoading: false });
+          var food_desc_parts = "";
+          if( this.props.location.state.food_desc ) {
+            food_desc_parts = this.props.location.state.food_desc.split(";")
+          }
           for (var i = 0; i < data.food_items.length; i++) {
             var tempEvent = {};
             tempEvent.name = food_items[i];
             tempEvent.url_1 = items_array[i].items[0].link;
             tempEvent.url_2 = items_array[i].items[1].link;
+            if( food_desc_parts.length > i ) {
+              tempEvent.desc = food_desc_parts[i]
+            } else {
+              tempEvent.desc = ""
+            }
+            
             var imageurl_given = items_array[i].items[0].pagemap.cse_image[0].src.toString();
             if (imageurl_given.startsWith("http")) {
               tempEvent.imageurl =
@@ -175,10 +185,10 @@ class Food extends React.Component {
 	    foods_arr.push(obj)
 	    foods_countries_dict = ls.get("foods_countries")
 	    foods_countries_dict[obj.name] = this.state.country_name_main;
-	    foods_desc_dict = ls.get("foods_desc")
-	    foods_desc_dict[obj.name] = this.props.location.state.food_desc
+	    //foods_desc_dict = ls.get("foods_desc")
+	    //foods_desc_dict[obj.name] = this.props.location.state.food_desc
 	    ls.set("foods_countries", foods_countries_dict)
-	    ls.set("foods_desc", foods_desc_dict)
+	    //ls.set("foods_desc", foods_desc_dict)
 	  } else {
 	    foods_arr = ls.get('foods')
 	    console.log(foods_arr.filter(function(el) { return el.name != obj.name }))
@@ -215,9 +225,9 @@ class Food extends React.Component {
     if( this.state.showLoading ) {
         loading_component = <div className="cal_overlay"><div className="loader"></div></div>
      }
-    if( this.props.location.state.food_desc ) {
-    	food_description = <Row className="inner_row_col">{this.props.location.state.food_desc}</Row>
-    }
+    // if( this.props.location.state.food_desc ) {
+    // 	food_description = <Row className="inner_row_col">{this.props.location.state.food_desc}</Row>
+    // }
     console.log("+++++++++++++++++++++++++++++++++++++++")
     console.log(ls.get("foods_countries"))
     console.log(ls.get("foods"))
@@ -282,7 +292,7 @@ class Food extends React.Component {
               </Col>
           <Col className="festival_content">
                 <Row className="inner_row_col"><h4>{foodlist.name}</h4></Row>
-                <Row className="inner_row_col"> {food_description}</Row>
+                <Row className="inner_row_col"> {foodlist.desc}</Row>
          </Col>
         <Col >
                 <Row className="inner_row_col">
