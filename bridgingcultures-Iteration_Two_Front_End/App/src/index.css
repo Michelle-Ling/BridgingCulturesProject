@@ -197,7 +197,23 @@ div.div_row.event_row {
   margin: auto;
   margin-bottom: 1%;
 }
-
+div.div_row.festival_row {
+  border: 2px solid #ccc;
+    border-radius: 16px;
+    /* padding-top: 1px; */
+    /* padding-bottom: 1px; */
+    /* padding-right: 1px; */
+    /* padding-left: 1px; */
+    margin-left: 1px;
+    /* text-align: center; */
+    max-width: 82%;
+    align-items: center;
+    justify-content: space-around;
+    margin-right: 0px;
+    /* margin: auto; */
+    margin-bottom: 1%;
+    width: 50% !important;
+}
 .event_image_col {
   max-width: 20% !important;
 }
@@ -206,7 +222,14 @@ div.div_row.event_row {
   max-width: 33% !important;
   margin-right: 0.75em;
 }
-
+.festival_content{
+  margin-left: .75rem !important;
+  margin-right: 1.5rem !important;
+}
+.button_style{
+  position:relative;
+  left:48% !important;
+}
 .event_stat_col {
   max-width: 25% !important;
 }

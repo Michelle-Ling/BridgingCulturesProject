@@ -21,7 +21,8 @@ state = {
 eventBrites:{},
 eventBriteList:[],
 client_address:[],
-countryName:""
+countryName:"",
+festival_image:""
 }
 componentDidMount() {
         //console.log(this.props.location.state)
@@ -29,9 +30,9 @@ componentDidMount() {
                  let event_dict = {}
                  event_dict = this.props.location.state.event_dict;
                 
-             //console.log(this.props.location.state)
-            //console.log(event_country)
-                 this.setState({eventBriteList: event_dict,countryName:this.props.location.state.country_name })
+            console.log(this.props.location.state.image)
+            console.log(event_dict)
+                 this.setState({eventBriteList: event_dict,countryName:this.props.location.state.country_name,festival_image: this.props.location.state.image})
                  //this.setState({countryName:this.props.location.state.country_name})
                 // console.log(this.state.countryName)
              }
@@ -61,14 +62,11 @@ componentDidMount() {
       image_src = card_italy;
       title_country_name = "Italian Culture";
     }
-    const map_style={
-      padding:"85%",
-      offsetTop:"10%",
-    }
-    console.log(this.state.countryName)
+   
+    console.log(this.state.festival_image)
      //if(this.state.countryName)
         return (
-          <ul>
+          <div>
             <div>
             <div id="index-banner" className="parallax-container events_banner">
                     <div className="section no-pad-bot">
@@ -105,36 +103,63 @@ componentDidMount() {
             <h2 className="upcoming_header">Where to attend the events</h2>
           </Col>
         </Row>  
-         <Row className="event_map_row">
-         
-         <Col> 
+        
+         <Col>  
           {this.state.eventBriteList.map((eventbrite) => {           
-            console.log(this.state.eventBriteList)
-            return (            
-              <div class="list-group">
-                 <hr />
-                <li class="list-group-item list-group-item-light" style={{width:'70%'}}>
-                {/* <div>{eventbrite.name}</div> */}
-                <a class="list-group-item list-group-item-action list-group-item-primary" href = {eventbrite.url} target='_blank'>{eventbrite.name}</a>
-                {/* <div>{eventbrite.description}</div> */}
-                <div>{eventbrite.startTime}</div>
-                <div>{eventbrite.endTime}</div>
-                <div>{eventbrite.addressDisplay}</div>
-                </li>
-                <hr />
-              </div>
+            console.log(this.state.festival_image)
+            return (   
+              <Row className="div_row festival_row">
+                <Col className="event_image_col">
+                <img src={this.state.festival_image} className="festival_image" />
+              </Col>
+              <Col className="festival_content">
+                    <Row className="inner_row_col"><h4>{eventbrite.name}</h4></Row>
+                    <Row className="inner_row_col">{eventbrite.addressDisplay}</Row>
+                    <hr />
+                    <Row className="inner_row_col">{eventbrite.startTime}</Row>
+                    <Row className="inner_row_col">{eventbrite.endTime}</Row>
+                    <Col className="button_style" >
+                    <Row><button type="button" className="bg_btn">
+                    <a
+                      className="bg_link"
+                      href={eventbrite.url}
+                      target="_blank"
+                    >
+                      Attend Event
+                    </a>
+                    </button></Row>
+                    </Col>
+                    
+                  </Col>
+              </Row>     
+              // <div class="list-group">
+              //    <hr />
+              //    <img src={this.state.festival_image} className="festival_image"/>
+              //   <li class="list-group-item list-group-item-light" style={{width:'70%'}}>
+              //   {/* <div>{eventbrite.name}</div> */}
+                
+                  
+               
+              //   <a class="list-group-item list-group-item-action list-group-item-primary" href = {eventbrite.url} target='_blank'>{eventbrite.name}</a>
+              //   {/* <div>{eventbrite.description}</div> */}
+              //   <div>{eventbrite.startTime}</div>
+              //   <div>{eventbrite.endTime}</div>
+              //   <div>{eventbrite.addressDisplay}</div>
+              //   </li>
+              //   <hr />
+              // </div>
             )
           })}
-          </Col>
-          <Col  className="min_map">
+          
+          <Col className="event_map">
             <Mainmap
             eventBriteLocation = {this.state.eventBriteList}
             locationDetails = {this.props.location.state.location}
             restaurants_locations = {[]}
             />
             </Col>
-        </Row> 
-          </ul>
+            </Col>
+          </div>
           
 
 
@@ -179,7 +204,7 @@ componentDidMount() {
         }).then(response => response.json()).then(data => { 
         this.setState({ showLoading: false });
         var eventsbrite = data.events 
-        var mod_eventsbrite = []
+        var mod_eventsbrite = new Array(3)
        // console.log(data.events)
           if(data.events.length > 0)
             {
@@ -198,6 +223,7 @@ componentDidMount() {
               mod_eventsbrite.push(tempEvent)
               
               }
+            mod_eventsbrite = mod_eventsbrite.slice(0,3)
             this.setState({eventBriteList:mod_eventsbrite})
             //window.scrollTo(0, this.myRef.current.offsetTop);
             console.log(this.state.eventBriteList)

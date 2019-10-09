@@ -323,10 +323,28 @@ button.bg_btn {
     min-width: 500px !important;
     margin-right: 15px !important;
 }
+.event_map{
+    z-index: 3;
+    min-height: 400px !important;
+    max-height: 600px !important;
+    max-width: 800px !important;
+    min-width: 500px !important;
+    margin-right: 15px !important;
+    position: relative !important;
+    top: -427px!important;
+    right: -50% !important;
+    
+}
 
 .event_map_row{
     margin-left: 50px !important;
     margin-top: 10px !important;
+}
+.festival_map_row{
+    margin-left: 50px !important;
+    margin-top: 10px !important;
+    margin-right: 20px !important;
+   
 }
 
 .foodlocator_image {

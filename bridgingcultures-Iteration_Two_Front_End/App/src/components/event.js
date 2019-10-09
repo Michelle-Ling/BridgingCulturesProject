@@ -56,7 +56,8 @@ constructor(props) {
       current_month: exact_month_names[new Date().getMonth()],
       current_year: new Date().getFullYear(),
       event_listing: false,
-      modal_content : ""
+      modal_content : "",
+      festival_image: ""
     }
 
   //componentWillMount(){
@@ -417,7 +418,7 @@ togglehandler(e) {
                 event_dict,
                 location: location_pre,
                 country_name: this.state.country_name_main,
-              
+                image: this.state.festival_image
              }
            });
         } else if( this.state.showModal == false ){
@@ -502,7 +503,7 @@ togglehandler(e) {
                   <Row className="inner_row_col">
                     <button type="button" className="bg_btn">
                     {/*<Link className="bg_link" to={{ pathname: "/event_locate",state: { title: calendarevent.title,date:calendarevent.date,location:this.state.client_address} }}  >Attend Events</Link>*/}
-                    <div className="bg_link" onClick={() =>this.getEventdata({ title: calendarevent.title,date:calendarevent.date,location:this.state.client_address,country_name:this.state.country_name_main})}>Attend Events</div>
+                    <div className="bg_link" onClick={() =>this.getEventdata({ image:calendarevent.image,title: calendarevent.title,date:calendarevent.date,location:this.state.client_address,country_name:this.state.country_name_main})}>Attend Events</div>
 
                     </button>
                   </Row>
@@ -678,8 +679,9 @@ togglehandler(e) {
             //console.log(this.state.eventBriteList[1].l)
             //return tempEvent
             }
+            mod_eventsbrite = mod_eventsbrite.slice(0,3)
             console.log(mod_eventsbrite)
-            this.setState({eventBriteList:mod_eventsbrite, event_listing: true, showLoading: false})
+            this.setState({eventBriteList:mod_eventsbrite, event_listing: true, showLoading: false, festival_image: event.image})
           //return mod_eventsbrite;
         })
       } 
