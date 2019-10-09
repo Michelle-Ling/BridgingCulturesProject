@@ -221,8 +221,17 @@ footer.page-footer {
     margin-right: 35%;
     margin-left: 25%;
     margin-right: 36%;*/
+    text-align: center;
 }
-
+.foodlocator_image {
+    min-height: 200px !important;
+    max-height: 200px !important;
+    max-width: 200px !important;
+    min-width: 200px !important;
+    margin-left: 30px !important;
+    position: relative;
+    left: 40px;
+}
 .current_month {
     text-transform: uppercase;
     /*background-color: #36B3A8 !important;*/
@@ -283,7 +292,8 @@ footer.page-footer {
 }
 
 .back_home_col {
-    max-width: 36% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
 }
 
 .month_name_col {
@@ -296,13 +306,40 @@ footer.page-footer {
     margin-bottom: 0px;
 }
 
+
 button.bg_btn {
     text-transform: uppercase;
     background-color: #36B3A8 !important;
     border-radius: 2em;
     border: none;
     margin-top: 0.2em;
-    margin-left: 2em;
+    margin-left: 0em;
+    padding: 0.5em;
+    padding-left: 3em;
+    padding-right: 3em;
+    margin-bottom: 0.5em;
+    position: relative;
+    left: -15px;
+}
+button.fe_btn {
+    text-transform: uppercase;
+    background-color: #36B3A8 !important;
+    border-radius: 2em;
+    border: none;
+    margin-top: 0.2em;
+    margin-left: -8em;
+    padding: 0.5em;
+    padding-left: 3em;
+    padding-right: 3em;
+    margin-bottom: 0.5em;
+}
+button.fd_btn {
+    text-transform: uppercase;
+    background-color: #36B3A8 !important;
+    border-radius: 2em;
+    border: none;
+    margin-top: 0.2em;
+    /* margin-left: -8em; */
     padding: 0.5em;
     padding-left: 3em;
     padding-right: 3em;
@@ -317,11 +354,200 @@ button.bg_btn {
 }
 
 .min_map {
+    min-height: 300px !important;
+    max-height: 300px !important;
+    max-width: 350px !important;
+    min-width: 300px !important;
+    margin-left: 7px !important;
+}
+/*Mobile*/
+@media(min-width: 576px){
+    .min_map {
+        min-height: 400px !important;
+        max-height: 400px !important;
+        max-width: 300px !important;
+        min-width: 300px !important;
+        margin-right: 15px !important;
+    }
+ .back_home_col {
+        min-width: 100% !important;
+    }
+.event_map{
+    z-index: 3;
     min-height: 400px !important;
     max-height: 600px !important;
-    max-width: 1000px !important;
+    max-width: 800px !important;
     min-width: 500px !important;
     margin-right: 15px !important;
+    position: relative !important;  
+}
+.event_map_row{
+    margin-left: 50px !important;
+    margin-top: 10px !important;
+}
+.festival_map_row{
+    margin-left: 50px !important;
+    margin-top: 10px !important;
+    margin-right: 20px !important;
+   
+}
+.back_home_btn{
+    text-transform: uppercase;
+    background-color: #36B3A8 !important;
+    border-radius: 2em !important;
+    border: none !important;
+    margin-top: 0.2em !important;
+    margin-left: em !important;
+    padding: 0.5em !important;
+    padding-left: 3em !important;
+    padding-right: 3em !important;
+    margin-bottom: 0.5em !important;
+}
+
+.back_home_link {
+    color: #fff !important;
+    font-weight: 500;
+    font-size: 14px;
+    text-decoration: none !important;
+}
+
+}
+@media(min_width:786px){
+    .min_map {
+        min-height: 400px !important;
+        max-height: 400px !important;
+        max-width: 300px !important;
+        min-width: 300px !important;
+        margin-right: 15px !important;
+    }
+    
+    .back_home_col {
+        min-width: 100% !important;
+    }
+    .event_map{
+        z-index: 3;
+        min-height: 400px !important;
+        max-height: 600px !important;
+        max-width: 800px !important;
+        min-width: 500px !important;
+        margin-right: 15px !important;
+        position: relative !important;
+       
+        
+    }
+    .event_map_row{
+        margin-left: 50px !important;
+        margin-top: 10px !important;
+    }
+    .festival_map_row{
+        margin-left: 50px !important;
+        margin-top: 10px !important;
+        margin-right: 20px !important;
+       
+    }
+    .back_home_btn{
+        text-transform: uppercase;
+        background-color: #36B3A8 !important;
+        border-radius: 2em;
+        border: none;
+        margin-top: 0.2em;
+        margin-left: 0em;
+        padding: 0.5em;
+        padding-left: 3em;
+        padding-right: 3em;
+        margin-bottom: 0.5em;
+        
+    }
+    
+    .back_home_link {
+        color: #fff !important;
+        font-weight: 500;
+        font-size: 14px;
+        text-decoration: none !important;
+    }
+    .foodlocator_image {
+        min-height: 200px !important;
+        max-height: 200px !important;
+        max-width: 200px !important;
+        min-width: 200px !important;
+        margin-left: 30px !important;
+    }
+}
+@media(min-width: 992px){
+    button.bg_btn {
+        text-transform: uppercase;
+        background-color: #36B3A8 !important;
+        border-radius: 2em;
+        border: none;
+        margin-top: 0.2em;
+        margin-left: 0em;
+        padding: 0.5em;
+        padding-left: 3em;
+        padding-right: 3em;
+        margin-bottom: 0.5em;
+        position: relative;
+        left: 50px;
+    
+    }
+    .min_map {
+        min-height: 400px !important;
+        max-height: 400px !important;
+        max-width: 500px !important;
+        min-width: 500px !important;
+        margin-right: 25px !important;
+    }
+    .back_home_col {
+        min-width: 15% !important;
+    /* width: 16% !important; */
+    max-width: 15% !important;
+    }
+    .event_map{
+        z-index: 3;
+        min-height: 400px !important;
+        max-height: 600px !important;
+        max-width: 800px !important;
+        min-width: 500px !important;
+        margin-right: 15px !important;
+        position: relative !important;
+       
+        
+    }
+    .event_map_row{
+        margin-left: 50px !important;
+        margin-top: 10px !important;
+    }
+    .festival_map_row{
+        margin-left: 50px !important;
+        margin-top: 10px !important;
+        margin-right: 20px !important;
+       
+    }
+    .back_home_btn{
+        text-transform: uppercase;
+        background-color: #36B3A8 !important;
+        border-radius: 2em;
+        border: none;
+        margin-top: 0.2em;
+        margin-left: 0em;
+        padding: 0.5em;
+        padding-left: 3em;
+        padding-right: 3em;
+        margin-bottom: 0.5em;
+    }
+    
+    .back_home_link {
+        color: #fff !important;
+        font-weight: 500;
+        font-size: 14px;
+        text-decoration: none !important;
+    }
+    .foodlocator_image {
+        min-height: 400px !important;
+        max-height: 400px !important;
+        max-width: 400px !important;
+        min-width: 400px !important;
+        margin-left: 30px !important;
+    }
 }
 .event_map{
     z-index: 3;
@@ -331,11 +557,8 @@ button.bg_btn {
     min-width: 500px !important;
     margin-right: 15px !important;
     position: relative !important;
-    top: -427px!important;
-    right: -50% !important;
     
 }
-
 .event_map_row{
     margin-left: 50px !important;
     margin-top: 10px !important;
@@ -347,13 +570,8 @@ button.bg_btn {
    
 }
 
-.foodlocator_image {
-    min-height: 400px !important;
-    max-height: 400px !important;
-    max-width: 400px !important;
-    min-width: 400px !important;
-    margin-left: 30px !important;
-}
+
+
 
 a:hover {
     text-decoration: none !important;

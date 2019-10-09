@@ -242,7 +242,7 @@ class RestaurantLocator extends React.Component {
               }}
             >
               <button type="button" className="back_home_btn back_home_link">
-                Back to Foods
+                Back
               </button>
             </Link>
           </Col>

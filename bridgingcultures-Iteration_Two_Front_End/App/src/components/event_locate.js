@@ -1,5 +1,6 @@
 import React from 'react';
-import { Parallax, Card, CardTitle, Row, Col, Caption } from 'react-materialize';
+import Bootstrap from "react-bootstrap/"
+import { Parallax, Card, CardTitle, Button, Row, Col, Caption } from 'react-materialize';
 import { Link } from "react-router-dom";
 import '../css/style.css';
 import '../css/materialize.css';
@@ -83,7 +84,7 @@ componentDidMount() {
                     <Parallax className="parallax" image={<img src={image_src} className="inner-box inner-box-event-image"/>} alt="Unsplashed background img 1"></Parallax>
                 </div>
             </div>
-            <Row className="div_row">
+        <Row className="div_row">
           <Col className="back_home_col">
             <Link
               to={{
@@ -95,16 +96,18 @@ componentDidMount() {
               }}
             >
               <button type="button" className="back_home_btn back_home_link">
-                Back to Festival
+                Back
               </button>
             </Link>
           </Col>
+            
           <Col>
             <h2 className="upcoming_header">Where to attend the events</h2>
           </Col>
-        </Row>  
+          </Row>
         
-         <Col>  
+        <Row>  
+          <Col>
           {this.state.eventBriteList.map((eventbrite) => {           
             console.log(this.state.festival_image)
             return (   
@@ -119,7 +122,7 @@ componentDidMount() {
                     <Row className="inner_row_col">{eventbrite.startTime}</Row>
                     <Row className="inner_row_col">{eventbrite.endTime}</Row>
                     <Col className="button_style" >
-                    <Row><button type="button" className="bg_btn">
+                    <Row><button type="button" className="fe_btn">
                     <a
                       className="bg_link"
                       href={eventbrite.url}
@@ -132,25 +135,9 @@ componentDidMount() {
                     
                   </Col>
               </Row>     
-              // <div class="list-group">
-              //    <hr />
-              //    <img src={this.state.festival_image} className="festival_image"/>
-              //   <li class="list-group-item list-group-item-light" style={{width:'70%'}}>
-              //   {/* <div>{eventbrite.name}</div> */}
-                
-                  
-               
-              //   <a class="list-group-item list-group-item-action list-group-item-primary" href = {eventbrite.url} target='_blank'>{eventbrite.name}</a>
-              //   {/* <div>{eventbrite.description}</div> */}
-              //   <div>{eventbrite.startTime}</div>
-              //   <div>{eventbrite.endTime}</div>
-              //   <div>{eventbrite.addressDisplay}</div>
-              //   </li>
-              //   <hr />
-              // </div>
             )
           })}
-          
+          </Col>
           <Col className="event_map">
             <Mainmap
             eventBriteLocation = {this.state.eventBriteList}
@@ -158,7 +145,7 @@ componentDidMount() {
             restaurants_locations = {[]}
             />
             </Col>
-            </Col>
+        </Row>
           </div>
           
 

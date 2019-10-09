@@ -180,6 +180,18 @@ a.fc-day-grid-event.fc-end.fc-event.fc-h-event.fc-start {
   width: 85% !important;
   float: right;
 }
+.mian_image{
+  width: 185% !important;
+  height: 100px;
+  float: right;
+}
+
+.food_image{
+  width: 100% !important;
+    /* float: right; */
+    position: relative;
+    left: 0px;
+}
 
 div.div_row.event_row {
   border: 2px solid #ccc;
@@ -190,30 +202,95 @@ div.div_row.event_row {
   /* padding-left: 1px; */
   margin-left: 1px;
   /* text-align: center; */
-  max-width: 82%;
+  max-width: 100%;
   align-items: center;
   justify-content: center;
   margin-right: 0px;
   margin: auto;
   margin-bottom: 1%;
+  left: 8px;
+  position: relative;
 }
-div.div_row.festival_row {
-  border: 2px solid #ccc;
-    border-radius: 16px;
-    /* padding-top: 1px; */
-    /* padding-bottom: 1px; */
-    /* padding-right: 1px; */
-    /* padding-left: 1px; */
-    margin-left: 1px;
-    /* text-align: center; */
-    max-width: 82%;
-    align-items: center;
-    justify-content: space-around;
-    margin-right: 0px;
-    /* margin: auto; */
-    margin-bottom: 1%;
-    width: 50% !important;
+/*Tablet*/
+@media(min-width: 768px){
+  div.div_row.festival_row {
+    border: 2px solid #ccc;
+      border-radius: 16px;
+      /* padding-top: 1px; */
+      /* padding-bottom: 1px; */
+      /* padding-right: 1px; */
+      /* padding-left: 1px; */
+      margin-left: 14px;
+      /* text-align: center; */
+      max-width: 100%;
+      align-items: center;
+      justify-content: space-around;
+      margin-right: 0px;
+      /* margin: auto; */
+      margin-bottom: 1%;
+      
+      width: 100% !important;
+  }
+ 
 }
+/*Mobile*/
+@media(min-width: 576px){
+  div.div_row.festival_row {
+    border: 2px solid #ccc;
+      border-radius: 16px;
+      /* padding-top: 1px; */
+      /* padding-bottom: 1px; */
+      /* padding-right: 1px; */
+      /* padding-left: 1px; */
+      margin-left: 14px;
+      /* text-align: center; */
+      max-width: 100%;
+      align-items: center;
+      justify-content: space-around;
+      margin-right: 0px;
+      /* margin: auto; */
+      margin-bottom: 1%;
+      
+      width: 86% !important;
+  }
+  
+}
+@media(min-width: 992px){
+  div.div_row.festival_row {
+    border: 2px solid #ccc;
+      border-radius: 16px;
+      /* padding-top: 1px; */
+      /* padding-bottom: 1px; */
+      /* padding-right: 1px; */
+      /* padding-left: 1px; */
+      margin-left: 14px;
+      /* text-align: center; */
+      max-width: 100%;
+      align-items: center;
+      justify-content: space-around;
+      margin-right: 0px;
+      /* margin: auto; */
+      margin-bottom: 1%;
+      
+      width: 100% !important;
+  }
+  .food_image{
+    width: 85% !important;
+    /* float: right; */
+    position: relative;
+    left: 0px;
+}
+.mian_image{
+  width: 85% !important;
+  /* float: right; */
+  height: 150px;
+  position: relative;
+  left: -76px;
+
+}  
+
+}
+
 .event_image_col {
   max-width: 20% !important;
 }

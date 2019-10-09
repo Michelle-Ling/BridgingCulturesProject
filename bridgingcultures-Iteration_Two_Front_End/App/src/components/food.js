@@ -211,30 +211,30 @@ class Food extends React.Component {
               }}
             >
               <button type="button" className="back_home_btn back_home_link">
-                Back to events
+                Back
               </button>
             </Link>
           </Col>
+
           <Col>
             <h2 className="upcoming_header">Tantalize Your Tastebuds</h2>
           </Col>
         </Row>
+        <Row>
         {this.state.food_list.map(foodlist => {
           console.log(foodlist.imageurl)
           return (
-            <Row className="div_row event_row">
+            <Row className="div_row festival_row">
               <Col className="event_image_col">
-                <img src={foodlist.imageurl} className="festival_image" />
+                <img src={foodlist.imageurl} className="food_image" />
               </Col>
-              <Col className="event_desc_col">
+          <Col className="festival_content">
+                <Row className="inner_row_col"><h4>{foodlist.name}</h4></Row>
+                <Row className="inner_row_col"> {food_description}</Row>
+         </Col>
+        <Col >
                 <Row className="inner_row_col">
-                  <h4>{foodlist.name}</h4>
-                </Row>
-                {food_description}
-              </Col>
-              <Col className="event_stat_col">
-                <Row className="inner_row_col">
-                  <button type="button" className="bg_btn bg_link">
+                  <button type="button" className="fd_btn">
                     <a
                       className="bg_link"
                       href={foodlist.url_1}
@@ -243,8 +243,8 @@ class Food extends React.Component {
                       Get the Recipe
                     </a>
                   </button>
-                </Row>
-                <Row className="inner_row_col">
+                  </Row>
+                <Row >
                   <Link
                     to={{
                       pathname: "/restaurantlocator",
@@ -261,15 +261,17 @@ class Food extends React.Component {
                       }
                     }}
                   >
-                    <button type="button" className="bg_btn bg_link">
+                    <button type="button" className="fd_btn bg_link">
                       Explore Foods
                     </button>
                   </Link>
                 </Row>
-              </Col>
+          </Col>
+              
             </Row>
           );
         })}
+        </Row>
       </div>
     );
   }

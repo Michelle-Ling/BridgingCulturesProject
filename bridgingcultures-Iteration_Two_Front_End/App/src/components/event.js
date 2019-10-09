@@ -472,6 +472,7 @@ togglehandler(e) {
                 <Link className="back_home_link" to={{ pathname: "/" }}  >Back to home</Link>
                 </button>
                 </Col>
+                
                 <Col>
                 <h2 className="upcoming_header">Upcoming Festivals & Events</h2>
                 </Col>
@@ -492,7 +493,7 @@ togglehandler(e) {
                   return (
                 <Row className="div_row event_row">
                   <Col className="event_image_col">
-                    <img src={calendarevent.image} className="festival_image"/>
+                    <img src={calendarevent.image} className="mian_image"/>
                   </Col>
                   <Col className="event_desc_col">
                     <Row className="inner_row_col"><h4>{calendarevent.title}</h4></Row>
