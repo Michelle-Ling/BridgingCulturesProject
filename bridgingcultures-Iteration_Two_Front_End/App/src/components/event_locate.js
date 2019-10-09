@@ -13,6 +13,11 @@ import card_china from './card_china.png';
 import card_india from './card_india.png';
 import card_malaysia from './card_malaysia.jpg';
 import card_italy from './card_italy.jpg';
+
+const exact_month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+const exact_days_names = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
 class EventLocate extends React.Component {
 constructor(props){
     super(props);
@@ -25,6 +30,15 @@ client_address:[],
 countryName:"",
 festival_image:""
 }
+
+formatted_date(str) {
+  var given_date = new Date(str);
+  var day = exact_days_names[given_date.getDay()]
+  var month = exact_month_names[given_date.getMonth()]
+  var year = given_date.getFullYear()
+  return day + " " + given_date.getDate() + " " + month + " " + year
+}
+
 componentDidMount() {
         //console.log(this.props.location.state)
              if( this.props.location.state ) {
@@ -118,8 +132,8 @@ componentDidMount() {
                     <Row className="inner_row_col"><h4>{eventbrite.name}</h4></Row>
                     <Row className="inner_row_col">{eventbrite.addressDisplay}</Row>
                     <hr />
-                    <Row className="inner_row_col">{eventbrite.startTime.split("T")[0]+" "+eventbrite.startTime.split("T")[1]}</Row>
-                    <Row className="inner_row_col">{eventbrite.endTime.split("T")[0]+" "+eventbrite.endTime.split("T")[1]}</Row>
+                    <Row className="inner_row_col">{this.formatted_date(eventbrite.startTime.split("T")[0])+" "+eventbrite.startTime.split("T")[1]}</Row>
+                    <Row className="inner_row_col">{this.formatted_date(eventbrite.endTime.split("T")[0])+" "+eventbrite.endTime.split("T")[1]}</Row>
                     <Col className="button_style" >
                     <Row><button type="button" className="fe_btn">
                     <a
