@@ -18,6 +18,8 @@ import card_china from './card_china.png';
 import card_india from './card_india.png';
 import card_malaysia from './card_malaysia.jpg';
 import card_italy from './card_italy.jpg';
+import fav_out_icon from './heart_outline_png.png'
+import fav_in_icon from './heart_filled_png.png'
 
 import '../css/Calendar.scss'
 const exact_month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -68,6 +70,21 @@ class Event extends React.Component {
         }
 
         this.request_ip_address();
+        if( !ls.get("festivals") ) {
+          ls.set("festivals",[])
+          ls.set("festivals_countries",{})
+        }
+    }
+
+    containsObject(obj, list) {
+        var i;
+        for (i = 0; i < list.length; i++) {
+            if (list[i].title === obj.title) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     componentWillReceiveProps(nextProps) {
@@ -90,7 +107,7 @@ class Event extends React.Component {
             "August", "September", "October",
             "November", "December"
         ];
-
+        //console.log(date)
         var day = date.getDate();
         var monthIndex = date.getMonth();
         var year = date.getFullYear();
@@ -118,6 +135,7 @@ class Event extends React.Component {
             }).then(response => response.json()).then(data => {
                 //console.log("client address:")
                 //console.log(data)
+                ls.set("client_address",data)
                 this.setState({ client_address: data })
                 //return data
                 //console.log(mod_holidays_array)
@@ -368,6 +386,33 @@ class Event extends React.Component {
         //console.log(restaurants_name)
     };
 
+    render_wish_list = (obj) => {
+      if( ls.get('festivals').length > 0 ) {
+        if( this.containsObject(obj, ls.get('festivals')) ) {
+          return fav_in_icon
+        }
+      }
+      return fav_out_icon;
+    }
+
+    addToWishList = (obj) => {
+      let festivals_arr;
+      let festivals_countries_dict;
+      if( !this.containsObject(obj, ls.get('festivals')) ) {
+        festivals_arr = ls.get('festivals')
+        festivals_arr.push(obj)
+        festivals_countries_dict = ls.get("festivals_countries")
+        festivals_countries_dict[obj.title] = this.state.country_name_main;
+        ls.set("festivals_countries", festivals_countries_dict)
+      } else {
+        festivals_arr = ls.get('festivals')
+        console.log(festivals_arr.filter(function(el) { return el.title != obj.title }))
+        festivals_arr = festivals_arr.filter(function(el) { return el.title != obj.title });
+      }
+      ls.set("festivals",festivals_arr)
+      this.setState({showLoading: false})
+    }
+
 
     render() {
         let image_src = card_australia;
@@ -398,7 +443,7 @@ class Event extends React.Component {
         } else if (this.state.country_name_main == "Italy") {
             image_src = card_italy;
             title_country_name = "Italian Culture";
-            culture_desc = "Italy is considered the birthplace of Western civilization and a cultural superpower. Italy has been the starting point of phenomena of international impact such as the Magna Graecia, the Roman Empire, the Roman Catholic Church, the Romanesque, the Renaissance, the Scientific revolution,[3] the Baroque, the Neo-classicism, the Risorgimento and the European integration. During its history, the nation has given birth to an enormous number of notable people.";
+            culture_desc = "Italy is considered the birthplace of Western civilization and a cultural superpower. Italy has been the starting point of phenomena of international impact such as the Magna Graecia, the Roman Empire, the Roman Catholic Church, the Romanesque, the Renaissance, the Scientific revolution, the Baroque, the Neo-classicism, the Risorgimento and the European integration.";
         }
         if (this.state.event_listing == true) {
             //console.log("INNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN")
@@ -411,7 +456,7 @@ class Event extends React.Component {
                         event_dict,
                         location: location_pre,
                         country_name: this.state.country_name_main,
-
+                        image: this.state.festival_state_image
                     }
                 });
             } else if (this.state.showModal == false) {
@@ -422,8 +467,10 @@ class Event extends React.Component {
         if (this.state.showLoading) {
             loading_component = <div className="cal_overlay"><div className="loader"></div></div>
         }
-        //console.log("+++++++++++++++++++++++++++++++++++++++")
-        //console.log(this.state.calendarEvents)
+        console.log("+++++++++++++++++++++++++++++++++++++++")
+        console.log(ls.get("festivals_countries"))
+        console.log(ls.get("festivals"))
+        console.log(ls.get("client_address"))
         // let d = new Date();
         // console.log("+++++++++++========================");
         // let curr_mon_code = d.getMonth();
@@ -460,17 +507,6 @@ class Event extends React.Component {
                 </div>
                 {loading_component}
                 <Row className="div_row">
-<<<<<<< HEAD
-                <Col className="back_home_col">
-                <button type="button" className="back_home_btn">
-                <Link className="back_home_link" to={{ pathname: "/" }}  >Back to home</Link>
-                </button>
-                </Col>
-                
-                <Col>
-                <h2 className="upcoming_header">Upcoming Festivals & Events</h2>
-                </Col>
-=======
                     <Col className="back_home_col">
                         <button type="button" className="back_home_btn">
                             <Link className="back_home_link" to={{ pathname: "/" }}  >Back to home</Link>
@@ -479,7 +515,6 @@ class Event extends React.Component {
                     <Col>
                         <h2 className="upcoming_header">Upcoming Festivals & Events</h2>
                     </Col>
->>>>>>> 8b53daf8dc282324345ba090a201b32b559b68fc
                 </Row>
                 <Row className="div_row">
                     <Col>
@@ -493,34 +528,11 @@ class Event extends React.Component {
                     </Col>
                 </Row>
                 {this.state.calendarEvents[this.state.current_month].map((calendarevent) => {
-<<<<<<< HEAD
-                  console.log(this.state.calendarEvents)
-                  return (
-                <Row className="div_row event_row">
-                  <Col className="event_image_col">
-                    <img src={calendarevent.image} className="mian_image"/>
-                  </Col>
-                  <Col className="event_desc_col">
-                    <Row className="inner_row_col"><h4>{calendarevent.title}</h4></Row>
-                    <Row className="inner_row_col">{calendarevent.description}</Row>
-                  </Col>
-                  <Col className="event_stat_col">
-                  <Row className="inner_row_col"><h5>{this.formatDate(calendarevent.date)}</h5></Row>
-                  <Row className="inner_row_col">
-                    <button type="button" className="bg_btn">
-                    {/*<Link className="bg_link" to={{ pathname: "/event_locate",state: { title: calendarevent.title,date:calendarevent.date,location:this.state.client_address} }}  >Attend Events</Link>*/}
-                    <div className="bg_link" onClick={() =>this.getEventdata({ image:calendarevent.image,title: calendarevent.title,date:calendarevent.date,location:this.state.client_address,country_name:this.state.country_name_main})}>Attend Events</div>
-
-                    </button>
-                  </Row>
-                  <Row className="inner_row_col">
-                  {/*<Link
-=======
-                    console.log(this.state.calendarEvents)
+                    //console.log(this.state.calendarEvents)
                     return (
                         <Row className="div_row event_row">
                             <Col className="event_image_col">
-                                <img src={calendarevent.image} className="festival_image" />
+                                <img src={calendarevent.image} className="mian_image" />
                             </Col>
                             <Col className="event_desc_col">
                                 <Row className="inner_row_col"><h4>{calendarevent.title}</h4></Row>
@@ -531,13 +543,12 @@ class Event extends React.Component {
                                 <Row className="inner_row_col">
                                     <button type="button" className="bg_btn">
                                         {/*<Link className="bg_link" to={{ pathname: "/event_locate",state: { title: calendarevent.title,date:calendarevent.date,location:this.state.client_address} }}  >Attend Events</Link>*/}
-                                        <div className="bg_link" onClick={() => this.getEventdata({ title: calendarevent.title, date: calendarevent.date, location: this.state.client_address, country_name: this.state.country_name_main })}>Attend Events</div>
+                                        <div className="bg_link" onClick={() => this.getEventdata({image: calendarevent.image, title: calendarevent.title, date: calendarevent.date, location: this.state.client_address, country_name: this.state.country_name_main })}>Attend Events</div>
 
                                     </button>
                                 </Row>
                                 <Row className="inner_row_col">
                                     {/*<Link
->>>>>>> 8b53daf8dc282324345ba090a201b32b559b68fc
                       to={{
                         pathname: "/food",
                         state: {
@@ -565,35 +576,9 @@ class Event extends React.Component {
                                 </Row>
                             </Col>
 
-                            <Button
-                                onClick={() => {
-                                    let a = ls('wishlist');
-                                    if (!a) {
-                                        ls('wishlist', [{
-                                            ...calendarevent
-                                        }]);
-                                        this.setState({
-                                            added: [{
-                                                ...calendarevent
-                                            }]
-                                        });
-
-                                        return;
-                                    }
-                                    a.push({
-                                        ...calendarevent
-                                    });
-
-                                    ls('wishlist', [...a])
-
-                                    this.setState({
-                                        added: {
-                                            ...a
-                                        }
-                                    });
-                                    console.log(this.state.added)
-                                }}
-                            > save </Button>
+                  <Col className="fav_icon" onClick={() =>this.addToWishList(calendarevent)}>
+                    <img src={this.render_wish_list(calendarevent)} className="fav_img"/>
+                  </Col>
 
 
 
@@ -738,8 +723,9 @@ class Event extends React.Component {
                     //console.log(this.state.eventBriteList[1].l)
                     //return tempEvent
                 }
+                mod_eventsbrite = mod_eventsbrite.slice(0,3)
                 console.log(mod_eventsbrite)
-                this.setState({ eventBriteList: mod_eventsbrite, event_listing: true, showLoading: false })
+                this.setState({ eventBriteList: mod_eventsbrite, festival_state_image: event.image, event_listing: true, showLoading: false })
                 //return mod_eventsbrite;
             })
         }

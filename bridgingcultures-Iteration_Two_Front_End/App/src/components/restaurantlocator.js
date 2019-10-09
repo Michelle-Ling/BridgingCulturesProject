@@ -81,11 +81,11 @@ class RestaurantLocator extends React.Component {
       `https://www.googleapis.com/customsearch/v1?key=AIzaSyA48886uOlEYUskw5zQrvcbpDHz8nc8XPc&cx=005263693131602275062:cztfzj4nvim&q=` +
         this.props.location.state.name +
         ` ` +
-        this.props.location.state.country +
+        this.props.location.state.city +
         ` ` +
         this.props.location.state.region +
         ` ` +
-        this.props.location.state.city,
+        this.props.location.state.country,
       {
         method: "GET"
       }
@@ -155,6 +155,7 @@ class RestaurantLocator extends React.Component {
                   restaurants_locations.push(restaurant_content);
                 }
               }
+              restaurants_locations = restaurants_locations.slice(0,3)
               console.log(restaurants_locations);
               this.setState({
                 restaurants_locations: restaurants_locations,
@@ -196,6 +197,7 @@ class RestaurantLocator extends React.Component {
     if( this.state.showLoading ) {
           loading_component = <div className="cal_overlay"><div className="loader"></div></div>
       }
+      //console.log(this.props.location.state.isWishList)
     return (
       <div>
         <div id="index-banner" className="parallax-container events_banner">
@@ -232,7 +234,7 @@ class RestaurantLocator extends React.Component {
           <Col className="back_home_col">
             <Link
               to={{
-                pathname: "/food",
+                pathname: this.props.location.state.isWishList?"/wish_list":"/food",
                 state: {
                   country_name_main: this.props.location.state
                     .country_name_main,
@@ -251,7 +253,7 @@ class RestaurantLocator extends React.Component {
           </Col>
         </Row>
         <Row className="div_row">
-        <Col>
+        <Col className="restaurant_food_img_out">
                 <img src={this.props.location.state.foodimage} className="foodlocator_image" />
               </Col>
           <Col>

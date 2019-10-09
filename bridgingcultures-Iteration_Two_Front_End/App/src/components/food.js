@@ -18,6 +18,10 @@ import card_india from "./card_india.png";
 import landingBannerJapan from "./banner_landing_japan.jpg";
 import card_malaysia from './card_malaysia.jpg';
 import card_italy from './card_italy.jpg';
+import fav_out_icon from './heart_outline_png.png'
+import fav_in_icon from './heart_filled_png.png'
+import ls from 'local-storage';
+
 //import food_locate from "./food_locate";
 
 class Food extends React.Component {
@@ -64,7 +68,23 @@ class Food extends React.Component {
     console.log(this.state.food);
     console.log(this.state.location);
     this.getFoodData();
+    if( !ls.get("foods") ) {
+      ls.set("foods",[])
+      ls.set("foods_countries",{})
+      ls.set("foods_desc",{})
+    }
   }
+
+    containsObject(obj, list) {
+        var i;
+        for (i = 0; i < list.length; i++) {
+            if (list[i].name === obj.name) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
   /*componentDidMount() {
     //console.log(this.props.location);
@@ -137,6 +157,37 @@ class Food extends React.Component {
     }
   };
 
+	render_wish_list = (obj) => {
+	  if( ls.get('foods').length > 0 ) {
+	    if( this.containsObject(obj, ls.get('foods')) ) {
+	      return fav_in_icon
+	    }
+	  }
+	  return fav_out_icon;
+	}
+
+	addToWishList = (obj) => {
+	  let foods_arr;
+	  let foods_countries_dict;
+	  let foods_desc_dict;
+	  if( !this.containsObject(obj, ls.get('foods')) ) {
+	    foods_arr = ls.get('foods')
+	    foods_arr.push(obj)
+	    foods_countries_dict = ls.get("foods_countries")
+	    foods_countries_dict[obj.name] = this.state.country_name_main;
+	    foods_desc_dict = ls.get("foods_desc")
+	    foods_desc_dict[obj.name] = this.props.location.state.food_desc
+	    ls.set("foods_countries", foods_countries_dict)
+	    ls.set("foods_desc", foods_desc_dict)
+	  } else {
+	    foods_arr = ls.get('foods')
+	    console.log(foods_arr.filter(function(el) { return el.name != obj.name }))
+	    foods_arr = foods_arr.filter(function(el) { return el.name != obj.name });
+	  }
+	  ls.set("foods",foods_arr)
+	  this.setState({showLoading: false})
+	}
+
   render() {
     let image_src = card_australia;
     let title_country_name = "Australian Culture";
@@ -167,6 +218,9 @@ class Food extends React.Component {
     if( this.props.location.state.food_desc ) {
     	food_description = <Row className="inner_row_col">{this.props.location.state.food_desc}</Row>
     }
+    console.log("+++++++++++++++++++++++++++++++++++++++")
+    console.log(ls.get("foods_countries"))
+    console.log(ls.get("foods"))
     return (
       <div>
         {/* {this.props.name}'s Food First PAGE */}
@@ -204,7 +258,7 @@ class Food extends React.Component {
           <Col className="back_home_col">
             <Link 
               to={{
-                pathname: "/event",
+                pathname: this.props.location.state.isWishList?"/wish_list":"/event",
                 state: {
                   country: this.props.location.state.country_name_main
                 }
@@ -215,16 +269,14 @@ class Food extends React.Component {
               </button>
             </Link>
           </Col>
-
           <Col>
             <h2 className="upcoming_header">Tantalize Your Tastebuds</h2>
           </Col>
         </Row>
-        <Row>
         {this.state.food_list.map(foodlist => {
           console.log(foodlist.imageurl)
           return (
-            <Row className="div_row festival_row">
+            <Row className="div_row event_row">
               <Col className="event_image_col">
                 <img src={foodlist.imageurl} className="food_image" />
               </Col>
@@ -266,12 +318,13 @@ class Food extends React.Component {
                     </button>
                   </Link>
                 </Row>
-          </Col>
-              
+              </Col>
+              <Col className="fav_icon" onClick={() =>this.addToWishList(foodlist)}>
+                <img src={this.render_wish_list(foodlist)} className="fav_img"/>
+              </Col>
             </Row>
           );
         })}
-        </Row>
       </div>
     );
   }

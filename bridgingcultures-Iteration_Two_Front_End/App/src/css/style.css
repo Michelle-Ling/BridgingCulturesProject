@@ -223,7 +223,7 @@ footer.page-footer {
     margin-right: 36%;*/
     text-align: center;
 }
-.foodlocator_image {
+/*.foodlocator_image {
     min-height: 200px !important;
     max-height: 200px !important;
     max-width: 200px !important;
@@ -231,7 +231,7 @@ footer.page-footer {
     margin-left: 30px !important;
     position: relative;
     left: 40px;
-}
+}*/
 .current_month {
     text-transform: uppercase;
     /*background-color: #36B3A8 !important;*/
@@ -306,7 +306,6 @@ footer.page-footer {
     margin-bottom: 0px;
 }
 
-
 button.bg_btn {
     text-transform: uppercase;
     background-color: #36B3A8 !important;
@@ -319,7 +318,7 @@ button.bg_btn {
     padding-right: 3em;
     margin-bottom: 0.5em;
     position: relative;
-    left: -15px;
+    /*left: -13px;*/
 }
 button.fe_btn {
     text-transform: uppercase;
@@ -360,8 +359,21 @@ button.fd_btn {
     min-width: 300px !important;
     margin-left: 7px !important;
 }
+
+.fav_img {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+#cultural_desc {
+    float: left;
+    text-align: justify;
+    color: white;
+}
+
+
 /*Mobile*/
-@media(min-width: 576px){
+@media screen and (max-width: 576px){
     .min_map {
         min-height: 400px !important;
         max-height: 400px !important;
@@ -411,8 +423,36 @@ button.fd_btn {
     text-decoration: none !important;
 }
 
+.fav_img {
+    width: 32px !important;
+    height: 32px !important;
+    margin-left: 15px;
 }
-@media(min_width:786px){
+
+#cultural_desc {
+    float: left;
+    text-align: justify;
+    color: white;
+    font-size: 0.98rem;
+    width: 94%;
+}
+button.bg_btn {
+    text-transform: uppercase;
+    background-color: #36B3A8 !important;
+    border-radius: 2em;
+    border: none;
+    margin-top: 0.2em;
+    margin-left: 0em;
+    padding: 0.5em;
+    padding-left: 3em;
+    padding-right: 3em;
+    margin-bottom: 0.5em;
+    position: relative;
+    left: -13px;
+}
+
+}
+@media screen and (min-width:576px) and (max-width:786){
     .min_map {
         min-height: 400px !important;
         max-height: 400px !important;
@@ -465,15 +505,22 @@ button.fd_btn {
         font-size: 14px;
         text-decoration: none !important;
     }
-    .foodlocator_image {
+/*    .foodlocator_image {
         min-height: 200px !important;
         max-height: 200px !important;
         max-width: 200px !important;
         min-width: 200px !important;
         margin-left: 30px !important;
+    }*/
+    .fav_img {
+        width: 100% !important;
+        height: 100% !important;
     }
-}
-@media(min-width: 992px){
+    #cultural_desc {
+        float: left;
+        text-align: justify;
+        color: white;
+    }
     button.bg_btn {
         text-transform: uppercase;
         background-color: #36B3A8 !important;
@@ -486,8 +533,23 @@ button.fd_btn {
         padding-right: 3em;
         margin-bottom: 0.5em;
         position: relative;
-        left: 50px;
-    
+    }
+}
+@media screen (min-width: 786px){
+    button.bg_btn {
+        text-transform: uppercase;
+        background-color: #36B3A8 !important;
+        border-radius: 2em;
+        border: none;
+        margin-top: 0.2em;
+        margin-left: 0em;
+        padding: 0.5em;
+        padding-left: 3em;
+        padding-right: 3em;
+        margin-bottom: 0.5em;
+        position: relative;
+/*        left: 50px;
+    */
     }
     .min_map {
         min-height: 400px !important;
@@ -541,21 +603,30 @@ button.fd_btn {
         font-size: 14px;
         text-decoration: none !important;
     }
-    .foodlocator_image {
+/*    .foodlocator_image {
         min-height: 400px !important;
         max-height: 400px !important;
         max-width: 400px !important;
         min-width: 400px !important;
         margin-left: 30px !important;
+    }*/
+    .fav_img {
+        width: 100% !important;
+        height: 100% !important;
+    }
+    #cultural_desc {
+        float: left;
+        text-align: justify;
+        color: white;
     }
 }
 .event_map{
     z-index: 3;
     min-height: 400px !important;
     max-height: 600px !important;
-    max-width: 800px !important;
-    min-width: 500px !important;
-    margin-right: 15px !important;
+    max-width: 650px !important;
+    min-width: 320px !important;
+    margin-right: 30px !important;
     position: relative !important;
     
 }
@@ -570,8 +641,13 @@ button.fd_btn {
    
 }
 
-
-
+/*.foodlocator_image {
+    min-height: 400px !important;
+    max-height: 400px !important;
+    max-width: 400px !important;
+    min-width: 400px !important;
+    margin-left: 30px !important;
+}*/
 
 a:hover {
     text-decoration: none !important;
@@ -597,8 +673,17 @@ p.left-align.light {
     text-align: justify;
 }
 
-#cultural_desc {
-    float: left;
-    text-align: justify;
-    color: white;
+.fav_icon {
+    max-width: 4em !important;
+}
+
+.foodlocator_image {
+    width: 95%;
+    height: 100%;
+    margin-left: 5%;
+}
+
+.restaurant_food_img_out {
+    width: 25%;
+    height: 25%;
 }

@@ -13,7 +13,7 @@ import card_china from './card_china.png';
 import card_india from './card_india.png';
 import card_malaysia from './card_malaysia.jpg';
 import card_italy from './card_italy.jpg';
-
+//import ls from 'local-storage';
 
 class Home extends React.Component {
     state = {
@@ -27,11 +27,12 @@ class Home extends React.Component {
                 console.log(data)
                 this.setState({ today_content: data })
             })
-            let side_nav_icon = document.getElementsByClassName("sidenav-trigger")
-            if( typeof side_nav_icon !== "undefined" ) {
-                //console.log(side_nav_icon)
-                side_nav_icon[0].style.display="none"
-            }
+            // let side_nav_icon = document.getElementsByClassName("sidenav-trigger")
+            // if( typeof side_nav_icon !== "undefined" ) {
+            //     //console.log(side_nav_icon)
+            //     side_nav_icon[0].style.display="none"
+            // }
+            //console.log(ls.get("festivals"))
     }
 
     formatDate(date) {

@@ -181,8 +181,8 @@ a.fc-day-grid-event.fc-end.fc-event.fc-h-event.fc-start {
   float: right;
 }
 .mian_image{
-  width: 185% !important;
-  height: 100px;
+  width: 100% !important;
+  /*height: 100px;*/
   float: right;
 }
 
@@ -202,13 +202,13 @@ div.div_row.event_row {
   /* padding-left: 1px; */
   margin-left: 1px;
   /* text-align: center; */
-  max-width: 100%;
+  max-width: 98%;
   align-items: center;
   justify-content: center;
   margin-right: 0px;
   margin: auto;
   margin-bottom: 1%;
-  left: 8px;
+  /*left: 8px;*/
   position: relative;
 }
 /*Tablet*/
@@ -220,16 +220,16 @@ div.div_row.event_row {
       /* padding-bottom: 1px; */
       /* padding-right: 1px; */
       /* padding-left: 1px; */
-      margin-left: 14px;
+      margin-left: 4%;
       /* text-align: center; */
-      max-width: 100%;
+      max-width: 96%;
       align-items: center;
       justify-content: space-around;
       margin-right: 0px;
       /* margin: auto; */
       margin-bottom: 1%;
       
-      width: 100% !important;
+      width: 96% !important;
   }
  
 }
@@ -242,17 +242,25 @@ div.div_row.event_row {
       /* padding-bottom: 1px; */
       /* padding-right: 1px; */
       /* padding-left: 1px; */
-      margin-left: 14px;
+      margin-left: 4%;
       /* text-align: center; */
-      max-width: 100%;
+      max-width: 96%;
       align-items: center;
       justify-content: space-around;
       margin-right: 0px;
       /* margin: auto; */
       margin-bottom: 1%;
       
-      width: 86% !important;
+      width: 96% !important;
   }
+    .mian_image{
+    width: 90% !important;
+    /* float: right; */
+   /* height: 150px;*/
+    position: relative;
+    /*left: -76px;*/
+
+  }  
   
 }
 @media(min-width: 992px){
@@ -263,16 +271,16 @@ div.div_row.event_row {
       /* padding-bottom: 1px; */
       /* padding-right: 1px; */
       /* padding-left: 1px; */
-      margin-left: 14px;
+      margin-left: 4%;
       /* text-align: center; */
-      max-width: 100%;
+      max-width: 96%;
       align-items: center;
       justify-content: space-around;
       margin-right: 0px;
       /* margin: auto; */
       margin-bottom: 1%;
       
-      width: 100% !important;
+      width: 96% !important;
   }
   .food_image{
     width: 85% !important;
@@ -281,11 +289,11 @@ div.div_row.event_row {
     left: 0px;
 }
 .mian_image{
-  width: 85% !important;
+  width: 90% !important;
   /* float: right; */
-  height: 150px;
+  /*height: 150px;*/
   position: relative;
-  left: -76px;
+  /*left: -76px;*/
 
 }  
 

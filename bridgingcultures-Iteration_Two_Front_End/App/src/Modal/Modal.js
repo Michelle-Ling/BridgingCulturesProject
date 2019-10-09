@@ -43,7 +43,7 @@ class Modal extends Component {
             <div className="modal_event_title">{this.props.eventTitle[0].name.text}</div> 
             <div className="modal_title_content">{this.props.name[1]}</div>
         <div className="modal_desc_content">{this.props.desc[1]}{source_2}</div> */}
-              <button className="btn btn-primary" style={{marginRight:'30px'}} onClick={this.props.onHide}>Close</button>
+              <button className="btn btn-primary" onClick={this.props.onHide}>Close</button>
           </div>
           </div>
         )}

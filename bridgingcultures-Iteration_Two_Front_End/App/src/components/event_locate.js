@@ -84,11 +84,11 @@ componentDidMount() {
                     <Parallax className="parallax" image={<img src={image_src} className="inner-box inner-box-event-image"/>} alt="Unsplashed background img 1"></Parallax>
                 </div>
             </div>
-        <Row className="div_row">
+            <Row className="div_row">
           <Col className="back_home_col">
             <Link
               to={{
-                pathname: "/event",
+                pathname: this.props.location.state.isWishList?"/wish_list":"/event",
                 state: {
                   country: this.state.countryName
               
@@ -100,11 +100,10 @@ componentDidMount() {
               </button>
             </Link>
           </Col>
-            
           <Col>
             <h2 className="upcoming_header">Where to attend the events</h2>
           </Col>
-          </Row>
+        </Row>  
         
         <Row>  
           <Col>
@@ -119,8 +118,8 @@ componentDidMount() {
                     <Row className="inner_row_col"><h4>{eventbrite.name}</h4></Row>
                     <Row className="inner_row_col">{eventbrite.addressDisplay}</Row>
                     <hr />
-                    <Row className="inner_row_col">{eventbrite.startTime}</Row>
-                    <Row className="inner_row_col">{eventbrite.endTime}</Row>
+                    <Row className="inner_row_col">{eventbrite.startTime.split("T")[0]+" "+eventbrite.startTime.split("T")[1]}</Row>
+                    <Row className="inner_row_col">{eventbrite.endTime.split("T")[0]+" "+eventbrite.endTime.split("T")[1]}</Row>
                     <Col className="button_style" >
                     <Row><button type="button" className="fe_btn">
                     <a
