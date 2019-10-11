@@ -199,6 +199,21 @@ class WishList extends React.Component {
         if( ls.get("festivals") && ls.get("festivals").length > 0 ) {
           festival_header = "Favourite Festivals/Events"
           let festival_list = ls.get("festivals")
+          //console.log(festival_list)
+          festival_list.sort(function(a,b){
+            // Turn your strings into dates, and then subtract them
+            // to get a value that is either negative, positive, or zero.
+            let return_val = 0;
+            if( (new Date(b.date) - new Date(a.date)) > 0 ) {
+              return_val = -1
+            } else if( (new Date(b.date) - new Date(a.date)) < 0 ) {
+              return_val = 1
+            } else {
+              return_val = 0
+            }
+            return return_val;
+          });
+          //console.log(festival_list)
           festival_content = festival_list.map((calendarevent) => {
                     //console.log(this.state.calendarEvents)
                     return (
@@ -242,7 +257,21 @@ class WishList extends React.Component {
         }
         if( ls.get("foods") && ls.get("foods").length > 0 ) {
           food_header = "Favourite Foods"
-          food_content = ls.get("foods").map(foodlist => {
+          let food_content_list = ls.get("foods")
+          food_content_list.sort(function(a, b) {
+            var nameA = a.name.toUpperCase(); // ignore upper and lowercase
+            var nameB = b.name.toUpperCase(); // ignore upper and lowercase
+            if (nameA < nameB) {
+              return -1;
+            }
+            if (nameA > nameB) {
+              return 1;
+            }
+
+            // names must be equal
+            return 0;
+          });
+          food_content = food_content_list.map(foodlist => {
           //console.log(foodlist.imageurl)
           return (
             <Row className="div_row event_row">
