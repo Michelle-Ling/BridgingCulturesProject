@@ -326,7 +326,7 @@ class Food extends React.Component {
                     }}
                   >
                     <button type="button" className="fd_btn bg_link">
-                      Explore Foods
+                      Find Restaurants
                     </button>
                   </Link>
                 </Row>

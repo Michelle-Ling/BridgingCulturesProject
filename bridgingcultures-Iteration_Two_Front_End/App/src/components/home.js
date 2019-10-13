@@ -21,7 +21,11 @@ class Home extends React.Component {
     }
     componentDidMount() {
         //console.log(this.props.location.state)
-            fetch(`https://bridgingcultures-api-first.ml/todays_list`,{
+        var date = new Date();
+        var month = date.getMonth() + 1;
+        var todays_date = month+"/"+date.getDate()+"/"+date.getFullYear()
+        console.log(month+"/"+date.getDate()+"/"+date.getFullYear())
+            fetch(`https://bridgingcultures-api-first.ml/todays_list?date=`+todays_date,{
               method: 'GET'
             }).then(response => response.json()).then(data => {
                 console.log(data)
@@ -64,7 +68,7 @@ class Home extends React.Component {
         let today_header;
         let today_content;
         if( this.state.today_content["resource"].length > 0 ) {
-            today_header = "Today's Event"
+            today_header = "Today's Festivals"
             today_content = this.state.today_content["resource"].map((calendarevent) => {
                   {/*console.log(this.state.today_content["resource"])*/}
                   return (
@@ -120,7 +124,7 @@ class Home extends React.Component {
                   )
                 })
         } else {
-            today_header = 'No events/festivals available today'
+            today_header = 'No festivals available today'
         }
 
         return (                                
@@ -189,7 +193,7 @@ class Home extends React.Component {
                                     header={<CardTitle image={card_australia} card-image="true" waves-effect="waves" />}
 
                                    
-                                    actions={[<Link to={{ pathname: "/event", state: { country: "Australia" } }}  >view events</Link>]} >
+                                    actions={[<Link to={{ pathname: "/event", state: { country: "Australia" } }}  >view festivals</Link>]} >
 
                                     <h5 >AUSTRALIA</h5>
                                 </Card>
@@ -202,7 +206,7 @@ class Home extends React.Component {
 
                                     header={<CardTitle image={card_japan} card-image="true" waves-effect="waves" />}
 
-                                    actions={[<Link to={{ pathname: "/event", state: { country: "Japan" } }}>view events</Link>]}>
+                                    actions={[<Link to={{ pathname: "/event", state: { country: "Japan" } }}>view festivals</Link>]}>
                                     <h5 >JAPAN</h5>
                                 </Card>
                             </Col>
@@ -214,7 +218,7 @@ class Home extends React.Component {
 
                                     header={<CardTitle image={card_china} card-image="true" waves-effect="waves" />}
 
-                                    actions={[<Link to={{ pathname: "/event", state: { country: "China" } }}>view events</Link>]}>
+                                    actions={[<Link to={{ pathname: "/event", state: { country: "China" } }}>view festivals</Link>]}>
                                     <h5 >CHINA</h5>
                                 </Card>
                             </Col>
@@ -225,7 +229,7 @@ class Home extends React.Component {
 
                                     header={<CardTitle image={card_india} card-image="true" waves-effect="waves" />}
 
-                                    actions={[<Link to={{ pathname: "/event", state: { country: "India" } }} className="center" > view events </Link>]}>
+                                    actions={[<Link to={{ pathname: "/event", state: { country: "India" } }} className="center" > view festivals </Link>]}>
                                     <h5>INDIA</h5>
                                 </Card>
                             </Col>
@@ -236,7 +240,7 @@ class Home extends React.Component {
 
                                     header={<CardTitle image={card_malaysia} card-image="true" waves-effect="waves" />}
 
-                                    actions={[<Link to={{ pathname: "/event", state: { country: "Malaysia" } }} className="center" > view events </Link>]}>
+                                    actions={[<Link to={{ pathname: "/event", state: { country: "Malaysia" } }} className="center" > view festivals </Link>]}>
                                     <h5 >MALAYSIA</h5>
                                 </Card>
                             </Col>
@@ -247,7 +251,7 @@ class Home extends React.Component {
 
                                     header={<CardTitle image={card_italy} card-image="true" waves-effect="waves" />}
 
-                                    actions={[<Link to={{ pathname: "/event", state: { country: "Italy" } }} className="center" > view events </Link>]}>
+                                    actions={[<Link to={{ pathname: "/event", state: { country: "Italy" } }} className="center" > view festivals </Link>]}>
                                     <h5 >ITALY</h5>
                                 </Card>
                             </Col>

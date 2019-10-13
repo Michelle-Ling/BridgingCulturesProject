@@ -707,3 +707,12 @@ p.left-align.light {
 .restaurant_locator{
     padding-left: 10px !important;
 }
+
+.get_lost {
+    text-align: center !important;
+    height: 560px;
+}
+
+.get_lost_inner {
+    transform: translateY(250px);
+}

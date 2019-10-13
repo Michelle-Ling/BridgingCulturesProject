@@ -197,7 +197,7 @@ class WishList extends React.Component {
         //   food_description = ls.get("foods_desc")
         // }
         if( ls.get("festivals") && ls.get("festivals").length > 0 ) {
-          festival_header = "Favourite Festivals/Events"
+          festival_header = "Favourite Festivals"
           let festival_list = ls.get("festivals")
           //console.log(festival_list)
           festival_list.sort(function(a,b){
@@ -314,7 +314,7 @@ class WishList extends React.Component {
                     }}
                   >
                     <button type="button" className="bg_btn bg_link">
-                      Explore Foods
+                      Find Restaurants
                     </button>
                   </Link>
                 </Row>
@@ -350,7 +350,7 @@ class WishList extends React.Component {
                         </button>
                     </Col>
                     <Col>
-                        <h2 className="upcoming_header">Festivals/Events & Foods</h2>
+                        <h2 className="upcoming_header">Festivals & Foods</h2>
                     </Col>
                 </Row>
                 <Row className="div_row event_row_home_header">{festival_header}</Row>

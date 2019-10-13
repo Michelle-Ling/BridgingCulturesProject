@@ -513,7 +513,7 @@ class Event extends React.Component {
                         </button>
                     </Col>
                     <Col>
-                        <h2 className="upcoming_header">Upcoming Festivals & Events</h2>
+                        <h2 className="upcoming_header">This month's Festivals</h2>
                     </Col>
                 </Row>
                 <Row className="div_row">
@@ -542,8 +542,8 @@ class Event extends React.Component {
                                 <Row className="inner_row_col"><h5>{this.formatDate(calendarevent.date)}</h5></Row>
                                 <Row className="inner_row_col">
                                     <button type="button" className="bg_btn">
-                                        {/*<Link className="bg_link" to={{ pathname: "/event_locate",state: { title: calendarevent.title,date:calendarevent.date,location:this.state.client_address} }}  >Attend Events</Link>*/}
-                                        <div className="bg_link" onClick={() => this.getEventdata({image: calendarevent.image, title: calendarevent.title, date: calendarevent.date, location: this.state.client_address, country_name: this.state.country_name_main })}>Attend Events</div>
+                                        {/*<Link className="bg_link" to={{ pathname: "/event_locate",state: { title: calendarevent.title,date:calendarevent.date,location:this.state.client_address} }}  >Check Events</Link>*/}
+                                        <div className="bg_link" onClick={() => this.getEventdata({image: calendarevent.image, title: calendarevent.title, date: calendarevent.date, location: this.state.client_address, country_name: this.state.country_name_main })}>Check Events</div>
 
                                     </button>
                                 </Row>
