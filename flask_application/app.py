@@ -462,9 +462,15 @@ class AllFestivalDetailsData(Resource):
 class TodaysFestivalList(Resource):
 
     def get(self):
-        today = date.today()
+        arg_val = request.args['date']
+        if arg_val is None:
+            today = date.today()
+            d1 = today.strftime("%m/%d/%Y")
+        else:
+            today = arg_val
+            d1 = today
         # mm/dd/YY
-        d1 = today.strftime("%m/%d/%Y")
+        
         print(type(d1))
         print("d1 = "+ d1)
         # Overriden for testing purpose
