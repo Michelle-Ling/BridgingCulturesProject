@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../css/style.css";
-import "../css/materialize.css";
-import "../css/materialize.min.css";
+// import "../css/materialize.css";
+// import "../css/materialize.min.css";
 import {
   Parallax,
   Card,

@@ -3,8 +3,8 @@ import Bootstrap from "react-bootstrap/"
 import { Parallax, Card, CardTitle, Button, Row, Col, Caption } from 'react-materialize';
 import { Link } from "react-router-dom";
 import '../css/style.css';
-import '../css/materialize.css';
-import '../css/materialize.min.css';
+// import '../css/materialize.css';
+// import '../css/materialize.min.css';
 import Mainmap from "../Mainmap/Mainmap";
 import Modal from "../Modal/Modal";
 import card_australia from './card_aussie.png';

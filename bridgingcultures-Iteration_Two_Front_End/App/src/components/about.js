@@ -1,8 +1,8 @@
 import React from 'react';
 
 import '../css/style.css';
-import '../css/materialize.css';
-import '../css/materialize.min.css';
+// import '../css/materialize.css';
+// import '../css/materialize.min.css';
 
 const About = (props) => {
 

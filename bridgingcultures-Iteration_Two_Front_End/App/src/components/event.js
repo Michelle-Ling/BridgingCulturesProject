@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import '../css/style.css';
 import { Parallax, Card, CardTitle, Row, Col, Caption, Button } from 'react-materialize';
 import { Component, useRef, useEffect } from 'react'
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import interactionPlugin from "@fullcalendar/interaction";
+// import FullCalendar from '@fullcalendar/react'
+// import dayGridPlugin from '@fullcalendar/daygrid'
+// import interactionPlugin from "@fullcalendar/interaction";
 import Mainmap from "../Mainmap/Mainmap";
 import Modal from "../Modal/Modal";
 import 'bootstrap/dist/css/bootstrap.min.css';
