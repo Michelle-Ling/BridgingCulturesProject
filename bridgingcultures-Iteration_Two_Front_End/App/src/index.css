@@ -307,13 +307,11 @@ div.div_row.event_row {
   max-width: 33% !important;
   margin-right: 0.75em;
 }
-.festival_content{
-  margin-left: .75rem !important;
-  margin-right: 1.5rem !important;
-}
+
 .button_style{
   position:relative;
-  left:48% !important;
+  /*left:48% !important;*/
+  max-width: 36% !important;
 }
 .event_stat_col {
   max-width: 25% !important;

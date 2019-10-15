@@ -323,7 +323,7 @@ class WishList extends React.Component {
           );
         })
         } else {
-          food_header = "You haven't selected your favourtie foods"
+          food_header = "You haven't selected your favourite foods"
         }
     return (
       <div>

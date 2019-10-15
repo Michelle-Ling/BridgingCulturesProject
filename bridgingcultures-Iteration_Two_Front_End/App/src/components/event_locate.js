@@ -39,6 +39,29 @@ formatted_date(str) {
   return day + " " + given_date.getDate() + " " + month + " " + year
 }
 
+tConvert(time) {
+  // Check correct time format and split into components
+  time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
+  if (time.length > 1) { // If time format correct
+    time = time.slice (1);  // Remove full string match value
+    time[5] = +time[0] < 12 ? ' AM' : ' PM'; // Set AM/PM
+    time[0] = +time[0] % 12 || 12; // Adjust hours
+  }
+  return time.join (''); // return adjusted time or original string
+}
+
+navigateLocation(address) {
+  console.log(address)
+  address = address.split("/")
+  let addr = address[0]
+  if( address.length > 1 ) {
+    addr = address[1]
+  }
+  var win = window.open("https://www.google.com/maps/place/"+addr, '_blank');
+  win.focus();
+}
+
 componentDidMount() {
         //console.log(this.props.location.state)
              if( this.props.location.state ) {
@@ -70,10 +93,10 @@ componentDidMount() {
     } else if( this.state.countryName == "Japan" ) {
       image_src = card_japan;
       title_country_name = "Japanese Culture";
-    } else if( this.state.country_name_main == "Malaysia" ) {
+    } else if( this.state.countryName == "Malaysia" ) {
       image_src = card_malaysia;
       title_country_name = "Malaysian Culture";
-    } else if( this.state.country_name_main == "Italy" ) {
+    } else if( this.state.countryName == "Italy" ) {
       image_src = card_italy;
       title_country_name = "Italian Culture";
     }
@@ -125,26 +148,30 @@ componentDidMount() {
             console.log(this.state.festival_image)
             return (   
               <Row className="div_row festival_row">
-                <Col className="event_image_col">
+              {/*<Col className="event_image_col">
                 <img src={this.state.festival_image} className="festival_image" />
-              </Col>
+              </Col>*/}
               <Col className="festival_content">
-                    <Row className="inner_row_col"><h4>{eventbrite.name}</h4></Row>
+                    <Row className="inner_row_col"><h4 className="restaurant_name" onClick={() => this.navigateLocation(eventbrite.addressDisplay)}>{eventbrite.name}</h4></Row>
                     <Row className="inner_row_col">{eventbrite.addressDisplay}</Row>
                     <hr />
-                    <Row className="inner_row_col">{this.formatted_date(eventbrite.startTime.split("T")[0])+" "+eventbrite.startTime.split("T")[1]}</Row>
-                    <Row className="inner_row_col">{this.formatted_date(eventbrite.endTime.split("T")[0])+" "+eventbrite.endTime.split("T")[1]}</Row>
-                    <Col className="button_style" >
-                    <Row><button type="button" className="fe_btn">
-                    <a
-                      className="bg_link"
-                      href={eventbrite.url}
-                      target="_blank"
-                    >
-                      Attend Event
-                    </a>
-                    </button></Row>
-                    </Col>
+                    <Row>
+                      <Col>
+                        <Row className="inner_row_col"><b>Event Start: &nbsp;</b> {this.formatted_date(eventbrite.startTime.split("T")[0])+" - "+ this.tConvert(eventbrite.startTime.split("T")[1])}</Row>
+                        <Row className="inner_row_col"><b>Event End: &nbsp;&nbsp;</b> {this.formatted_date(eventbrite.endTime.split("T")[0])+" - "+ this.tConvert(eventbrite.endTime.split("T")[1])}</Row>
+                      </Col>
+                      <Col className="button_style" >
+                      <Row><button type="button" className="fe_btn attend_event_btn">
+                      <a
+                        className="bg_link"
+                        href={eventbrite.url}
+                        target="_blank"
+                      >
+                        Attend Event
+                      </a>
+                      </button></Row>
+                      </Col>
+                    </Row>
                     
                   </Col>
               </Row>     

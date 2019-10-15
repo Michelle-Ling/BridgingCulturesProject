@@ -67,6 +67,17 @@ class RestaurantLocator extends React.Component {
     // this.request_ip_address();
   }
 
+  navigateLocation(address) {
+    console.log(address)
+    address = address.split("/")
+    let addr = address[0]
+    if( address.length > 1 ) {
+      addr = address[1]
+    }
+    var win = window.open("https://www.google.com/maps/place/"+addr, '_blank');
+    win.focus();
+  }
+
   getFoodLocation = () => {
     //console.log("Food Click");
     console.log(this.props.location.state);
@@ -210,7 +221,7 @@ class RestaurantLocator extends React.Component {
         restaurant_listings = this.state.restaurants_locations.map(foodlist => {
               return (
                 <Row className="div_row event_row restaurant_locator">
-                  <h4 className="div_row">{foodlist.name}</h4>
+                  <h4 className="div_row restaurant_name" onClick={() => this.navigateLocation(foodlist.address)}>{foodlist.name}</h4>
                   {foodlist.address}
                   <hr></hr>
                 </Row>
@@ -275,9 +286,9 @@ class RestaurantLocator extends React.Component {
           </Col>
         </Row>
         <Row className="div_row">
-        <Col className="restaurant_food_img_out">
+        {/*<Col className="restaurant_food_img_out">
                 <img src={this.props.location.state.foodimage} className="foodlocator_image" />
-              </Col>
+              </Col>*/}
           <Col>
             {restaurant_listings}
           </Col>

@@ -12,12 +12,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ls from 'local-storage';
 
 import landingBannerJapan from './banner_landing_japan.jpg';
-import card_australia from './card_aussie.png';
+import card_australia from './card_aussie_1.jpg';
 import card_japan from './card_japan.jpg';
-import card_china from './card_china.png';
-import card_india from './card_india.png';
-import card_malaysia from './card_malaysia.jpg';
-import card_italy from './card_italy.jpg';
+import card_china from './card_china_1.jpg';
+import card_india from './card_india_1.jpg';
+import card_malaysia from './card_malaysia_1.jpg';
+import card_italy from './card_italy_1.jpg';
 import fav_out_icon from './heart_outline_png.png'
 import fav_in_icon from './heart_filled_png.png'
 

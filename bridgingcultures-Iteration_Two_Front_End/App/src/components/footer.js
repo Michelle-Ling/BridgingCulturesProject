@@ -9,7 +9,7 @@ const Footer = (props) => {
             <div className="footer-copyright">
                 <div className="container">
                   2019 Copyright
-            <a className="grey-text text-lighten-4 right" >Developed by Elites - B1</a>
+            <a className="grey-text text-lighten-4 right" >Developed by Team Elites</a>
                 </div>
             </div>
             <div id="google_translate_element2"></div>
