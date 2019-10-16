@@ -11,7 +11,7 @@ import TopbarHome from './components/topbar_home';
 import RestaurantLocator from './components/restaurantlocator';
 import FoodLocate from './components/food_locate';
 import WishList from './components/wish_list';
-import Notfound from './components/not_found'
+import Notfound from './components/not_found';
 
 
 class App extends React.Component {
@@ -34,7 +34,7 @@ class App extends React.Component {
                     <Route path="/food_locate" component={Topbar} />
                     <Route path="/restaurantlocator" component={Topbar} />
                     <Route path="/wish_list" component={Topbar} />
-                    <Route path="" component={Notfound}/>
+                    <Route component={Topbar}/>
                 </Switch>
                 <Switch>
                    
@@ -50,6 +50,7 @@ class App extends React.Component {
                     <Route path="/restaurantlocator" component={RestaurantLocator} />
                     <Route path="/event_locate" component={EventLocate} />
                     <Route path="/wish_list" component={WishList} />
+                    <Route component={Notfound}/>
                 </Switch>
 
                     <Footer />
