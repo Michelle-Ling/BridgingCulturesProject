@@ -1,0 +1,755 @@
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+
+.white-text-banner {
+    padding-top: 1rem !important;
+    
+}
+
+
+nav ul a,
+nav {
+    color: #444 !important;
+    background-color: #FFF !important;
+}
+
+
+div.banner_header {
+    padding-top: 10em;
+   
+}
+
+.div.inner-box {
+    background: content-box;
+    background-color:aquamarine;
+    height: 100%;
+    width: 100%;
+    opacity: 0.4;
+    top: 0;
+    left: 0;
+    position: absolute;
+    padding: 0;
+    transition: opacity .9s;
+}
+
+.inner-box-event-image {
+    transform: translate3d(-50%, 0px, 0px) !important;
+    max-width: 100%;
+}
+
+
+
+.culture_tiles {
+    max-width: 1400px;
+    /*margin: 40px auto 0 auto;*/
+    display: flex;
+    /*padding: 30px 0;*/
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.div.col.fixed-size-card {
+    max-width: 1400px;
+    margin: 40px auto 0 auto;
+    background-color: #FFF;
+    padding: 30px 0;
+    display: flex;
+  
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+
+h1.header.center.white-text-banner {
+    padding-top: 0rem !important;
+    font-weight: 500 !important;
+}
+
+@media (min-width: 900px) {
+    .call-outs-container {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+.food-items{
+
+    padding-left:18px;
+}
+
+#event_none_class {
+  font-weight: 500 !important;
+  font-size: 18px !important;
+  /*margin-left: 36% !important;*/
+  color: #000 !important;
+  background-color: #ffeb3b !important;
+  text-align: center;
+}
+
+
+a.list-group-item.list-group-item-action.list-group-item-primary {
+    background: #36B3A8 !important;
+    border-color: #36B3A8 !important;
+    color: white !important;
+}
+
+.list-group-item.list-group-item-action.list-group-item-primary.food_item_details, .list-group-item.list-group-item-action.list-group-item-primary.food_link {
+    background: #36B3A8 !important;
+    border-color: #36B3A8 !important;
+    color: white !important;
+}
+
+
+.card-action {
+    text-align: center;
+}
+
+a.brand-logo {
+    padding-left: 4px !important;
+    
+    text-align: left !important;
+    font-size: medium !important;
+}
+
+
+
+element.style {
+    padding-left: 10px;
+}
+
+nav .brand-logo {
+    position: absolute;
+    color: #444 !important;
+    display: inline-block;
+    font-size: 2rem;
+    padding: 0;
+}
+
+p {
+    line-height: 2rem;
+}
+
+.sidenav-trigger {
+  color: #26a69a;
+}
+
+
+
+.parallax-container {
+  min-height: 380px;
+  line-height: 0;
+  height: 500px;
+  color: rgba(255,255,255,.9);
+}
+  .parallax-container .section {
+    width: 100%;
+  }
+
+@media only screen and (max-width : 992px) {
+  .parallax-container .section {
+    position: absolute;
+    top: 40%;
+  }
+  #index-banner .section {
+    top: 10%;
+  }
+}
+
+@media only screen and (max-width : 600px) {
+    #index-banner .section {
+        top: 0;
+    }
+
+    #h1.header.center.white-text-banner {
+        padding-top: 0rem !important;
+        font-weight: 50 !important;
+        font-size: small;
+    }
+}
+
+.icon-block {
+  padding: 0 15px;
+}
+.icon-block .material-icons {
+  font-size: inherit;
+}
+
+footer.page-footer {
+  margin: 0;
+}
+
+.fc-content {
+    cursor: pointer !important;
+}
+
+.fc-widget-content {
+    cursor: default;
+}
+
+#index-banner {
+    height: 400px;
+}
+
+.back_home_btn{
+    text-transform: uppercase;
+    background-color: #36B3A8 !important;
+    border-radius: 2em;
+    border: none;
+    margin-top: 0.2em;
+    margin-left: 2em;
+    padding: 0.5em;
+    padding-left: 3em;
+    padding-right: 3em;
+    margin-bottom: 0.5em;
+}
+
+.back_home_link {
+    color: #fff !important;
+    font-weight: 500;
+    font-size: 14px;
+    text-decoration: none !important;
+}
+
+.upcoming_header {
+    /*float: right;
+    margin-right: 35%;
+    margin-left: 25%;
+    margin-right: 36%;*/
+    text-align: center;
+}
+/*.foodlocator_image {
+    min-height: 200px !important;
+    max-height: 200px !important;
+    max-width: 200px !important;
+    min-width: 200px !important;
+    margin-left: 30px !important;
+    position: relative;
+    left: 40px;
+}*/
+.current_month {
+    text-transform: uppercase;
+    /*background-color: #36B3A8 !important;*/
+    border-radius: 1em;
+    border: 2px solid black;
+    margin: 0.2em;
+    padding: 0.5em;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+    display: inline-block;
+    margin:0 auto;
+    user-select: none;
+}
+
+.top_margin_list {
+    margin-top: 1%;
+    width:100%;
+    text-align:center;
+}
+
+#left_month {
+    text-transform: uppercase;
+    /*background-color: #36B3A8 !important;*/
+    border-radius: 1em;
+    border: 2px solid black;
+    margin: 0.2em;
+    padding: 0.5em;
+    text-align: center;
+    width: 10%;
+    margin:0 auto;
+    float: right;
+    min-width: 50px !important;
+    /*transform: translateX(34em);*/
+    cursor: pointer;
+    user-select: none;
+}
+
+#right_month {
+    text-transform: uppercase;
+    /*background-color: #36B3A8 !important;*/
+    border-radius: 1em;
+    border: 2px solid black;
+    margin: 0.2em;
+    padding: 0.5em;
+    text-align: center;
+    margin:0 auto;
+    float:left;
+    width:10%;
+    min-width: 50px !important;
+    /*transform: translateX(-34em);*/
+    cursor: pointer;
+    user-select: none;
+}
+
+.div_row {
+    width: 100% !important;
+}
+
+.back_home_col {
+    max-width: 100% !important;
+    min-width: 100% !important;
+}
+
+.month_name_col {
+    text-align: center;
+    max-width: 15% !important;
+    min-width: 115px !important;
+}
+
+.row.inner_row_col {
+    margin-bottom: 0px;
+}
+
+button.bg_btn {
+    text-transform: uppercase;
+    background-color: #36B3A8 !important;
+    border-radius: 2em;
+    border: none;
+    margin-top: 0.2em;
+    margin-left: 0em;
+    padding: 0.5em;
+    padding-left: 3em;
+    padding-right: 3em;
+    margin-bottom: 0.5em;
+    position: relative;
+    /*left: -13px;*/
+}
+button.fe_btn {
+    text-transform: uppercase;
+    background-color: #36B3A8 !important;
+    border-radius: 2em;
+    border: none;
+    margin-top: 0.2em;
+    margin-left: -8em;
+    padding: 0.5em;
+    padding-left: 3em;
+    padding-right: 3em;
+    margin-bottom: 0.5em;
+}
+button.fd_btn {
+    text-transform: uppercase;
+    background-color: #36B3A8 !important;
+    border-radius: 2em;
+    border: none;
+    margin-top: 0.2em;
+    /* margin-left: -8em; */
+    padding: 0.5em;
+    padding-left: 3em;
+    padding-right: 3em;
+    margin-bottom: 0.5em;
+}
+
+.bg_link {
+    color: #fff !important;
+    font-weight: 450;
+    font-size: 13px;
+    text-decoration: none !important;
+}
+
+.min_map {
+    min-height: 300px !important;
+    /*max-height: 300px !important;*/
+    /*max-width: 350px !important;*/
+    min-width: 300px !important;
+    margin-left: 7px !important;
+}
+
+.fav_img {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+#cultural_desc {
+    float: left;
+    text-align: justify;
+    color: white;
+}
+
+.home_country_div {
+    max-width: 15% !important;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.festival_content{
+  margin-left: .75rem !important;
+  margin-right: 1.5rem !important;
+}
+
+/*Mobile*/
+@media screen and (max-width: 576px){
+    .min_map {
+        min-height: 400px !important;
+        /*max-height: 400px !important;*/
+        /*max-width: 300px !important;*/
+        min-width: 300px !important;
+        margin-right: 15px !important;
+    }
+ .back_home_col {
+        min-width: 100% !important;
+    }
+.event_map{
+    z-index: 3;
+    min-height: 400px !important;
+    max-height: 600px !important;
+    max-width: 800px !important;
+    min-width: 500px !important;
+    margin-right: 15px !important;
+    position: relative !important;  
+}
+.event_map_row{
+    margin-left: 50px !important;
+    margin-top: 10px !important;
+}
+.festival_map_row{
+    margin-left: 50px !important;
+    margin-top: 10px !important;
+    margin-right: 20px !important;
+   
+}
+.back_home_btn{
+    text-transform: uppercase;
+    background-color: #36B3A8 !important;
+    border-radius: 2em !important;
+    border: none !important;
+    margin-top: 0.2em !important;
+    margin-left: em !important;
+    padding: 0.5em !important;
+    padding-left: 3em !important;
+    padding-right: 3em !important;
+    margin-bottom: 0.5em !important;
+}
+
+.back_home_link {
+    color: #fff !important;
+    font-weight: 500;
+    font-size: 14px;
+    text-decoration: none !important;
+}
+
+.fav_img {
+    width: 32px !important;
+    height: 32px !important;
+    margin-left: 15px;
+}
+
+#cultural_desc {
+    float: left;
+    text-align: justify;
+    color: white;
+    font-size: 0.98rem;
+    width: 94%;
+}
+
+.festival_content{
+  margin-left: 1.5rem !important;
+  margin-right: 1.5rem !important;
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+}
+
+button.bg_btn {
+    text-transform: uppercase;
+    background-color: #36B3A8 !important;
+    border-radius: 2em;
+    border: none;
+    margin-top: 0.2em;
+    margin-left: 0em;
+    padding: 0.5em;
+    padding-left: 3em;
+    padding-right: 3em;
+    margin-bottom: 0.5em;
+    position: relative;
+    left: -13px;
+}
+.home_country_div {
+    max-width: 15% !important;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.festival_row {
+    margin-right: 10px !important;
+}
+
+}
+@media screen and (min-width:576px) and (max-width:786){
+    .min_map {
+        min-height: 400px !important;
+        /*max-height: 400px !important;
+        max-width: 300px !important;*/
+        min-width: 300px !important;
+        margin-right: 15px !important;
+    }
+    
+    .back_home_col {
+        min-width: 100% !important;
+    }
+    .event_map{
+        z-index: 3;
+        min-height: 400px !important;
+        max-height: 600px !important;
+        max-width: 800px !important;
+        min-width: 500px !important;
+        margin-right: 15px !important;
+        position: relative !important;
+       
+        
+    }
+    .event_map_row{
+        margin-left: 50px !important;
+        margin-top: 10px !important;
+    }
+    .festival_map_row{
+        margin-left: 50px !important;
+        margin-top: 10px !important;
+        margin-right: 20px !important;
+       
+    }
+    .back_home_btn{
+        text-transform: uppercase;
+        background-color: #36B3A8 !important;
+        border-radius: 2em;
+        border: none;
+        margin-top: 0.2em;
+        margin-left: 0em;
+        padding: 0.5em;
+        padding-left: 3em;
+        padding-right: 3em;
+        margin-bottom: 0.5em;
+        
+    }
+    
+    .back_home_link {
+        color: #fff !important;
+        font-weight: 500;
+        font-size: 14px;
+        text-decoration: none !important;
+    }
+/*    .foodlocator_image {
+        min-height: 200px !important;
+        max-height: 200px !important;
+        max-width: 200px !important;
+        min-width: 200px !important;
+        margin-left: 30px !important;
+    }*/
+    .fav_img {
+        width: 100% !important;
+        height: 100% !important;
+    }
+    #cultural_desc {
+        float: left;
+        text-align: justify;
+        color: white;
+    }
+    button.bg_btn {
+        text-transform: uppercase;
+        background-color: #36B3A8 !important;
+        border-radius: 2em;
+        border: none;
+        margin-top: 0.2em;
+        margin-left: 0em;
+        padding: 0.5em;
+        padding-left: 3em;
+        padding-right: 3em;
+        margin-bottom: 0.5em;
+        position: relative;
+    }
+    .home_country_div {
+        max-width: 15% !important;
+        font-size: 18px;
+        font-weight: 500;
+    }
+}
+@media screen (min-width: 786px){
+    button.bg_btn {
+        text-transform: uppercase;
+        background-color: #36B3A8 !important;
+        border-radius: 2em;
+        border: none;
+        margin-top: 0.2em;
+        margin-left: 0em;
+        padding: 0.5em;
+        padding-left: 3em;
+        padding-right: 3em;
+        margin-bottom: 0.5em;
+        position: relative;
+/*        left: 50px;
+    */
+    }
+    .min_map {
+        min-height: 400px !important;
+        /*max-height: 400px !important;
+        max-width: 500px !important;*/
+        min-width: 500px !important;
+        margin-right: 25px !important;
+    }
+    .back_home_col {
+        min-width: 15% !important;
+    /* width: 16% !important; */
+    max-width: 15% !important;
+    }
+    .event_map{
+        z-index: 3;
+        min-height: 400px !important;
+        max-height: 600px !important;
+        max-width: 800px !important;
+        min-width: 500px !important;
+        margin-right: 15px !important;
+        position: relative !important;
+       
+        
+    }
+    .event_map_row{
+        margin-left: 50px !important;
+        margin-top: 10px !important;
+    }
+    .festival_map_row{
+        margin-left: 50px !important;
+        margin-top: 10px !important;
+        margin-right: 20px !important;
+       
+    }
+    .back_home_btn{
+        text-transform: uppercase;
+        background-color: #36B3A8 !important;
+        border-radius: 2em;
+        border: none;
+        margin-top: 0.2em;
+        margin-left: 0em;
+        padding: 0.5em;
+        padding-left: 3em;
+        padding-right: 3em;
+        margin-bottom: 0.5em;
+    }
+    
+    .back_home_link {
+        color: #fff !important;
+        font-weight: 500;
+        font-size: 14px;
+        text-decoration: none !important;
+    }
+/*    .foodlocator_image {
+        min-height: 400px !important;
+        max-height: 400px !important;
+        max-width: 400px !important;
+        min-width: 400px !important;
+        margin-left: 30px !important;
+    }*/
+    .fav_img {
+        width: 100% !important;
+        height: 100% !important;
+    }
+    #cultural_desc {
+        float: left;
+        text-align: justify;
+        color: white;
+    }
+    .home_country_div {
+        max-width: 15% !important;
+        font-size: 18px;
+        font-weight: 500;
+    }
+}
+.event_map{
+    z-index: 3;
+    min-height: 400px !important;
+    max-height: 600px !important;
+    max-width: 650px !important;
+    min-width: 320px !important;
+    margin-right: 30px !important;
+    position: relative !important;
+    
+}
+.event_map_row{
+    margin-left: 50px !important;
+    margin-top: 10px !important;
+}
+.festival_map_row{
+    margin-left: 50px !important;
+    margin-top: 10px !important;
+    margin-right: 20px !important;
+   
+}
+
+/*.foodlocator_image {
+    min-height: 400px !important;
+    max-height: 400px !important;
+    max-width: 400px !important;
+    min-width: 400px !important;
+    margin-left: 30px !important;
+}*/
+
+a:hover {
+    text-decoration: none !important;
+}
+
+.goog-te-banner-frame.skiptranslate {
+    display: none !important;
+}
+
+body {
+    top: 0px !important;
+}
+
+p.left-align.light {
+    font-weight: 400;
+    font-size: 16px;
+    text-align: justify;
+}
+
+.fav_icon {
+    max-width: 4em !important;
+}
+
+.foodlocator_image {
+    width: 95%;
+    height: 100%;
+    margin-left: 5%;
+}
+
+.restaurant_food_img_out {
+    width: 25%;
+    height: 25%;
+}
+
+.restaurant_locator{
+    padding-left: 10px !important;
+}
+
+.get_lost {
+    text-align: center !important;
+    height: 560px;
+}
+
+.get_lost_inner {
+    transform: translateY(250px);
+}
+
+.card-content.black-text div {
+    text-align: center;
+}
+
+.card-action a {
+    margin-right: 0px !important;
+}
+
+.restaurant_name {
+    cursor: pointer !important;
+    color: blue !important;
+}
+
+.attend_event_btn {
+    margin-left: 0px !important 
+}
+
+.festival_row {
+    margin-right: 10px !important;
+}
